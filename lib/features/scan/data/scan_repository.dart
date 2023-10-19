@@ -22,6 +22,7 @@ class ScanRepository extends IScanRepository {
   Future<Either<Failure, ObjectDetectedModel>> processImage(InputImage image) async {
     // TODO: implement processImage
     try {
+      print("Processing image");
       var result = await detector.processImage(image);
       print("Scanned objects");
       print(result);
@@ -32,6 +33,8 @@ class ScanRepository extends IScanRepository {
         return Left(ItemNotDetectedFailure());
       }
     } catch (e) {
+      print("ERROR Processing image");
+      print(e);
       return Left(ItemNotDetectedFailure());
     }
   }

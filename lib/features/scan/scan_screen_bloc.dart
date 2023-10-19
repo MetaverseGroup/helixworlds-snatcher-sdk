@@ -170,7 +170,7 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
                               InputImage.fromFile(io.File(photo.path));
                           // _getObjectDetected(inputImage);
                           // fetch userId
-                          await fetchUserID();
+                          // await fetchUserID();
                           var result = await _scanRepo.processImage(inputImage);
                           result.fold((l) {
                             emit(ScanScreenFailure(l.getErrorMessage()));

@@ -1,10 +1,13 @@
 import 'dart:io';
-
+import 'package:app_common_modules/core/failure.dart';
+import 'package:app_common_modules/core/success.dart';
+import 'package:dartz/dartz.dart';
 import 'package:app_common_modules/di/services_di.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
+import 'package:helixworlds_snatcher_sdk/core/failure.dart';
+import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repository.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,13 +19,17 @@ import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart';
 import 'dart:io' as io;
 
 
-setupServices(String path) async {
+setupServices() async {
   setupCommonModulesServices();
-  _setupMLServices(path);
-  _setupUserDetailsServices();
-  _setupScanServices();
-  _setupLogService();
-  await _setupBloc();
+  var result = await _setupMLServices();
+  if(result.isRight()){
+    await _setupUserDetailsServices();
+    await _setupScanServices();
+    await _setupLogService();
+    await _setupBloc();
+  } else {
+    print("Failure setup Services");
+  }
 }
 
 SharedPreferences _getSharedPref(){
@@ -33,7 +40,7 @@ Dio _getDio(){
   return getNetworkUtil().getDio(isDebug: true);
 }
 
-_setupMLServices(String path) async {
+Future<Either<Failure, Success>> _setupMLServices() async {
   try{
     serviceLocator.registerLazySingleton(() => ImageDetector());
     const mpath = 'lib/model.tflite';
@@ -42,9 +49,12 @@ _setupMLServices(String path) async {
 
     final options = LocalLabelerOptions(modelPath: modelPath);
     serviceLocator.registerLazySingleton(() => ImageLabeler(options: options));
+
+    return Right(SetupDISuccess());
   }catch(e){
     print("ERROR SETUP IMAGE LABELER");
     print(e);
+    return Left(SetupServiceFailure());
   }
 }
 

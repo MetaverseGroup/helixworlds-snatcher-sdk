@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/scan_screen.dart';
 
-void main() {
-
+void main() async {
+  await setupServices();
   WidgetsFlutterBinding.ensureInitialized();
-  // var assetBundle = DefaultAssetBundle(bundle: ,).load('package:helixworlds_snatcher_sdk');
-  setupServices("assets/model.tflite");
   runApp(MyApp());
 }
 

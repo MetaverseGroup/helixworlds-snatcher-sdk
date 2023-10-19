@@ -19,3 +19,5 @@ class ItemNotDetectedFailure extends Failure {
 }
 
 class CacheFailure extends Failure {}
+
+class SetupServiceFailure extends Failure {}
