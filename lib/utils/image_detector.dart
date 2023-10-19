@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
+import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io' as io;
@@ -52,10 +53,12 @@ class ImageDetector {
     // uncomment next lines if you want to use a local model
     // make sure to add tflite model to assets/ml
     // final path = 'assets/ml/lite-model_aiy_vision_classifier_birds_V1_3.tflite';
-    const path = 'assets/model_7.tflite';
-    final modelPath = await _getModel(path);
-    final options = LocalLabelerOptions(modelPath: modelPath);
-    _imageLabeler = ImageLabeler(options: options);
+    // const path = 'assets/model.tflite';
+    // final modelPath = await _getModel(path);
+    // final options = LocalLabelerOptions(modelPath: modelPath);
+    // _imageLabeler = ImageLabeler(options: options);
+
+    _imageLabeler = getImageLabler();
 
     // uncomment next lines if you want to use a remote model
     // make sure to add model to firebase

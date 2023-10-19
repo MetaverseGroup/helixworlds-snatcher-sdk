@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
+import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
 import 'package:helixworlds_snatcher_sdk/models/log_model.dart';
 import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,6 +24,8 @@ class ScanScreenTakePictureEvent extends ScanScreenEvent {
 }
 
 class ScanScreenLaunchToUrlEvent extends ScanScreenEvent {
+  final ObjectDetectedModel model;
+  ScanScreenLaunchToUrlEvent(this.model);
   @override
   // TODO: implement props
   List<Object?> get props => []; 
@@ -34,12 +37,21 @@ class ScanScreenViewLogsEvent extends ScanScreenEvent {
   List<Object?> get props => [];
 }
 
+class ScanScreenViewGuideEvent extends ScanScreenEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+
 class ScanScreenInitialState extends ScanScreenState {
   @override
   List<Object> get props => [];
 }
 
 class ScanScreenBackEvent extends ScanScreenEvent {
+  final String subRoute;
+  ScanScreenBackEvent(this.subRoute);
   @override
   // TODO: implement props
   List<Object?> get props => [];
@@ -67,44 +79,69 @@ class ScanScreenShowScannedObjectState extends ScanScreenState {
   List<Object> get props => [object!, userId];
 }
 
-class ScanScreenShowLogsState extends ScanScreenState { 
-  final List<LogModel> logs;
-  ScanScreenShowLogsState(this.logs);
+
+class ScanScreenViewLogsState extends ScanScreenState {
+  final List<MyLogModel> logs;
+  ScanScreenViewLogsState(this.logs);
+
   @override
   // TODO: implement props
   List<Object?> get props => [logs];
 }
 
+class ScanScreenShowGuideState extends ScanScreenState {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
 class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
 
-  final ImageDetector _detector;
   final IUserDetailsRepository _userDetailsRepository;
   final ILogLocalDatasource _localDS;
-  ScanScreenPageBloc(this._detector, this._userDetailsRepository, this._localDS):super(ScanScreenInitialState()){
+  final IScanRepository _scanRepo;
+
+  ScanScreenPageBloc(this._userDetailsRepository, this._localDS, this._scanRepo):super(ScanScreenInitialState()){
     on<ScanScreenLaunchToUrlEvent>((event, emit){
-      _launchUrl();
+      _launchUrl(event.model);
     });
     on<ScanScreenTakePictureEvent>((event, emit){
       _pickImage();
     });
     on<ScanScreenViewLogsEvent>((event, emit) {
-      
+      _fetchLogs();
     });
     on<ScanScreenBackEvent>((event, emit){
-      emit(ScanScreenInitialState());
+      if(event.subRoute == "/"){
+        emit(ScanScreenInitialState());
+      }
+    });
+
+    on<ScanScreenViewGuideEvent>((event, emit){
+      emit(ScanScreenShowGuideState());
     });
   }
 
-  _launchUrl() async {
+  _fetchLogs() async {
+    _toLoadingState();
+    var result = await _localDS.getLogs();
+    result.fold((l) {
+      emit(ScanScreenFailure(l.getErrorMessage()));
+    }, (r) {
+      emit(ScanScreenViewLogsState(r));
+    });
+  }
+
+  _launchUrl(ObjectDetectedModel object) async {
     final userParam =
         userId.isNotEmpty ? '?userId=$userId' : '';
     final Uri url =
-        Uri.parse(objectModel!.marketUrl + userParam);
+        Uri.parse(object.marketUrl + userParam);
 
         print(url.toString());
     if (!await launchUrl(url)) {
       throw Exception(
-          'Could not launch ${objectModel!.marketUrl}$userParam');
+          'Could not launch ${object.marketUrl}$userParam');
     } 
   }
 
@@ -131,39 +168,15 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
                         if (photo != null) {
                           final inputImage =
                               InputImage.fromFile(io.File(photo.path));
-                          _getObjectDetected(inputImage);
+                          // _getObjectDetected(inputImage);
+                          // fetch userId
                           await fetchUserID();
-                          emit(ScanScreenShowScannedObjectState(objectModel, userId));
+                          var result = await _scanRepo.processImage(inputImage);
+                          result.fold((l) {
+                            emit(ScanScreenFailure(l.getErrorMessage()));
+                          }, (r) {
+                            emit(ScanScreenShowScannedObjectState(r, userId));
+                          });
                         }
-  }
-
-  String _getDateString() {
-    return '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
-  }
-  ObjectDetectedModel? objectModel;
-  Future<void> _getObjectDetected(InputImage inputImage) async {
-    _toLoadingState();
-    try {
-      var object = await _detector.processImage(inputImage);
-      if (object != null) {
-          final model = MyLogModel(
-              id: object.id,
-              name: object.name,
-              image: object.image,
-              date: _getDateString(),
-              game: 'Escape the bear'
-          );
-          await _addLog(model);
-          objectModel = object;
-      }
-    } catch (e) {
-      emit(ScanScreenFailure("Cannot detect object"));
-    }
-  }
-  List<MyLogModel> logs = [];
-  
-  _addLog(MyLogModel log) async {
-    logs.add(log);
-    await _localDS.cacheLogs(logs);
   }
 }

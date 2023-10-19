@@ -45,8 +45,9 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/
-  #   - images/a_dot_ham.jpeg
+    - lib/assets/model.tflite
+    - lib/model.tflite
+
 
 
 flutter_icons:
