@@ -36,7 +36,7 @@ Dio _getDio(){
 _setupMLServices(String path) async {
   try{
     serviceLocator.registerLazySingleton(() => ImageDetector());
-    const mpath = 'assets/model.tflite';
+    const mpath = 'lib/model.tflite';
     final modelPath = await _getApplicationPath(mpath);
     await io.Directory(dirname(mpath)).create(recursive: true);
 

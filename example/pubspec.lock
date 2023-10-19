@@ -967,7 +967,7 @@ packages:
     description:
       path: "."
       ref: initial_branch
-      resolved-ref: "62751259342a0245c0a5fa3dafe2f7a23f44a5e7"
+      resolved-ref: "66ffe5fe1811faa383ed6786aa7a195becb12f25"
       url: "https://github.com/MetaverseGroup/helixworlds_snatcher_sdk.git"
     source: git
     version: "1.0.0+2"
