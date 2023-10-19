@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:helixworlds_snatcher_sdk/core/const.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/features/guide/guide_widget.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/widget/logs_screen_widget.dart';
@@ -18,14 +20,7 @@ class ScanScreenWidget extends StatelessWidget {
 
 
   Widget content(BuildContext context){
-    return BlocListener(
-          bloc: context.read<ScanScreenPageBloc>(),
-          listener: (context, state) {
-            if(state is ScanScreenViewLogsState){
-              
-            }
-          },
-          child: BlocBuilder<ScanScreenPageBloc, ScanScreenState>(
+    return BlocBuilder<ScanScreenPageBloc, ScanScreenState>(
           bloc: context.read<ScanScreenPageBloc>(),
           builder: (context, state) {
           if(state is ScanScreenLoadingState){
@@ -60,10 +55,11 @@ class ScanScreenWidget extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.52,
                     width: double.infinity,
                     child: Center(
-                      child: Image.asset(
-                        'assets/${state.object!.image}',
+                      child: SvgPicture.asset(
+                        "lib/assets/${state.object?.image ?? ""}",
                         width: MediaQuery.of(context).size.width - 100,
                         fit: BoxFit.fitWidth,
+                        package: packageName,
                       ),
                     ),
                   ),
@@ -147,13 +143,13 @@ class ScanScreenWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 color: const Color(0xff3F4358).withOpacity(0.6),
               ),
-              child: LogsHistoryWidget(),
+              child: LogsHistoryWidget(state.logs),
             ),
           );
       } else {
         return Container();
       }
-    }));
+    });
   }
 
 
@@ -180,7 +176,6 @@ class ScanScreenWidget extends StatelessWidget {
                           ),
                         ),
               ),
-              const SizedBox(width:50),
               InkWell(
                       onTap: () async {
                         context.read<ScanScreenPageBloc>().add(ScanScreenLaunchToUrlEvent(state.object!));
@@ -331,10 +326,19 @@ class ScanScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build    
-    checkDir();
     return Scaffold(
       backgroundColor: const Color(0xff0E0725),
       body: Stack(children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, top: 48),
+              child: SvgPicture.asset(
+                "lib/assets/logo.svg",
+                width: 150,
+                package: packageName,
+              ),
+        )),
         content(context),
         Positioned(
             top: MediaQuery.of(context).size.height * 0.7 + 65,

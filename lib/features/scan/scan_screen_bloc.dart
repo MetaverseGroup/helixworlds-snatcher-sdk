@@ -23,6 +23,15 @@ class ScanScreenTakePictureEvent extends ScanScreenEvent {
   List<Object?> get props => [];
 }
 
+class ScanScreenRedirectToUrlEvent extends ScanScreenEvent {
+  final String url;
+  ScanScreenRedirectToUrlEvent(this.url);
+  @override
+  // TODO: implement props
+  List<Object?> get props => []; 
+
+}
+
 class ScanScreenLaunchToUrlEvent extends ScanScreenEvent {
   final ObjectDetectedModel model;
   ScanScreenLaunchToUrlEvent(this.model);
@@ -102,8 +111,11 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
   final IScanRepository _scanRepo;
 
   ScanScreenPageBloc(this._userDetailsRepository, this._localDS, this._scanRepo):super(ScanScreenInitialState()){
+    on<ScanScreenRedirectToUrlEvent>((event, emit){
+      _redirectUrl(event.url);
+    });
     on<ScanScreenLaunchToUrlEvent>((event, emit){
-      _launchUrl(event.model);
+      _redirectUrl(event.model.marketUrl);
     });
     on<ScanScreenTakePictureEvent>((event, emit){
       _pickImage();
@@ -132,16 +144,16 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     });
   }
 
-  _launchUrl(ObjectDetectedModel object) async {
+  _redirectUrl(String murl) async{
     final userParam =
         userId.isNotEmpty ? '?userId=$userId' : '';
     final Uri url =
-        Uri.parse(object.marketUrl + userParam);
+        Uri.parse(murl + userParam);
 
         print(url.toString());
     if (!await launchUrl(url)) {
       throw Exception(
-          'Could not launch ${object.marketUrl}$userParam');
+          'Could not launch ${murl}$userParam');
     } 
   }
 

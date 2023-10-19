@@ -9,7 +9,6 @@ import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repository.dart';
-import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
@@ -17,21 +16,20 @@ import 'package:helixworlds_snatcher_sdk/features/user_details/data/user_details
 import 'package:dio/dio.dart';
 import 'package:helixworlds_snatcher_sdk/features/user_details/data/user_details_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart';
-import 'dart:io' as io;
+import 'package:get_it/get_it.dart';
 
 
+final GetIt serviceLocator = GetIt.instance;
 setupServices() async {
   setupCommonModulesServices();
-  var result = await _setupMLServices();
-  if(result.isRight()){
-    await _setupUserDetailsServices();
-    await _setupScanServices();
-    await _setupLogService();
-    await _setupBloc();
-  } else {
-    print("Failure setup Services");
-  }
+  _setupMLServices();
+  _setupUserDetailsServices();
+  _setupScanServices();
+  _setupLogService();
+  _setupBloc();
 }
+
+
 
 SharedPreferences _getSharedPref(){
   return geSharedPref();
@@ -43,20 +41,15 @@ Dio _getDio(){
 
 Future<Either<Failure, Success>> _setupMLServices() async {
   try{
-    const assetPath = 'lib/model.tflite';
-    await io.Directory(dirname(assetPath)).create(recursive: true);
-    final path = '${(await getApplicationSupportDirectory()).path}/$assetPath';
-    final file = io.File(path);
-    if (!await file.exists()) {
-      final byteData = await rootBundle.load(assetPath);
-      await file.writeAsBytes(byteData.buffer
+    final byteData = await rootBundle.load("packages/helixworlds_snatcher_sdk/assets/model.tflite");
+    final path = '${(await getTemporaryDirectory()).path}/model.tflite';
+    final tfFile = File(path);
+    await tfFile.writeAsBytes(byteData.buffer
           .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-    }
-    final modelPath = file.path;
+    final modelPath = tfFile.path;
     final options = LocalLabelerOptions(modelPath: modelPath);
     serviceLocator.registerLazySingleton(() => ImageLabeler(options: options));
     serviceLocator.registerLazySingleton(() => ImageDetector(getImageLabler()));
-
     return Right(SetupDISuccess());
   }catch(e){
     print("ERROR SETUP IMAGE LABELER");
@@ -115,10 +108,10 @@ _setupUserDetailsServices(){
   serviceLocator.registerLazySingleton(() => UserDetailsRepository(_getUserDetailsLocal(), _getUserDetailsRemote()));
 }
 
-UserDetailsLocalDatasource _getUserDetailsLocal(){
+IUserDetailsLocalDatasource _getUserDetailsLocal(){
   return serviceLocator<UserDetailsLocalDatasource>();
 }
-UserDetailsRemoteDatasource _getUserDetailsRemote(){
+IUserDetailsRemoteDatasource _getUserDetailsRemote(){
   return serviceLocator<UserDetailsRemoteDatasource>();
 }
 UserDetailsRepository getUserDetailsRepo(){
@@ -138,7 +131,7 @@ _setupLogService(){
   serviceLocator.registerLazySingleton(() => LogLocalDatasource(_getSharedPref()));
 }
 
-LogLocalDatasource getLogLocalDS(){
+ILogLocalDatasource getLogLocalDS(){
   return serviceLocator<LogLocalDatasource>();
 }
 

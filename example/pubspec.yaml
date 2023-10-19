@@ -32,6 +32,3 @@ flutter:
 
   assets:
     - packages/helixworlds_snatcher_sdk/assets/model.tflite
-
-
-

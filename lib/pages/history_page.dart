@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:helixworlds_snatcher_sdk/models/log_model.dart';
 import 'package:helixworlds_snatcher_sdk/utils/object_image.dart';
@@ -45,8 +46,8 @@ class _GuidePageState extends State<HistoryPage> {
             alignment: Alignment.topLeft,
             child: Padding(
               padding: const EdgeInsets.only(left: 16, top: 48),
-              child: Image.asset(
-                'assets/logo.png',
+              child: SvgPicture.asset(
+                'assets/logo.svg',
                 width: 150,
               ),
             )),
