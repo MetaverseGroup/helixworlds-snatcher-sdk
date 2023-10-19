@@ -13,12 +13,12 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
-  helixworlds_snatcher_sdk:
-    git:
-      url: https://github.com/MetaverseGroup/helixworlds_snatcher_sdk.git 
-      ref: initial_branch
   # helixworlds_snatcher_sdk:
-  #   path: ../
+  #   git:
+  #     url: https://github.com/MetaverseGroup/helixworlds_snatcher_sdk.git 
+  #     ref: initial_branch
+  helixworlds_snatcher_sdk:
+    path: ../
 
 
 dev_dependencies:

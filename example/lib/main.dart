@@ -3,8 +3,8 @@ import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/scan_screen.dart';
 
 void main() async {
-  await setupServices();
   WidgetsFlutterBinding.ensureInitialized();
+  await setupServices();
   runApp(MyApp());
 }
 

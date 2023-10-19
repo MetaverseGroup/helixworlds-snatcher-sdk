@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
-import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io' as io;
@@ -10,14 +9,12 @@ import 'package:helixworlds_snatcher_sdk/utils/object_image.dart';
 import 'package:helixworlds_snatcher_sdk/utils/object_url.dart';
 
 class ImageDetector {
-  ImageDetector() {
-    _initialize();
-  }
+  final ImageLabeler _labeler;
+  ImageDetector(this._labeler) ;
 
-  late ImageLabeler _imageLabeler;
 
   Future<ObjectDetectedModel?> processImage(InputImage inputImage) async {
-    final labels = await _imageLabeler.processImage(inputImage);
+    final labels = await _labeler.processImage(inputImage);
     // ignore: unused_local_variable
     String text = 'Labels found: ${labels.length}\n\n';
 
@@ -58,7 +55,6 @@ class ImageDetector {
     // final options = LocalLabelerOptions(modelPath: modelPath);
     // _imageLabeler = ImageLabeler(options: options);
 
-    _imageLabeler = getImageLabler();
 
     // uncomment next lines if you want to use a remote model
     // make sure to add model to firebase

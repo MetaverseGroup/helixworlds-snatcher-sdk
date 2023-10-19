@@ -965,11 +965,9 @@ packages:
   helixworlds_snatcher_sdk:
     dependency: "direct main"
     description:
-      path: "."
-      ref: initial_branch
-      resolved-ref: "3a38d22a6273e82d65d9afe2f6bcaf990439c42f"
-      url: "https://github.com/MetaverseGroup/helixworlds_snatcher_sdk.git"
-    source: git
+      path: ".."
+      relative: true
+    source: path
     version: "1.0.0+2"
   hive:
     dependency: transitive

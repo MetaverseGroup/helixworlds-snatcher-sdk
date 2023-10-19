@@ -3,6 +3,7 @@ import 'package:app_common_modules/core/failure.dart';
 import 'package:app_common_modules/core/success.dart';
 import 'package:dartz/dartz.dart';
 import 'package:app_common_modules/di/services_di.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
@@ -42,13 +43,19 @@ Dio _getDio(){
 
 Future<Either<Failure, Success>> _setupMLServices() async {
   try{
-    serviceLocator.registerLazySingleton(() => ImageDetector());
-    const mpath = 'lib/model.tflite';
-    final modelPath = await _getApplicationPath(mpath);
-    await io.Directory(dirname(mpath)).create(recursive: true);
-
+    const assetPath = 'lib/model.tflite';
+    await io.Directory(dirname(assetPath)).create(recursive: true);
+    final path = '${(await getApplicationSupportDirectory()).path}/$assetPath';
+    final file = io.File(path);
+    if (!await file.exists()) {
+      final byteData = await rootBundle.load(assetPath);
+      await file.writeAsBytes(byteData.buffer
+          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+    }
+    final modelPath = file.path;
     final options = LocalLabelerOptions(modelPath: modelPath);
     serviceLocator.registerLazySingleton(() => ImageLabeler(options: options));
+    serviceLocator.registerLazySingleton(() => ImageDetector(getImageLabler()));
 
     return Right(SetupDISuccess());
   }catch(e){
@@ -95,11 +102,6 @@ checkDir(){
 
 Future<String> _getApplicationPath(String path) async {
   var result = await getApplicationSupportDirectory();
-  // fetchDirectory(result.path);
-  // fetchDirectory("/data/user/0/com.example.example/");
-  // fetchDirectory("/data/user/0/com.example.example/app_flutter/");
-  fetchDirectory("/data/user/0/com.example.example/app_flutter/flutter_assets/");
-
   return "${result.path}/$path";
 }
 
