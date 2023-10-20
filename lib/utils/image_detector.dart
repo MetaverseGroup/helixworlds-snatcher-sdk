@@ -102,7 +102,7 @@ class ImageDetector {
     } else if (item.contains('p009')) {
       return 'Polysleep Logo';
     } else if (item.contains('p010')) {
-      return 'Iphone 15 pro';
+      return 'Circle K';
     } else {
       return '';
     }
@@ -127,6 +127,8 @@ class ImageDetector {
       return 'p008';
     } else if (item.contains('p009')) {
       return 'p009';
+    } else if(item.contains('p010')) {
+      return 'p010';
     } else {
       return '';
     }
@@ -152,6 +154,8 @@ class ImageDetector {
     } else if (item.contains('p009')) {
       return 'Woolen Warfare';
     } else if (item.contains('p009')) {
+      return 'Escape the Bear';
+    } else if(item.contains('p010')) {
       return 'Escape the Bear';
     } else {
       return '';
