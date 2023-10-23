@@ -9,6 +9,7 @@ import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repository.dart';
+import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
@@ -17,16 +18,30 @@ import 'package:dio/dio.dart';
 import 'package:helixworlds_snatcher_sdk/features/user_details/data/user_details_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 
 
 final GetIt serviceLocator = GetIt.instance;
 setupServices() async {
+  _setupImagePicker();
   setupCommonModulesServices();
   _setupMLServices();
   _setupUserDetailsServices();
   _setupScanServices();
   _setupLogService();
   _setupBloc();
+}
+
+_setupImagePicker(){
+  serviceLocator.registerLazySingleton(() => ImagePicker());
+  serviceLocator.registerLazySingleton(() => HelperUtil());
+}
+
+ImagePicker getImagePicker(){
+  return serviceLocator<ImagePicker>();
+}
+HelperUtil getHelperUtil(){
+  return serviceLocator<HelperUtil>();
 }
 
 

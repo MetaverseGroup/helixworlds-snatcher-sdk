@@ -13,7 +13,7 @@ class ScanScreenWidget extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<ScanScreenPageBloc>(
-        create: (context) => ScanScreenPageBloc(getUserDetailsRepo(), getLogLocalDS(), scanRepository()),
+        create: (context) => ScanScreenPageBloc(getUserDetailsRepo(), getLogLocalDS(), scanRepository(), getImagePicker(), getHelperUtil()),
         child: ScanScreenWidget()
     );
   }

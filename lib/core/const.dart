@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/services.dart';
-
 const bool isProd = false;
 const String baseUrl = isProd ? "" : "https://gatherer.d.helixworlds.io";
 

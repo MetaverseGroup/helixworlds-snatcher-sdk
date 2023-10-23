@@ -4,8 +4,7 @@ import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
-import 'package:helixworlds_snatcher_sdk/models/log_model.dart';
-import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart';
+import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/object_detected_model.dart';
@@ -109,8 +108,10 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
   final IUserDetailsRepository _userDetailsRepository;
   final ILogLocalDatasource _localDS;
   final IScanRepository _scanRepo;
+  final ImagePicker picker;
+  final HelperUtil _helperUtil;
 
-  ScanScreenPageBloc(this._userDetailsRepository, this._localDS, this._scanRepo):super(ScanScreenInitialState()){
+  ScanScreenPageBloc(this._userDetailsRepository, this._localDS, this._scanRepo, this.picker, this._helperUtil):super(ScanScreenInitialState()){
     on<ScanScreenRedirectToUrlEvent>((event, emit){
       _redirectUrl(event.url);
     });
@@ -173,16 +174,11 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
 
 
   _pickImage() async {
-                        final ImagePicker picker = ImagePicker();
                         final XFile? photo =
                             await picker.pickImage(source: ImageSource.camera);
 
                         if (photo != null) {
-                          final inputImage =
-                              InputImage.fromFile(io.File(photo.path));
-                          // _getObjectDetected(inputImage);
-                          // fetch userId
-                          // await fetchUserID();
+                          final inputImage = _helperUtil.getInputImageFile(photo);
                           var result = await _scanRepo.processImage(inputImage);
                           result.fold((l) {
                             emit(ScanScreenFailure(l.getErrorMessage()));
