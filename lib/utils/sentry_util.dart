@@ -2,6 +2,7 @@ import 'package:sentry/sentry.dart';
 
 class SentryUtil {
 
+  /// performance analysis
   void checkFunction(Function function, {String name = "testFunction", String task = "default name task"}) async {
     final transaction = Sentry.startTransaction(name, task);
     try {

@@ -14,6 +14,7 @@ import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_local_datasourc
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repository.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
+import 'package:helixworlds_snatcher_sdk/utils/sentry_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
@@ -30,6 +31,7 @@ const String sentry_dsn = "https://891ca197d27341cbd2c2a92fc2990d18@o45061031787
 final GetIt serviceLocator = GetIt.instance;
 setupServices() async {
   _setupImagePicker();
+  _setupHelper();
   setupCommonModulesServices();
   _setupMLServices();
   _setupUserDetailsServices();
@@ -37,6 +39,14 @@ setupServices() async {
   _setupLogService();
   _setupBloc();
 }
+
+_setupHelper(){
+  serviceLocator.registerLazySingleton(()=> SentryUtil());
+}
+SentryUtil getSentryUtil(){
+  return serviceLocator<SentryUtil>();
+}
+
 
 /// call this in main 
 /// 
