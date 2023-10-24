@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:app_common_modules/core/failure.dart';
 import 'package:app_common_modules/core/success.dart';
 import 'package:dartz/dartz.dart';
 import 'package:app_common_modules/di/services_di.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
@@ -21,7 +23,9 @@ import 'package:helixworlds_snatcher_sdk/features/user_details/data/user_details
 import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
+const String sentry_dsn = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264";
 
 final GetIt serviceLocator = GetIt.instance;
 setupServices() async {
@@ -32,6 +36,38 @@ setupServices() async {
   _setupScanServices();
   _setupLogService();
   _setupBloc();
+}
+
+/// call this in main 
+/// 
+/// MaterialApp(
+///  navigatorObservers: [
+///    SentryNavigatorObserver(),
+///  ],
+///)
+setupSentry(Widget widget) async {
+  runZonedGuarded(() async {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = sentry_dsn;
+        options.tracesSampleRate = 1.0;
+      },
+    );
+    runApp(widget);
+  }, (exception, stackTrace) async {
+    await Sentry.captureException(exception, stackTrace: stackTrace);
+  });
+}
+
+void verifyIfSentryIsWorking() async {
+  try {
+    throw CacheFailure;
+  } catch (exception, stackTrace) {
+    await Sentry.captureException(
+      exception,
+      stackTrace: stackTrace,
+    );
+  }
 }
 
 _setupImagePicker(){

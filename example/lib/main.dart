@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/scan_screen.dart';
@@ -5,9 +7,11 @@ import 'package:helixworlds_snatcher_sdk/features/scan/scan_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupServices();
-  Future.delayed(Duration(seconds: 1)).then((_) {
+  Future.delayed(const Duration(seconds: 1)).then((_) {
     // Proceed with the rest of your app.
-    runApp(MyApp());
+    // runApp(MyApp());
+    setupSentry(MyApp());
+    verifyIfSentryIsWorking();
   });    
 }
 

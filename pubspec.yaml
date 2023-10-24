@@ -23,6 +23,7 @@ dependencies:
   url_launcher: ^6.1.14
   # shared_preferences: ^2.2.1
   # dio: ^5.3.3
+  sentry_flutter: ^7.10.1
   app_common_modules:
     git:
       url: https://gitlab.com/ljbdelacruz05/app_common_modules.git 
