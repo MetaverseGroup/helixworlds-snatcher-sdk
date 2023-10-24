@@ -3,8 +3,19 @@
 
 ## TODO: 
 * Methodchannels for native sdk for iOS and Android
+* for SDK regarding this native please check out 
+https://github.com/MetaverseGroup/helixworlds_native_gateway
 
 
+
+
+# How to Create test app to integrate the SDK
+* flutter create [app_name]
+* cd [app_name]
+* flutter pub get
+* flutter run 
+### if you encounter issue running your project 
+* flutter doctor - (to be able to diagnose what your flutter tools lacks or having issues with)
 
 
 ## Setup
