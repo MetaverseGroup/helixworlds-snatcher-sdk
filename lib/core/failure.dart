@@ -21,3 +21,13 @@ class ItemNotDetectedFailure extends Failure {
 class CacheFailure extends Failure {}
 
 class SetupServiceFailure extends Failure {}
+
+class GetItemByIDRemoteFailure extends Failure {
+  @override
+  String getErrorMessage() {
+    // TODO: implement getErrorMessage
+    return "Having issue fetching item";
+  }
+}
+
+class NoDataFoundFailure extends Failure {}

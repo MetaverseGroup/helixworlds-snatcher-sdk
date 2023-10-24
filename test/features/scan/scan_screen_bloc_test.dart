@@ -33,7 +33,7 @@ main(){
   
   // InputImage image = InputImage.fromFile(io.File(photo.path));
 
-  const ObjectDetectedModel objectModel = const ObjectDetectedModel(id: "p001", name: "p001", image: "", game: "", marketUrl: "");
+  const ObjectDetectedModel objectModel = ObjectDetectedModel(id: "p001", name: "p001", image: "", game: "", marketUrl: "");
   const String userId = "1234";
   XFile file = XFile("");
   
@@ -48,26 +48,21 @@ main(){
 
 
   group("testing event bloc ScanScreenTakePictureEvent", (){
-    test("success", (){
-        blocTest<ScanScreenPageBloc, ScanScreenState>(
-            'success mobile login using mobile test',
-            build: () {
-              when(imagePicker?.pickImage(source: ImageSource.camera)).thenAnswer((inv)=> Future.value(file));
 
+      blocTest<ScanScreenPageBloc, ScanScreenState>(
+      'success mock data',
+      build: () {
+        when(imagePicker?.pickImage(source: ImageSource.camera)).thenAnswer((inv)=> Future.value(file));
+        when(helperUtil?.getInputImageFile(file)).thenAnswer((inv)=> mInputImage);
+        when(scanRepo?.processImage(mInputImage)).thenAnswer((inv)=> Future.value(const Right(objectModel)));
+        when(userDetailsRepo?.getUserID()).thenAnswer(((inv)=> Future.value(const Right(userId))));
 
-              when(helperUtil?.getInputImageFile(file)).thenAnswer((inv)=> mInputImage);
-
-              when(scanRepo?.processImage(mInputImage)).thenAnswer((inv)=> const Future.value(Right(objectModel)));
-
-              return ScanScreenPageBloc(userDetailsRepo!, logLocaDS!, scanRepo!,  imagePicker!, helperUtil!);
-
-
-            },
-            act: (bloc){
-              bloc.add(ScanScreenTakePictureEvent());
-            },
-            expect: () => [ScanScreenShowScannedObjectState(objectModel, userId)],
-        );
-    });
+        return ScanScreenPageBloc(userDetailsRepo!, logLocaDS!, scanRepo!,  imagePicker!, helperUtil!);
+      },
+      act: (bloc){
+        bloc.add(ScanScreenTakePictureEvent());
+      },
+      expect: () => [ScanScreenShowScannedObjectState(objectModel, userId)],
+    );
   });
 }

@@ -8,6 +8,8 @@ import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
+import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_local_datasource.dart';
+import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repository.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:path_provider/path_provider.dart';
@@ -133,11 +135,19 @@ UserDetailsRepository getUserDetailsRepo(){
   return serviceLocator<UserDetailsRepository>();
 }
 
-
-
 _setupScanServices(){
-  serviceLocator.registerLazySingleton(() => ScanRepository(getImageDetector(), getLogLocalDS()));
+  serviceLocator.registerLazySingleton(() => ScanRemoteDatasource(_getDio()));
+  serviceLocator.registerLazySingleton(() => ScanLocalDatasource(_getSharedPref()));
+  serviceLocator.registerLazySingleton(() => ScanRepository(getImageDetector(), getLogLocalDS(), _getScanLocalDS(), _getScanRemoteDS()));
 }
+
+IScanRemoteDatasource _getScanRemoteDS(){
+  return serviceLocator<ScanRemoteDatasource>();
+}
+IScanLocalDatasource _getScanLocalDS(){
+  return serviceLocator<ScanLocalDatasource>();
+}
+
 ScanRepository scanRepository(){
   return serviceLocator<ScanRepository>();
 }

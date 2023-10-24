@@ -146,6 +146,8 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
   }
 
   _redirectUrl(String murl) async{
+    var userId = await fetchUserID();
+
     final userParam =
         userId.isNotEmpty ? '?userId=$userId' : '';
     final Uri url =
@@ -158,12 +160,13 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     } 
   }
 
-  String userId = "";
-  fetchUserID() async {
+  Future<String> fetchUserID() async {
     var result = await _userDetailsRepository.getUserID();
-    result.fold((l) => null, (r) {
-      userId = r;
-    });
+    if(result.isRight()){
+      var id = result.fold((l) => null, (r) => r) ?? "";
+      return id;
+    }
+    return "";
   }
 
   _toLoadingState(){
@@ -174,6 +177,7 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
 
 
   _pickImage() async {
+        var userId = await fetchUserID();
                         final XFile? photo =
                             await picker.pickImage(source: ImageSource.camera);
 
