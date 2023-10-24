@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
+import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/scan_screen_bloc.dart';
 import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repository.dart';
@@ -33,7 +34,7 @@ main(){
   
   // InputImage image = InputImage.fromFile(io.File(photo.path));
 
-  const ObjectDetectedModel objectModel = ObjectDetectedModel(id: "p001", name: "p001", image: "", game: "", marketUrl: "");
+  const InventoryItemModel objectModel = InventoryItemModel(id: "p001", title: "p001", image: "", projectId: "", url: "");
   const String userId = "1234";
   XFile file = XFile("");
   

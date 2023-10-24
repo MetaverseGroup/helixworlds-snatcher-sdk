@@ -13,7 +13,7 @@ import 'model/scan_model.dart';
 
 abstract class IScanRepository {
 
-  Future<Either<Failure, ObjectDetectedModel>> processImage(InputImage image);
+  Future<Either<Failure, InventoryItemModel>> processImage(InputImage image);
   /// pass the ID of the object detected from image detector ex. p001
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id);
 }
@@ -26,16 +26,15 @@ class ScanRepository extends IScanRepository {
 
   ScanRepository(this.detector, this.logLocalDS, this._localDS, this._remoteDS);
   @override
-  Future<Either<Failure, ObjectDetectedModel>> processImage(InputImage image) async {
+  Future<Either<Failure, InventoryItemModel>> processImage(InputImage image) async {
     // TODO: implement processImage
     try {
       print("Processing image");
       var result = await detector.processImage(image);
-      print("Scanned objects");
-      print(result);
       if(result != null){
-        _logModel(result);
-        return Right(result);
+        // _logModel(result);        
+        var inventoryItemResult = await getInventoryItemByID(result);
+        return inventoryItemResult;
       } else {
         return Left(ItemNotDetectedFailure());
       }
@@ -45,18 +44,20 @@ class ScanRepository extends IScanRepository {
       return Left(ItemNotDetectedFailure());
     }
   }
+
   String _getDateString() {
     return '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
   }
-  _logModel(ObjectDetectedModel object) async {
+
+  _logModel(InventoryItemModel object) async {
     var logsResult = await logLocalDS.getLogs();
     var logs = logsResult.fold((l) => null, (r) => r) ?? [];
     final model = MyLogModel(
               id: object.id,
-              name: object.name,
+              name: object.title,
               image: object.image,
               date: _getDateString(),
-              game: 'Escape the bear'
+              game: object.projectId
     );
     logs.add(model);
     logLocalDS.cacheLogs(logs);

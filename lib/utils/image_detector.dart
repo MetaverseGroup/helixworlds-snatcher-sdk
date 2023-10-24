@@ -4,16 +4,16 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io' as io;
 
-import 'package:helixworlds_snatcher_sdk/models/object_detected_model.dart';
-import 'package:helixworlds_snatcher_sdk/utils/object_image.dart';
-import 'package:helixworlds_snatcher_sdk/utils/object_url.dart';
+// import 'package:helixworlds_snatcher_sdk/models/object_detected_model.dart';
+// import 'package:helixworlds_snatcher_sdk/utils/object_image.dart';
+// import 'package:helixworlds_snatcher_sdk/utils/object_url.dart';
 
 class ImageDetector {
   final ImageLabeler _labeler;
   ImageDetector(this._labeler) ;
 
 
-  Future<ObjectDetectedModel?> processImage(InputImage inputImage) async {
+  Future<String?> processImage(InputImage inputImage) async {
     final labels = await _labeler.processImage(inputImage);
     // ignore: unused_local_variable
     String text = 'Labels found: ${labels.length}\n\n';
@@ -22,6 +22,7 @@ class ImageDetector {
       return null;
     }
 
+    return labels.first.label;
     // if (labels.first.confidence < 50) {
     //   return null;
     // }
@@ -31,16 +32,16 @@ class ImageDetector {
     //       'Confidence: ${label.confidence.toStringAsFixed(2)}\n\n';
     // }
 
-    final object = ObjectDetectedModel(
-        id: _getId(labels.first.label),
-        image: ObjectImage.getImage(labels.first.label),
-        name: _getTitle(labels.first.label),
-        marketUrl: ObjectUrl.getUrl(
-          labels.first.label,
-        ),
-        game: _getGame(labels.first.label));
+    // final object = ObjectDetectedModel(
+    //     id: _getId(labels.first.label),
+    //     image: ObjectImage.getImage(labels.first.label),
+    //     name: _getTitle(labels.first.label),
+    //     marketUrl: ObjectUrl.getUrl(
+    //       labels.first.label,
+    //     ),
+    //     game: _getGame(labels.first.label));
 
-    return object;
+    // return object;
   }
 
   Future<void> _initialize() async {
