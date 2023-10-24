@@ -39,8 +39,7 @@ class LogLocalDatasource extends ILogLocalDatasource {
       final List<MyLogModel> objects = jsonList.map((json) => MyLogModel.fromJson(json)).toList();
       return Right(objects);
     }catch(e){
-      print("Fetching logs");
-      return Right([]);
+      return const Right([]);
     }
   }
 }

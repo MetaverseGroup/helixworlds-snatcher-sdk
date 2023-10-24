@@ -1,6 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
+import 'package:helixworlds_snatcher_sdk/core/failure.dart';
+import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
@@ -66,4 +68,86 @@ main(){
       expect: () => [ScanScreenShowScannedObjectState(objectModel, userId)],
     );
   });
+
+  group("testing event bloc ScanScreenViewLogsEvent", (){
+      blocTest<ScanScreenPageBloc, ScanScreenState>(
+        'success mock data empty list',
+        build: () {
+          when(logLocaDS?.getLogs()).thenAnswer((inv)=> Future.value(const Right([])));
+          return ScanScreenPageBloc(userDetailsRepo!, logLocaDS!, scanRepo!,  imagePicker!, helperUtil!);
+        },
+        act: (bloc){
+          bloc.add(ScanScreenViewLogsEvent());
+        },
+        expect: () => [ScanScreenLoadingState(), ScanScreenViewLogsState([])],
+      );
+  });
+
+   group("testing event bloc ScanScreenRedirectToUrlEvent", (){
+      blocTest<ScanScreenPageBloc, ScanScreenState>(
+        'success redirect',
+        build: () {
+          when(userDetailsRepo?.getUserID()).thenAnswer((inv)=> Future.value(const Right("1234")));
+          when(helperUtil?.redirectUrl(Uri.parse("https://test?userId=1234")))
+          .thenAnswer((realInvocation) => Future.value(Right(WebRouteSuccess())));
+
+          return ScanScreenPageBloc(userDetailsRepo!, logLocaDS!, scanRepo!,  imagePicker!, helperUtil!);
+        },
+        act: (bloc){
+          bloc.add(ScanScreenRedirectToUrlEvent("https://test"));
+        },
+        expect: () => [],
+      );
+
+      blocTest<ScanScreenPageBloc, ScanScreenState>(
+        'failure redirect url not found error',
+        build: () {
+          when(userDetailsRepo?.getUserID()).thenAnswer((inv)=> Future.value(const Right("1234")));
+          when(helperUtil?.redirectUrl(Uri.parse("https://test?userId=1234")))
+          .thenAnswer((realInvocation) => Future.value(Left(WebRouteFailure(""))));
+
+          return ScanScreenPageBloc(userDetailsRepo!, logLocaDS!, scanRepo!,  imagePicker!, helperUtil!);
+        },
+        act: (bloc){
+          bloc.add(ScanScreenRedirectToUrlEvent("https://test"));
+        },
+        expect: () => [ScanScreenFailure("Url not found")],
+      );
+  });
+
+  group("testing event bloc ScanScreenLaunchToUrlEvent", (){
+      blocTest<ScanScreenPageBloc, ScanScreenState>(
+        'success mock data item model',
+        build: () {
+          when(userDetailsRepo?.getUserID()).thenAnswer((inv)=> Future.value(const Right("1234")));
+          when(helperUtil?.redirectUrl(Uri.parse("https://test?userId=1234")))
+          .thenAnswer((realInvocation) => Future.value(Right(WebRouteSuccess())));
+          return ScanScreenPageBloc(userDetailsRepo!, logLocaDS!, scanRepo!,  imagePicker!, helperUtil!);
+        },
+        act: (bloc){
+          bloc.add(ScanScreenLaunchToUrlEvent(
+            const InventoryItemModel(url: "https://test")
+          ));
+        },
+        expect: () => [],
+      );
+
+      blocTest<ScanScreenPageBloc, ScanScreenState>(
+        'failure mock data item model',
+        build: () {
+          when(userDetailsRepo?.getUserID()).thenAnswer((inv)=> Future.value(const Right("1234")));
+          when(helperUtil?.redirectUrl(Uri.parse("https://test?userId=1234")))
+          .thenAnswer((realInvocation) => Future.value(Left(WebRouteFailure("test"))));
+          return ScanScreenPageBloc(userDetailsRepo!, logLocaDS!, scanRepo!,  imagePicker!, helperUtil!);
+        },
+        act: (bloc){
+          bloc.add(ScanScreenLaunchToUrlEvent(
+            const InventoryItemModel(url: "https://test")
+          ));
+        },
+        expect: () => [ScanScreenFailure("Url not found")],
+      );
+  });
+
+
 }

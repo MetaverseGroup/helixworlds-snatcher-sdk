@@ -31,3 +31,22 @@ class GetItemByIDRemoteFailure extends Failure {
 }
 
 class NoDataFoundFailure extends Failure {}
+
+class WebRouteFailure extends Failure {
+  final String message;
+  WebRouteFailure(this.message);
+
+  @override
+  String getErrorMessage() {
+    // TODO: implement getErrorMessage
+    return "Url not found";
+  }
+}
+
+class HelperGetRequestFailure extends Failure {
+  @override
+  String getErrorMessage() {
+    // TODO: implement getErrorMessage
+    return "Helper error";
+  }
+}

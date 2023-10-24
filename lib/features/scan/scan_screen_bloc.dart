@@ -148,17 +148,14 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
 
   _redirectUrl(String murl) async{
     var userId = await fetchUserID();
-
     final userParam =
         userId.isNotEmpty ? '?userId=$userId' : '';
     final Uri url =
         Uri.parse(murl + userParam);
-
-        print(url.toString());
-    if (!await launchUrl(url)) {
-      throw Exception(
-          'Could not launch ${murl}$userParam');
-    } 
+    var result = await _helperUtil.redirectUrl(url);
+    result.fold((l) {
+      emit(ScanScreenFailure(l.getErrorMessage()));
+    }, (r) => null);
   }
 
   Future<String> fetchUserID() async {

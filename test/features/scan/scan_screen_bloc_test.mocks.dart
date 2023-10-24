@@ -8,6 +8,7 @@ import 'dart:async' as _i6;
 import 'package:app_common_modules/core/failure.dart' as _i7;
 import 'package:app_common_modules/core/success.dart' as _i9;
 import 'package:dartz/dartz.dart' as _i2;
+import 'package:dio/dio.dart' as _i15;
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart'
     as _i4;
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart'
@@ -519,4 +520,69 @@ class MockHelperUtil extends _i1.Mock implements _i14.HelperUtil {
           ),
         ),
       ) as _i4.InputImage);
+
+  @override
+  _i6.Future<_i2.Either<_i7.Failure, _i9.Success>> redirectUrl(Uri? url) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #redirectUrl,
+          [url],
+        ),
+        returnValue: _i6.Future<_i2.Either<_i7.Failure, _i9.Success>>.value(
+            _FakeEither_0<_i7.Failure, _i9.Success>(
+          this,
+          Invocation.method(
+            #redirectUrl,
+            [url],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i2.Either<_i7.Failure, _i9.Success>>.value(
+                _FakeEither_0<_i7.Failure, _i9.Success>(
+          this,
+          Invocation.method(
+            #redirectUrl,
+            [url],
+          ),
+        )),
+      ) as _i6.Future<_i2.Either<_i7.Failure, _i9.Success>>);
+
+  @override
+  _i6.Future<_i2.Either<_i7.Failure, _i15.Response<dynamic>>> getRequest(
+    _i15.Dio? dio,
+    String? url,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getRequest,
+          [
+            dio,
+            url,
+          ],
+        ),
+        returnValue:
+            _i6.Future<_i2.Either<_i7.Failure, _i15.Response<dynamic>>>.value(
+                _FakeEither_0<_i7.Failure, _i15.Response<dynamic>>(
+          this,
+          Invocation.method(
+            #getRequest,
+            [
+              dio,
+              url,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i2.Either<_i7.Failure, _i15.Response<dynamic>>>.value(
+                _FakeEither_0<_i7.Failure, _i15.Response<dynamic>>(
+          this,
+          Invocation.method(
+            #getRequest,
+            [
+              dio,
+              url,
+            ],
+          ),
+        )),
+      ) as _i6.Future<_i2.Either<_i7.Failure, _i15.Response<dynamic>>>);
 }
