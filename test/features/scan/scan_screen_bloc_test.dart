@@ -37,6 +37,10 @@ main(){
   // InputImage image = InputImage.fromFile(io.File(photo.path));
 
   const InventoryItemModel objectModel = InventoryItemModel(id: "p001", title: "p001", image: "", projectId: "", url: "");
+
+  const ObjectDetectedModel localObjectModel = ObjectDetectedModel(id: "p001", name: "p001", image: "", game: "", marketUrl: "");
+
+  const ObjectDetectedModel tShirtobjectModel = ObjectDetectedModel(id: "p003", name: "p003", image: "", game: "", marketUrl: "https://shop.helixworlds.io/products/mvg-t-shirt");
   const String userId = "1234";
   XFile file = XFile("");
   
@@ -67,6 +71,55 @@ main(){
       },
       expect: () => [ScanScreenShowScannedObjectState(objectModel, userId)],
     );
+    
+    blocTest<ScanScreenPageBloc, ScanScreenState>(
+            'success take picture event',
+            build: () {
+              when(helperUtil?.redirectUrl(Uri(path:any))).thenAnswer((inv)=>Future.value(Right(RedirectWebSuccess())));
+
+              when(imagePicker?.pickImage(source: ImageSource.camera)).thenAnswer((inv)=> Future.value(file));
+
+              when(userDetailsRepo?.getUserID()).thenAnswer((inv)=> Future.value(const Right(userId)));
+              when(helperUtil?.getInputImageFile(file)).thenAnswer((inv)=> mInputImage);
+
+              when(scanRepo?.processImage(mInputImage)).thenAnswer((inv)=> Future.value(const Right(objectModel)));
+
+              return ScanScreenPageBloc(userDetailsRepo!, logLocaDS!, scanRepo!,  imagePicker!, helperUtil!);
+
+
+            },
+            act: (bloc){
+              bloc.add(ScanScreenTakePictureEvent());
+              bloc.add(ScanScreenLaunchToUrlEvent(tShirtobjectModel));
+            },
+            expect: () => [ScanScreenShowScannedObjectState(objectModel, userId)],
+        );
+
+
+        blocTest<ScanScreenPageBloc, ScanScreenState>(
+            'success scan tshirt object model',
+            build: () {
+
+              when(helperUtil?.redirectUrl(Uri(path:any))).thenAnswer((inv)=>Future.value(Right(RedirectWebSuccess())));
+
+              when(imagePicker?.pickImage(source: ImageSource.camera)).thenAnswer((inv)=> Future.value(file));
+
+              when(userDetailsRepo?.getUserID()).thenAnswer((inv)=> Future.value(const Right(userId)));
+              when(helperUtil?.getInputImageFile(file)).thenAnswer((inv)=> mInputImage);
+
+              when(scanRepo?.processImage(mInputImage)).thenAnswer((inv)=> Future.value(const Right(tShirtobjectModel)));
+
+              return ScanScreenPageBloc(userDetailsRepo!, logLocaDS!, scanRepo!,  imagePicker!, helperUtil!);
+            },
+            act: (bloc){
+              bloc.add(ScanScreenTakePictureEvent());
+              bloc.add(ScanScreenLaunchToUrlEvent(tShirtobjectModel));
+            },
+            expect: () => [
+              ScanScreenShowScannedObjectState(tShirtobjectModel, userId), ScanScreenSuccessRedirectState("${tShirtobjectModel.marketUrl}?userId$userId")
+            ],
+        );
+
   });
 
   group("testing event bloc ScanScreenViewLogsEvent", (){

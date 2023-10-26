@@ -98,6 +98,14 @@ class ScanScreenViewLogsState extends ScanScreenState {
   List<Object?> get props => [logs];
 }
 
+class ScanScreenSuccessRedirectState extends ScanScreenState {
+  final String redirectUrl;
+  ScanScreenSuccessRedirectState(this.redirectUrl);
+  @override
+  // TODO: implement props
+  List<Object?> get props => [redirectUrl];
+}
+
 class ScanScreenShowGuideState extends ScanScreenState {
   @override
   // TODO: implement props
@@ -113,6 +121,7 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
   final HelperUtil _helperUtil;
 
   ScanScreenPageBloc(this._userDetailsRepository, this._localDS, this._scanRepo, this.picker, this._helperUtil):super(ScanScreenInitialState()){
+    fetchUserID();
     on<ScanScreenRedirectToUrlEvent>((event, emit){
       _redirectUrl(event.url);
     });
@@ -149,7 +158,7 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
   _redirectUrl(String murl) async{
     var userId = await fetchUserID();
     final userParam =
-        userId.isNotEmpty ? '?userId=$userId' : '';
+        getUserID().isNotEmpty ? '?userId=$userId' : '';
     final Uri url =
         Uri.parse(murl + userParam);
     var result = await _helperUtil.redirectUrl(url);
@@ -167,6 +176,15 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     return "";
   }
 
+  String getUserID(){
+    if(getUserID().isEmpty){
+      fetchUserID();
+      return getUserID();
+    } else{
+      return getUserID();
+    }
+  }
+
   _toLoadingState(){
     if(!(state is ScanScreenLoadingState)){
       emit(ScanScreenLoadingState());
@@ -175,7 +193,6 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
 
 
   _pickImage() async {
-        var userId = await fetchUserID();
                         final XFile? photo =
                             await picker.pickImage(source: ImageSource.camera);
 
@@ -185,7 +202,7 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
                           result.fold((l) {
                             emit(ScanScreenFailure(l.getErrorMessage()));
                           }, (r) {
-                            emit(ScanScreenShowScannedObjectState(r, userId));
+                            emit(ScanScreenShowScannedObjectState(r, getUserID()));
                           });
                         }
   }

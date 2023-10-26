@@ -50,3 +50,5 @@ class HelperGetRequestFailure extends Failure {
     return "Helper error";
   }
 }
+
+class RedirectWebUrlFailure extends Failure {}

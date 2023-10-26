@@ -8,7 +8,7 @@ class ObjectUrl {
       return 'https://northboundgear.co/collections/mens-waterproof-pants/products/outdoor-waterproof-pants';
     } else if (item.contains('p003')) {
       // return 'https://google.com';
-      return 'https://mvgapparel.myshopify.com/products/mvg-t-shirt';
+      return 'https://shop.helixworlds.io/products/mvg-t-shirt';
     } else if(item.contains("p010")) {
       return "https://www.circlek.com";
     } else {
