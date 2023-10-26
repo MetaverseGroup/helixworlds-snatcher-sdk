@@ -8,18 +8,19 @@ import 'dart:async' as _i6;
 import 'package:app_common_modules/core/failure.dart' as _i7;
 import 'package:app_common_modules/core/success.dart' as _i9;
 import 'package:dartz/dartz.dart' as _i2;
+import 'package:dio/dio.dart' as _i15;
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart'
     as _i4;
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart'
     as _i8;
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart'
     as _i10;
+import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart'
+    as _i12;
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart'
     as _i11;
 import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repository.dart'
     as _i5;
-import 'package:helixworlds_snatcher_sdk/models/object_detected_model.dart'
-    as _i12;
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart' as _i14;
 import 'package:image_picker/image_picker.dart' as _i13;
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart'
@@ -175,7 +176,7 @@ class MockILogLocalDatasource extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockIScanRepository extends _i1.Mock implements _i11.IScanRepository {
   @override
-  _i6.Future<_i2.Either<_i7.Failure, _i12.ObjectDetectedModel>> processImage(
+  _i6.Future<_i2.Either<_i7.Failure, _i12.InventoryItemModel>> processImage(
           _i4.InputImage? image) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -183,8 +184,8 @@ class MockIScanRepository extends _i1.Mock implements _i11.IScanRepository {
           [image],
         ),
         returnValue:
-            _i6.Future<_i2.Either<_i7.Failure, _i12.ObjectDetectedModel>>.value(
-                _FakeEither_0<_i7.Failure, _i12.ObjectDetectedModel>(
+            _i6.Future<_i2.Either<_i7.Failure, _i12.InventoryItemModel>>.value(
+                _FakeEither_0<_i7.Failure, _i12.InventoryItemModel>(
           this,
           Invocation.method(
             #processImage,
@@ -192,15 +193,44 @@ class MockIScanRepository extends _i1.Mock implements _i11.IScanRepository {
           ),
         )),
         returnValueForMissingStub:
-            _i6.Future<_i2.Either<_i7.Failure, _i12.ObjectDetectedModel>>.value(
-                _FakeEither_0<_i7.Failure, _i12.ObjectDetectedModel>(
+            _i6.Future<_i2.Either<_i7.Failure, _i12.InventoryItemModel>>.value(
+                _FakeEither_0<_i7.Failure, _i12.InventoryItemModel>(
           this,
           Invocation.method(
             #processImage,
             [image],
           ),
         )),
-      ) as _i6.Future<_i2.Either<_i7.Failure, _i12.ObjectDetectedModel>>);
+      ) as _i6.Future<_i2.Either<_i7.Failure, _i12.InventoryItemModel>>);
+
+  @override
+  _i6.Future<
+      _i2.Either<_i7.Failure, _i12.InventoryItemModel>> getInventoryItemByID(
+          String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getInventoryItemByID,
+          [id],
+        ),
+        returnValue:
+            _i6.Future<_i2.Either<_i7.Failure, _i12.InventoryItemModel>>.value(
+                _FakeEither_0<_i7.Failure, _i12.InventoryItemModel>(
+          this,
+          Invocation.method(
+            #getInventoryItemByID,
+            [id],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i2.Either<_i7.Failure, _i12.InventoryItemModel>>.value(
+                _FakeEither_0<_i7.Failure, _i12.InventoryItemModel>(
+          this,
+          Invocation.method(
+            #getInventoryItemByID,
+            [id],
+          ),
+        )),
+      ) as _i6.Future<_i2.Either<_i7.Failure, _i12.InventoryItemModel>>);
 }
 
 /// A class which mocks [ImagePicker].
@@ -490,4 +520,69 @@ class MockHelperUtil extends _i1.Mock implements _i14.HelperUtil {
           ),
         ),
       ) as _i4.InputImage);
+
+  @override
+  _i6.Future<_i2.Either<_i7.Failure, _i9.Success>> redirectUrl(Uri? url) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #redirectUrl,
+          [url],
+        ),
+        returnValue: _i6.Future<_i2.Either<_i7.Failure, _i9.Success>>.value(
+            _FakeEither_0<_i7.Failure, _i9.Success>(
+          this,
+          Invocation.method(
+            #redirectUrl,
+            [url],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i2.Either<_i7.Failure, _i9.Success>>.value(
+                _FakeEither_0<_i7.Failure, _i9.Success>(
+          this,
+          Invocation.method(
+            #redirectUrl,
+            [url],
+          ),
+        )),
+      ) as _i6.Future<_i2.Either<_i7.Failure, _i9.Success>>);
+
+  @override
+  _i6.Future<_i2.Either<_i7.Failure, _i15.Response<dynamic>>> getRequest(
+    _i15.Dio? dio,
+    String? url,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getRequest,
+          [
+            dio,
+            url,
+          ],
+        ),
+        returnValue:
+            _i6.Future<_i2.Either<_i7.Failure, _i15.Response<dynamic>>>.value(
+                _FakeEither_0<_i7.Failure, _i15.Response<dynamic>>(
+          this,
+          Invocation.method(
+            #getRequest,
+            [
+              dio,
+              url,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i2.Either<_i7.Failure, _i15.Response<dynamic>>>.value(
+                _FakeEither_0<_i7.Failure, _i15.Response<dynamic>>(
+          this,
+          Invocation.method(
+            #getRequest,
+            [
+              dio,
+              url,
+            ],
+          ),
+        )),
+      ) as _i6.Future<_i2.Either<_i7.Failure, _i15.Response<dynamic>>>);
 }

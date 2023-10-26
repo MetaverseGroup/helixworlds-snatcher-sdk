@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
+import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,7 +33,7 @@ class ScanScreenRedirectToUrlEvent extends ScanScreenEvent {
 }
 
 class ScanScreenLaunchToUrlEvent extends ScanScreenEvent {
-  final ObjectDetectedModel model;
+  final InventoryItemModel model;
   ScanScreenLaunchToUrlEvent(this.model);
   @override
   // TODO: implement props
@@ -80,7 +81,7 @@ class ScanScreenFailure extends ScanScreenState {
 
 
 class ScanScreenShowScannedObjectState extends ScanScreenState {
-  final ObjectDetectedModel? object;
+  final InventoryItemModel? object;
   final String userId;
   ScanScreenShowScannedObjectState(this.object, this.userId);
   @override
@@ -116,7 +117,7 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
       _redirectUrl(event.url);
     });
     on<ScanScreenLaunchToUrlEvent>((event, emit){
-      _redirectUrl(event.model.marketUrl);
+      _redirectUrl(event.model.url ?? "");
     });
     on<ScanScreenTakePictureEvent>((event, emit){
       _pickImage();
@@ -146,24 +147,24 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
   }
 
   _redirectUrl(String murl) async{
+    var userId = await fetchUserID();
     final userParam =
         userId.isNotEmpty ? '?userId=$userId' : '';
     final Uri url =
         Uri.parse(murl + userParam);
-
-        print(url.toString());
-    if (!await launchUrl(url)) {
-      throw Exception(
-          'Could not launch ${murl}$userParam');
-    } 
+    var result = await _helperUtil.redirectUrl(url);
+    result.fold((l) {
+      emit(ScanScreenFailure(l.getErrorMessage()));
+    }, (r) => null);
   }
 
-  String userId = "";
-  fetchUserID() async {
+  Future<String> fetchUserID() async {
     var result = await _userDetailsRepository.getUserID();
-    result.fold((l) => null, (r) {
-      userId = r;
-    });
+    if(result.isRight()){
+      var id = result.fold((l) => null, (r) => r) ?? "";
+      return id;
+    }
+    return "";
   }
 
   _toLoadingState(){
@@ -174,6 +175,7 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
 
 
   _pickImage() async {
+        var userId = await fetchUserID();
                         final XFile? photo =
                             await picker.pickImage(source: ImageSource.camera);
 

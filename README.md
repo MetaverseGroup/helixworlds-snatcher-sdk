@@ -38,6 +38,10 @@ flutter:
 * flutter run
 
 
+#### run all unit tests cases
+flutter test test/ 
+
+
 
 
 

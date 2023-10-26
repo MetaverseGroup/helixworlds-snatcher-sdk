@@ -8,6 +8,7 @@ import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/features/guide/guide_widget.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/widget/logs_screen_widget.dart';
 import 'scan_screen_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ScanScreenWidget extends StatelessWidget {
 
@@ -55,18 +56,20 @@ class ScanScreenWidget extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.52,
                     width: double.infinity,
                     child: Center(
-                      child: SvgPicture.asset(
-                        "lib/assets/${state.object?.image ?? ""}",
-                        width: MediaQuery.of(context).size.width - 100,
-                        fit: BoxFit.fitWidth,
-                        package: packageName,
-                      ),
+                      child: CachedNetworkImage(imageUrl: state.object?.image ?? "")
+                      // uncomment this if testing using a local image insted of inventory image
+                      // child: SvgPicture.asset(
+                      //   "lib/assets/${state.object?.image ?? ""}",
+                      //   width: MediaQuery.of(context).size.width - 100,
+                      //   fit: BoxFit.fitWidth,
+                      //   package: packageName,
+                      // ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: Text(
-                      state.object?.name ?? "",
+                      state.object?.title ?? "",
                       style: const TextStyle(fontSize: 40, color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
