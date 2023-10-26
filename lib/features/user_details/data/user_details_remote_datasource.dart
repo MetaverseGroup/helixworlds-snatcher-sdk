@@ -27,7 +27,7 @@ class UserDetailsRemoteDatasource extends IUserDetailsRemoteDatasource {
         //   contentType: "application/x-www-form-urlencoded"
         // )
       );
-      return Right(response.data["extId"]);
+      return Right(response.data["extId"] ?? "");
     } catch(e){
       print(e);
       return Left(GetUserIDFailure());

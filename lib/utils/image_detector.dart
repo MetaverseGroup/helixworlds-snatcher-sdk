@@ -9,14 +9,12 @@ import 'package:helixworlds_snatcher_sdk/utils/object_image.dart';
 import 'package:helixworlds_snatcher_sdk/utils/object_url.dart';
 
 class ImageDetector {
-  ImageDetector() {
-    _initialize();
-  }
+  final ImageLabeler _labeler;
+  ImageDetector(this._labeler) ;
 
-  late ImageLabeler _imageLabeler;
 
   Future<ObjectDetectedModel?> processImage(InputImage inputImage) async {
-    final labels = await _imageLabeler.processImage(inputImage);
+    final labels = await _labeler.processImage(inputImage);
     // ignore: unused_local_variable
     String text = 'Labels found: ${labels.length}\n\n';
 
@@ -52,10 +50,11 @@ class ImageDetector {
     // uncomment next lines if you want to use a local model
     // make sure to add tflite model to assets/ml
     // final path = 'assets/ml/lite-model_aiy_vision_classifier_birds_V1_3.tflite';
-    const path = 'assets/model_7.tflite';
-    final modelPath = await _getModel(path);
-    final options = LocalLabelerOptions(modelPath: modelPath);
-    _imageLabeler = ImageLabeler(options: options);
+    // const path = 'assets/model.tflite';
+    // final modelPath = await _getModel(path);
+    // final options = LocalLabelerOptions(modelPath: modelPath);
+    // _imageLabeler = ImageLabeler(options: options);
+
 
     // uncomment next lines if you want to use a remote model
     // make sure to add model to firebase
@@ -103,7 +102,7 @@ class ImageDetector {
     } else if (item.contains('p009')) {
       return 'Polysleep Logo';
     } else if (item.contains('p010')) {
-      return 'Iphone 15 pro';
+      return 'Circle K';
     } else {
       return '';
     }
@@ -128,6 +127,8 @@ class ImageDetector {
       return 'p008';
     } else if (item.contains('p009')) {
       return 'p009';
+    } else if(item.contains('p010')) {
+      return 'p010';
     } else {
       return '';
     }
@@ -153,6 +154,8 @@ class ImageDetector {
     } else if (item.contains('p009')) {
       return 'Woolen Warfare';
     } else if (item.contains('p009')) {
+      return 'Escape the Bear';
+    } else if(item.contains('p010')) {
       return 'Escape the Bear';
     } else {
       return '';

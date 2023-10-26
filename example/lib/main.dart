@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/scan_screen.dart';
 
-void main() {
-
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupServices();
-  runApp(MyApp());
+  Future.delayed(Duration(seconds: 1)).then((_) {
+    // Proceed with the rest of your app.
+    runApp(MyApp());
+  });    
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Helixworlds SDK',
       theme: ThemeData(

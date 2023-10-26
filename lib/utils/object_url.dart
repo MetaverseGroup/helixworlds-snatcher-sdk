@@ -10,7 +10,7 @@ class ObjectUrl {
       // return 'https://google.com';
       return 'https://mvgapparel.myshopify.com/products/mvg-t-shirt';
     } else if(item.contains("p010")) {
-      return "https://www.apple.com/ph/iphone-15-pro";
+      return "https://www.circlek.com";
     } else {
       return 'https://polysleep.ca/?esl-k=google-ads%7Cng%7Cc627335090052%7Cmb%7Ckpolysleep%7Cp%7Ct%7Cdc%7Ca105306157164%7Cg10444348233&gad=1&gclid=CjwKCAjw6eWnBhAKEiwADpnw9iQO2Gs7PRf9_1T4mvkyygyO8tlTmP_lEbAgDFam_8WfqOb4T6uj6hoCDkYQAvD_BwE';
     }

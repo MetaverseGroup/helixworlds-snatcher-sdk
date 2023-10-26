@@ -2,18 +2,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:helixworlds_snatcher_sdk/core/const.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
-
+import 'package:helixworlds_snatcher_sdk/features/guide/guide_widget.dart';
+import 'package:helixworlds_snatcher_sdk/features/log/widget/logs_screen_widget.dart';
 import 'scan_screen_bloc.dart';
 
 class ScanScreenWidget extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
-    
     return BlocProvider<ScanScreenPageBloc>(
-        create: (context) =>
-            ScanScreenPageBloc(getImageDetector(), getUserDetailsRepo(), getLogLocalDS()),
+        create: (context) => ScanScreenPageBloc(getUserDetailsRepo(), getLogLocalDS(), scanRepository(), getImagePicker(), getHelperUtil()),
         child: ScanScreenWidget()
     );
   }
@@ -21,11 +21,24 @@ class ScanScreenWidget extends StatelessWidget {
 
   Widget content(BuildContext context){
     return BlocBuilder<ScanScreenPageBloc, ScanScreenState>(
-      bloc: context.read<ScanScreenPageBloc>(),
-      builder: (context, state) {
-      if(state is ScanScreenLoadingState){
-        return const Center(child: CircularProgressIndicator());
-      } else if(state is ScanScreenShowScannedObjectState){
+          bloc: context.read<ScanScreenPageBloc>(),
+          builder: (context, state) {
+          if(state is ScanScreenLoadingState){
+            return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Container(
+              margin: const EdgeInsets.only(top: 120),
+              height: MediaQuery.of(context).size.height * 0.7,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: const Color(0xff3F4358).withOpacity(0.6),
+              ),
+              child: const Center(child: CircularProgressIndicator()),
+            ),
+          );
+
+        } else if(state is ScanScreenShowScannedObjectState){
         return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Container(
@@ -42,10 +55,11 @@ class ScanScreenWidget extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.52,
                     width: double.infinity,
                     child: Center(
-                      child: Image.asset(
-                        'assets/${state.object!.image}',
+                      child: SvgPicture.asset(
+                        "lib/assets/${state.object?.image ?? ""}",
                         width: MediaQuery.of(context).size.width - 100,
                         fit: BoxFit.fitWidth,
+                        package: packageName,
                       ),
                     ),
                   ),
@@ -85,7 +99,7 @@ class ScanScreenWidget extends StatelessWidget {
               ),
             ),
           );
-      } else {
+      } else if(state is ScanScreenInitialState) {
         return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Container(
@@ -116,6 +130,24 @@ class ScanScreenWidget extends StatelessWidget {
               ),
             ),
           );
+      } else if(state is ScanScreenShowGuideState) {
+        return GuideDetailsWidget();
+      } else if(state is ScanScreenViewLogsState){
+        return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Container(
+              margin: const EdgeInsets.only(top: 120),
+              height: MediaQuery.of(context).size.height * 0.7,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: const Color(0xff3F4358).withOpacity(0.6),
+              ),
+              child: LogsHistoryWidget(state.logs),
+            ),
+          );
+      } else {
+        return Container();
       }
     });
   }
@@ -124,11 +156,12 @@ class ScanScreenWidget extends StatelessWidget {
   Widget buttonPlacement(BuildContext context){
     return BlocBuilder<ScanScreenPageBloc, ScanScreenState>(builder: (context, state) {
       if(state is ScanScreenShowScannedObjectState) {
-          return
-           Row(children:[
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children:[
               InkWell(
                         onTap: () {
-                          context.read<ScanScreenPageBloc>().add(ScanScreenBackEvent());
+                          context.read<ScanScreenPageBloc>().add(ScanScreenBackEvent("/"));
                         },
                         child: const CircleAvatar(
                           radius: 25,
@@ -143,87 +176,121 @@ class ScanScreenWidget extends StatelessWidget {
                           ),
                         ),
               ),
-
               InkWell(
                       onTap: () async {
-                        context.read<ScanScreenPageBloc>().add(ScanScreenLaunchToUrlEvent());
+                        context.read<ScanScreenPageBloc>().add(ScanScreenLaunchToUrlEvent(state.object!));
                       },
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         radius: 50,
                         backgroundColor: Colors.white,
                         child: CircleAvatar(
                           radius: 49,
-                          backgroundColor: const Color(0xffDEFE48),
-                          child: Image.asset(
-                            shopIcon,
-                            width: 50,
-                          ),
+                          backgroundColor: Color(0xffDEFE48),
+                          child: Icon(Icons.shopify_outlined, size: 50)
+                          // child: Image.asset(
+                          //   shopIcon,
+                          //   width: 50,
+                          // ),
                         ),
                       ),
               ),
-              Container(
-                      width: 50,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        // go to guide page
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //       builder: (context) => const GuidePage()),
-                        // );
-                      },
-                      child: CircleAvatar(
-                        radius: 25,
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          radius: 24,
-                          backgroundColor: const Color(0xff3F4358),
-                          child: Image.asset(
-                            helpIcon,
-                            width: 25,
-                          ),
-                        ),
-                      ),
-                    )
+              const SizedBox(width:50),
            ]);
-      } else if(state is ScanScreenInitialState) {
-        return Row(children:[
-                    InkWell(
-                      onTap: () async {
-                        context.read<ScanScreenPageBloc>().add(ScanScreenTakePictureEvent());
-                      },
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          radius: 49,
-                          backgroundColor: const Color(0xffDEFE48),
-                          child: Image.asset(
-                            cameraIcon,
-                            width: 50,
-                          ),
-                        ),
-                      ),
-                    ),
+      } else if(state is ScanScreenInitialState || state is ScanScreenFailure) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children:[
                     InkWell(
                         onTap: () async {
                           context.read<ScanScreenPageBloc>().add(ScanScreenViewLogsEvent());
                         },
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           radius: 25,
                           backgroundColor: Colors.white,
                           child: CircleAvatar(
                             radius: 24,
-                            backgroundColor: const Color(0xff3F4358),
-                            child: Image.asset(
-                              historyIcon,
-                              width: 25,
-                            ),
+                            backgroundColor: Color(0xff3F4358),
+                            child: Icon(Icons.history, size: 25)
+                            // child: Image.asset(
+                            //   helpIcon,
+                            //   width: 25,
+                            // ),
+                          ),
+                        ),
+                    ),
+
+                    InkWell(
+                      onTap: () async {
+                        context.read<ScanScreenPageBloc>().add(ScanScreenTakePictureEvent());
+                      },
+                      child: const CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.white,
+                        child: CircleAvatar(
+                          radius: 49,
+                          backgroundColor: Color(0xffDEFE48),
+                          child: Icon(Icons.camera_alt, size: 50)
+                          // child: Image.asset(
+                          //   cameraIcon,
+                          //   width: 50,
+                          // ),
+                        ),
+                      ),
+                    ),
+
+                    InkWell(
+                        onTap: () async {
+                          context.read<ScanScreenPageBloc>().add(ScanScreenViewGuideEvent());
+                        },
+                        child: const CircleAvatar(
+                          radius: 25,
+                          backgroundColor: Colors.white,
+                          child: CircleAvatar(
+                            radius: 24,
+                            backgroundColor: Color(0xff3F4358),
+                            child: Icon(Icons.help, size: 25)
                           ),
                         ),
                     )
+        ]);         
+      } else if(state is ScanScreenShowGuideState){
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children:[
+            InkWell(
+                          onTap: () async {
+                            context.read<ScanScreenPageBloc>().add(ScanScreenBackEvent("/"));
+                          },
+                          child: const CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Colors.white,
+                            child: CircleAvatar(
+                              radius: 24,
+                              backgroundColor: Color(0xff3F4358),
+                              child: Icon(Icons.arrow_back_ios)
+                            ),
+                          ),
+          )
         ]);
-         
+      } else if(state is ScanScreenViewLogsState){
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children:[
+            InkWell(
+                          onTap: () async {
+                            context.read<ScanScreenPageBloc>().add(ScanScreenBackEvent("/"));
+                          },
+                          child: const CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Colors.white,
+                            child: CircleAvatar(
+                              radius: 24,
+                              backgroundColor: Color(0xff3F4358),
+                              child: Icon(Icons.arrow_back_ios)
+                            ),
+                          ),
+          )
+        ]);
       } else {
         return Container();
       }
@@ -258,22 +325,20 @@ class ScanScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    // TODO: implement build    
     return Scaffold(
       backgroundColor: const Color(0xff0E0725),
       body: Stack(children: [
-        Align(
-            alignment: Alignment.bottomCenter,
-            child: Image.asset(particleBackground)),
-        Align(
+          Align(
             alignment: Alignment.topLeft,
             child: Padding(
               padding: const EdgeInsets.only(left: 16, top: 48),
-              child: Image.asset(
-                particleBackground,
+              child: SvgPicture.asset(
+                "lib/assets/logo.svg",
                 width: 150,
+                package: packageName,
               ),
-            )),
+        )),
         content(context),
         Positioned(
             top: MediaQuery.of(context).size.height * 0.7 + 65,
@@ -283,7 +348,10 @@ class ScanScreenWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  buttonPlacement(context),
+                  Container(
+                    width:MediaQuery.of(context).size.width * 0.79,
+                    child:buttonPlacement(context)
+                  ),
                 ],
               ),
         )),

@@ -1,10 +1,7 @@
 
 import 'dart:convert';
 import 'package:app_common_modules/core/failure.dart';
-import 'package:app_common_modules/core/success.dart';
-
-import 'package:dartz/dartz.dart';
-import 'package:helixworlds_snatcher_sdk/core/failure.dart';
+import 'package:app_common_modules/core/success.dart';import 'package:dartz/dartz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/log_model.dart';
@@ -42,7 +39,8 @@ class LogLocalDatasource extends ILogLocalDatasource {
       final List<MyLogModel> objects = jsonList.map((json) => MyLogModel.fromJson(json)).toList();
       return Right(objects);
     }catch(e){
-      return Left(CacheFailure());
+      print("Fetching logs");
+      return Right([]);
     }
   }
 }
