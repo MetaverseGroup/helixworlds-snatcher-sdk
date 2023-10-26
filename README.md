@@ -32,7 +32,7 @@ dependencies:
    helixworlds_snatcher_sdk:
      git:
        url: https://github.com/MetaverseGroup/helixworlds_snatcher_sdk.git 
-       ref: initial_branch
+       ref: main
 
 flutter:
   uses-material-design: true
