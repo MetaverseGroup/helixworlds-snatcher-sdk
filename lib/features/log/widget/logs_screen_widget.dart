@@ -3,16 +3,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:helixworlds_snatcher_sdk/core/const.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/scan_screen_bloc.dart';
-import 'package:helixworlds_snatcher_sdk/utils/object_image.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_bloc/flutter_bloc.dart';
+// ignore: depend_on_referenced_packages
 import 'package:cached_network_image/cached_network_image.dart';
 
 
 class ScanHistoryTitleWidget extends StatelessWidget {
+  const ScanHistoryTitleWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
+          key: key,
           width: double.infinity,
           margin: const EdgeInsets.only(top: 80),
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -127,7 +130,6 @@ class LogsHistoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     List<Widget> items = [];
     for(var i in logs){
       items.add(itemWidget(i, context));
@@ -141,7 +143,7 @@ class LogsHistoryWidget extends StatelessWidget {
 }
 
 class LogsScreen extends StatelessWidget {
-  LogsScreen();
+  const LogsScreen({super.key});
 
   Widget content(BuildContext context){
     return BlocBuilder<ScanScreenPageBloc, ScanScreenState>(
@@ -149,6 +151,7 @@ class LogsScreen extends StatelessWidget {
           builder: (context, state) {
        if(state is ScanScreenViewLogsState){
         return Padding(
+            key: key,
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Container(
               margin: const EdgeInsets.only(top: 120),

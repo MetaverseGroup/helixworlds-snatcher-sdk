@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:app_common_modules/core/failure.dart';
 import 'package:app_common_modules/core/success.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';

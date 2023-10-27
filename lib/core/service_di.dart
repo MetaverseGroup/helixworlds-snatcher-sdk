@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages, constant_identifier_names
+
 import 'dart:async';
 import 'dart:io';
 import 'package:app_common_modules/core/failure.dart';
@@ -115,8 +117,6 @@ Future<Either<Failure, Success>> _setupMLServices() async {
     serviceLocator.registerLazySingleton(() => ImageDetector(getImageLabler()));
     return Right(SetupDISuccess());
   }catch(e){
-    print("ERROR SETUP IMAGE LABELER");
-    print(e);
     return Left(SetupServiceFailure());
   }
 }
@@ -132,22 +132,16 @@ String assetPicker(String path) {
   _getApplicationPath(path).then((s){
     modelPath = s;
   });
-  print("ASSET PICKER");
-  print(modelPath);
   return modelPath ?? "";
 }
 
 fetchDirectory(String dir) async {
-  print("FETCH DIR");
-  print(dir);
   var directory = Directory(dir);
   // List the directories in the directory.
   await for (var entity in directory.list()) {
     // If the entity is a directory, print its path.
     if (entity is Directory) {
-      print("APPLICATION Support Directory");
-      print("PATH");
-      print(entity.path);
+
     }
   }
 }

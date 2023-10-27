@@ -1,7 +1,8 @@
 
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:helixworlds_snatcher_sdk/core/const.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
@@ -15,11 +16,11 @@ final appRouter = GoRouter(
   routes: [ 
     GoRoute(
       path:"/",
-      builder: (BuildContext context, GoRouterState state) => ScanScreenWidget(), 
+      builder: (BuildContext context, GoRouterState state) => const ScanScreenWidget(), 
       routes:[
         GoRoute(
           path:"logs",
-          builder: (BuildContext context, GoRouterState state) => LogsScreen(), 
+          builder: (BuildContext context, GoRouterState state) => const LogsScreen(), 
         )
       ]
     )
@@ -27,6 +28,8 @@ final appRouter = GoRouter(
 );
 
 class ScanScreenWidget extends StatelessWidget {
+  const ScanScreenWidget({super.key});
+
   /// call this to do lookup on local data item
   static Widget builder(BuildContext context) {
     return BlocProvider<ScanScreenPageBloc>(
@@ -166,7 +169,7 @@ class ScanScreenWidget extends StatelessWidget {
             ),
           );
       } else if(state is ScanScreenShowGuideState) {
-        return GuideDetailsWidget();
+        return const GuideDetailsWidget();
       } else {
         return Container();
       }
@@ -328,8 +331,8 @@ class ScanScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build    
     return Scaffold(
+      key: key,
       backgroundColor: const Color(0xff0E0725),
       body: Stack(children: [
           Align(
@@ -351,7 +354,7 @@ class ScanScreenWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
+                  SizedBox(
                     width:MediaQuery.of(context).size.width * 0.79,
                     child:buttonPlacement(context)
                   ),

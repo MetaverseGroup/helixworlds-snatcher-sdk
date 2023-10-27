@@ -1,5 +1,7 @@
 
 
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:app_common_modules/core/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
@@ -20,7 +22,6 @@ class UserDetailsRepository extends IUserDetailsRepository {
   
   @override
   Future<Either<Failure, String>> getUserID() async {
-    // TODO: implement getUserID
     try{
       var result = await remoteDS.getUserId();
       return  result;

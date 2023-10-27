@@ -10,13 +10,13 @@ void main() async {
   Future.delayed(const Duration(seconds: 1)).then((_) {
     // Proceed with the rest of your app.
     // runApp(MyApp());
-    setupSentry(MyApp());
+    setupSentry(const MyApp());
     verifyIfSentryIsWorking();
   });    
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override

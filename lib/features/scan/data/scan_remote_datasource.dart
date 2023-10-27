@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:app_common_modules/core/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
@@ -19,9 +21,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
   ScanRemoteDatasource(this.dio, this._helperUtil);
   @override
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id) async {
-    // TODO: implement getInventoryItemByID
     try{
-      // TODO: implement authenticate
       var reponseResult = await _helperUtil.getRequest(dio, "$inventoryUrl/inventory/$id");
       var response = reponseResult.fold((l) => null, (r) => r);
       if(reponseResult.isRight()) {

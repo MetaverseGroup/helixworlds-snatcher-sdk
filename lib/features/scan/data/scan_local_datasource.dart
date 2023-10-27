@@ -1,6 +1,8 @@
 
 
 
+// ignore_for_file: depend_on_referenced_packages, constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:app_common_modules/core/failure.dart';
@@ -24,7 +26,6 @@ class ScanLocalDatasource extends IScanLocalDatasource {
 
   @override
   Future<Either<Failure, Success>> cacheInventoryItem(InventoryItemModel items) async {
-    // TODO: implement cacheInventoryItem
     try{
       var result = await getInventoryItems();
       
@@ -51,7 +52,6 @@ class ScanLocalDatasource extends IScanLocalDatasource {
 
   @override
   Future<Either<Failure, List<InventoryItemModel>>> getInventoryItems() async {
-    // TODO: implement getInventoryItems
     try{
       var jsonResult = jsonDecode(_sharedPref.getString(local_key_inventory) ?? "");
 
@@ -65,7 +65,6 @@ class ScanLocalDatasource extends IScanLocalDatasource {
   
   @override
   Future<Either<Failure, InventoryItemModel>> fetchInventoryItemByID(String id) async {
-    // TODO: implement fetchInventoryItemByID
     try{
       var result = await getInventoryItems();
       if(result.isRight()){

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class GuideDetailsWidget extends StatelessWidget {
+  const GuideDetailsWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Padding(
+      key: key,
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Container(
             margin: const EdgeInsets.only(top: 120),

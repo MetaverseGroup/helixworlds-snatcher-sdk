@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:app_common_modules/core/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
@@ -29,9 +31,7 @@ class ScanRepository extends IScanRepository {
   ScanRepository(this.detector, this.logLocalDS, this._localDS, this._remoteDS, this._helperUtil);
   @override
   Future<Either<Failure, InventoryItemModel>> processImage(InputImage image) async {
-    // TODO: implement processImage
     try {
-      print("Processing image");
       var result = await detector.processImage(image);
       if(result != null) {
         // this is API Based Fetch Inventory
@@ -41,8 +41,6 @@ class ScanRepository extends IScanRepository {
         return Left(ItemNotDetectedFailure());
       }
     } catch (e) {
-      print("ERROR Processing image");
-      print(e);
       return Left(ItemNotDetectedFailure());
     }
   }
@@ -73,7 +71,6 @@ class ScanRepository extends IScanRepository {
   
   @override
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id) async {
-    // TODO: implement getInventoryItemByID
     try{
       var localDataSearchResult = await _localDS.fetchInventoryItemByID(id);
       if(localDataSearchResult.isRight()){
@@ -96,7 +93,6 @@ class ScanRepository extends IScanRepository {
   
   @override
   Future<Either<Failure, InventoryItemModel>> processImageLocal(InputImage image) async {
-    // TODO: implement processImageLocal
     try {
       var result = await detector.processImage(image);
       if(result != null) {

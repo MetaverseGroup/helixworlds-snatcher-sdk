@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
@@ -15,7 +17,6 @@ abstract class ScanScreenEvent extends Equatable {}
 
 class ScanScreenTakePictureEvent extends ScanScreenEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -23,7 +24,6 @@ class ScanScreenRedirectToUrlEvent extends ScanScreenEvent {
   final String url;
   ScanScreenRedirectToUrlEvent(this.url);
   @override
-  // TODO: implement props
   List<Object?> get props => []; 
 
 }
@@ -32,19 +32,16 @@ class ScanScreenLaunchToUrlEvent extends ScanScreenEvent {
   final InventoryItemModel model;
   ScanScreenLaunchToUrlEvent(this.model);
   @override
-  // TODO: implement props
   List<Object?> get props => []; 
 }
 
 class ScanScreenViewLogsEvent extends ScanScreenEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 class ScanScreenViewGuideEvent extends ScanScreenEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -58,7 +55,6 @@ class ScanScreenBackEvent extends ScanScreenEvent {
   final String subRoute;
   ScanScreenBackEvent(this.subRoute);
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -90,7 +86,6 @@ class ScanScreenViewLogsState extends ScanScreenState {
   ScanScreenViewLogsState(this.logs);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [logs];
 }
 
@@ -98,13 +93,11 @@ class ScanScreenSuccessRedirectState extends ScanScreenState {
   final String redirectUrl;
   ScanScreenSuccessRedirectState(this.redirectUrl);
   @override
-  // TODO: implement props
   List<Object?> get props => [redirectUrl];
 }
 
 class ScanScreenShowGuideState extends ScanScreenState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -146,8 +139,10 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     _toLoadingState();
     var result = await _localDS.getLogs();
     result.fold((l) {
+      // ignore: invalid_use_of_visible_for_testing_member
       emit(ScanScreenFailure(l.getErrorMessage()));
     }, (r) {
+      // ignore: invalid_use_of_visible_for_testing_member
       emit(ScanScreenViewLogsState(r.reversed.toList()));
     });
   }
@@ -160,8 +155,10 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
         Uri.parse(murl + userParam);
     var result = await _helperUtil.redirectUrl(url);
     result.fold((l) {
+      // ignore: invalid_use_of_visible_for_testing_member
       emit(ScanScreenFailure(l.getErrorMessage()));
     }, (r) {
+      // ignore: invalid_use_of_visible_for_testing_member
       emit(ScanScreenSuccessRedirectState(url.toString()));
     });
   }
@@ -177,18 +174,16 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
   _redirectUrlObject(InventoryItemModel model) async {
     await _redirectUrl(model.url ?? "");
     Future.delayed(const Duration(seconds: 1), (){
+      // ignore: invalid_use_of_visible_for_testing_member
       emit(ScanScreenShowScannedObjectState(model, userId));
     });
   }
 
   String userId = "";
   fetchUserID() async {
-    print("Fetching user id");
-
     var result = await _userDetailsRepository.getUserID();
     result.fold((l) => null, (r) {
       userId = r;
-      print(r);
     });
     
   }
@@ -202,7 +197,8 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
   }
 
   _toLoadingState(){
-    if(!(state is ScanScreenLoadingState)){
+    if(state is! ScanScreenLoadingState){
+      // ignore: invalid_use_of_visible_for_testing_member
       emit(ScanScreenLoadingState());
     }
   }
@@ -218,16 +214,20 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
                             // local based item details
                             var result = await _scanRepo.processImageLocal(inputImage);
                             result.fold((l) {
+                              // ignore: invalid_use_of_visible_for_testing_member
                               emit(ScanScreenFailure(l.getErrorMessage()));
                             }, (r) {
+                              // ignore: invalid_use_of_visible_for_testing_member
                               emit(ScanScreenShowScannedObjectState(r, getUserID()));
                             });
                           } else {
                             // api based item details
                             var result = await _scanRepo.processImage(inputImage);                            
                             result.fold((l) {
+                              // ignore: invalid_use_of_visible_for_testing_member
                               emit(ScanScreenFailure(l.getErrorMessage()));
                             }, (r) {
+                              // ignore: invalid_use_of_visible_for_testing_member
                               emit(ScanScreenShowScannedObjectState(r, getUserID()));
                             });
                           }

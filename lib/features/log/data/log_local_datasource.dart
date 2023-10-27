@@ -1,7 +1,10 @@
 
+// ignore_for_file: depend_on_referenced_packages, constant_identifier_names
+
 import 'dart:convert';
 import 'package:app_common_modules/core/failure.dart';
-import 'package:app_common_modules/core/success.dart';import 'package:dartz/dartz.dart';
+import 'package:app_common_modules/core/success.dart';
+import 'package:dartz/dartz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/log_model.dart';
@@ -20,7 +23,6 @@ class LogLocalDatasource extends ILogLocalDatasource {
   
   @override
   Future<Either<Failure, Success>> cacheLogs(List<MyLogModel> logs) async {
-    // TODO: implement cacheLogs
     try{
       final String jsonString = jsonEncode(logs.map((obj) => obj.toJson()).toList());
       _sharedPref.setString(local_key_logs, jsonString);
@@ -32,7 +34,6 @@ class LogLocalDatasource extends ILogLocalDatasource {
   
   @override
   Future<Either<Failure, List<MyLogModel>>> getLogs() async {
-    // TODO: implement getLogs
     try{
       final String jsonString =  _sharedPref.getString(local_key_logs) ?? "";
       final List<dynamic> jsonList = jsonDecode(jsonString);

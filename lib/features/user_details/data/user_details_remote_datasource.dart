@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:app_common_modules/core/failure.dart';
 import 'package:app_common_modules/core/success.dart';
 import 'package:dio/dio.dart';
@@ -19,10 +21,8 @@ class UserDetailsRemoteDatasource extends IUserDetailsRemoteDatasource {
   
   @override
   Future<Either<Failure, String>> getUserId() async {
-    // TODO: implement getUserId
     try{
-      // TODO: implement authenticate
-      var response = await dio.get(baseUrl+"/user/find",
+      var response = await dio.get("$baseUrl/user/find",
         // options: Options(
         //   contentType: "application/x-www-form-urlencoded"
         // )
@@ -35,13 +35,11 @@ class UserDetailsRemoteDatasource extends IUserDetailsRemoteDatasource {
   
   @override
   Future<Either<Failure, Success>> createUser() {
-    // TODO: implement createUser
     throw UnimplementedError();
   }
   
   @override
   Future<Either<Failure, Success>> login(String clientId, String secretKey) {
-    // TODO: implement login
     throw UnimplementedError();
   }
 
