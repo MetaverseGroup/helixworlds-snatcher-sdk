@@ -112,7 +112,6 @@ class ScanRepository extends IScanRepository {
         return Left(ItemNotDetectedFailure());
       }
     } catch (e) {
-      print(e);
       return Left(ItemNotDetectedFailure());
     }
   }
