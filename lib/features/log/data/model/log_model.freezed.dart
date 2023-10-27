@@ -25,6 +25,7 @@ mixin _$MyLogModel {
   String? get date => throw _privateConstructorUsedError;
   String? get game => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
+  String? get url => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,7 +40,12 @@ abstract class $MyLogModelCopyWith<$Res> {
       _$MyLogModelCopyWithImpl<$Res, MyLogModel>;
   @useResult
   $Res call(
-      {String? id, String? name, String? date, String? game, String? image});
+      {String? id,
+      String? name,
+      String? date,
+      String? game,
+      String? image,
+      String? url});
 }
 
 /// @nodoc
@@ -60,6 +66,7 @@ class _$MyLogModelCopyWithImpl<$Res, $Val extends MyLogModel>
     Object? date = freezed,
     Object? game = freezed,
     Object? image = freezed,
+    Object? url = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -82,6 +89,10 @@ class _$MyLogModelCopyWithImpl<$Res, $Val extends MyLogModel>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -95,7 +106,12 @@ abstract class _$$MyLogModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? id, String? name, String? date, String? game, String? image});
+      {String? id,
+      String? name,
+      String? date,
+      String? game,
+      String? image,
+      String? url});
 }
 
 /// @nodoc
@@ -114,6 +130,7 @@ class __$$MyLogModelImplCopyWithImpl<$Res>
     Object? date = freezed,
     Object? game = freezed,
     Object? image = freezed,
+    Object? url = freezed,
   }) {
     return _then(_$MyLogModelImpl(
       id: freezed == id
@@ -136,6 +153,10 @@ class __$$MyLogModelImplCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -144,7 +165,7 @@ class __$$MyLogModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MyLogModelImpl implements _MyLogModel {
   const _$MyLogModelImpl(
-      {this.id, this.name, this.date, this.game, this.image});
+      {this.id, this.name, this.date, this.game, this.image, this.url});
 
   factory _$MyLogModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$MyLogModelImplFromJson(json);
@@ -159,10 +180,12 @@ class _$MyLogModelImpl implements _MyLogModel {
   final String? game;
   @override
   final String? image;
+  @override
+  final String? url;
 
   @override
   String toString() {
-    return 'MyLogModel(id: $id, name: $name, date: $date, game: $game, image: $image)';
+    return 'MyLogModel(id: $id, name: $name, date: $date, game: $game, image: $image, url: $url)';
   }
 
   @override
@@ -174,12 +197,14 @@ class _$MyLogModelImpl implements _MyLogModel {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.game, game) || other.game == game) &&
-            (identical(other.image, image) || other.image == image));
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.url, url) || other.url == url));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, date, game, image);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, date, game, image, url);
 
   @JsonKey(ignore: true)
   @override
@@ -201,7 +226,8 @@ abstract class _MyLogModel implements MyLogModel {
       final String? name,
       final String? date,
       final String? game,
-      final String? image}) = _$MyLogModelImpl;
+      final String? image,
+      final String? url}) = _$MyLogModelImpl;
 
   factory _MyLogModel.fromJson(Map<String, dynamic> json) =
       _$MyLogModelImpl.fromJson;
@@ -216,6 +242,8 @@ abstract class _MyLogModel implements MyLogModel {
   String? get game;
   @override
   String? get image;
+  @override
+  String? get url;
   @override
   @JsonKey(ignore: true)
   _$$MyLogModelImplCopyWith<_$MyLogModelImpl> get copyWith =>

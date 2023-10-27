@@ -13,6 +13,7 @@ _$MyLogModelImpl _$$MyLogModelImplFromJson(Map<String, dynamic> json) =>
       date: json['date'] as String?,
       game: json['game'] as String?,
       image: json['image'] as String?,
+      url: json['url'] as String?,
     );
 
 Map<String, dynamic> _$$MyLogModelImplToJson(_$MyLogModelImpl instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$MyLogModelImplToJson(_$MyLogModelImpl instance) =>
       'date': instance.date,
       'game': instance.game,
       'image': instance.image,
+      'url': instance.url,
     };

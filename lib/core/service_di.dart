@@ -138,7 +138,7 @@ UserDetailsRepository getUserDetailsRepo(){
 _setupScanServices(){
   serviceLocator.registerLazySingleton(() => ScanRemoteDatasource(_getDio(), getHelperUtil()));
   serviceLocator.registerLazySingleton(() => ScanLocalDatasource(_getSharedPref()));
-  serviceLocator.registerLazySingleton(() => ScanRepository(getImageDetector(), getLogLocalDS(), _getScanLocalDS(), _getScanRemoteDS()));
+  serviceLocator.registerLazySingleton(() => ScanRepository(getImageDetector(), getLogLocalDS(), _getScanLocalDS(), _getScanRemoteDS(), getHelperUtil()));
 }
 
 IScanRemoteDatasource _getScanRemoteDS(){
