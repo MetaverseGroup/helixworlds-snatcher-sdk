@@ -11,6 +11,7 @@ class MyLogModel with _$MyLogModel {
         String? date,
         String? game,
         String? image,
+        String? url
       }) = _MyLogModel;
 
   factory MyLogModel.fromJson(Map<String, dynamic> json) =>

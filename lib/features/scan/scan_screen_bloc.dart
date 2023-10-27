@@ -1,15 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../../models/object_detected_model.dart';
-import 'dart:io' as io;
 
 import '../user_details/user_details_repository.dart';
 
@@ -119,14 +115,15 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
   final IScanRepository _scanRepo;
   final ImagePicker picker;
   final HelperUtil _helperUtil;
+  final bool isLocalItemDetailsFetch;
 
-  ScanScreenPageBloc(this._userDetailsRepository, this._localDS, this._scanRepo, this.picker, this._helperUtil):super(ScanScreenInitialState()){
+  ScanScreenPageBloc(this._userDetailsRepository, this._localDS, this._scanRepo, this.picker, this._helperUtil, {this.isLocalItemDetailsFetch = true}):super(ScanScreenInitialState()){
     fetchUserID();
     on<ScanScreenRedirectToUrlEvent>((event, emit){
-      _redirectUrl(event.url);
+      _redirectUrlObjectFromLogs(event.url);
     });
     on<ScanScreenLaunchToUrlEvent>((event, emit){
-      _redirectUrl(event.model.url ?? "");
+      _redirectUrlObject(event.model);
     });
     on<ScanScreenTakePictureEvent>((event, emit){
       _pickImage();
@@ -151,37 +148,56 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     result.fold((l) {
       emit(ScanScreenFailure(l.getErrorMessage()));
     }, (r) {
-      emit(ScanScreenViewLogsState(r));
+      emit(ScanScreenViewLogsState(r.reversed.toList()));
     });
   }
 
   _redirectUrl(String murl) async{
-    var userId = await fetchUserID();
+    var userId = getUserID();
     final userParam =
-        getUserID().isNotEmpty ? '?userId=$userId' : '';
+        userId.isNotEmpty ? '?userId=$userId' : '';
     final Uri url =
         Uri.parse(murl + userParam);
     var result = await _helperUtil.redirectUrl(url);
     result.fold((l) {
       emit(ScanScreenFailure(l.getErrorMessage()));
-    }, (r) => null);
+    }, (r) {
+      emit(ScanScreenSuccessRedirectState(url.toString()));
+    });
   }
 
-  Future<String> fetchUserID() async {
+  _redirectUrlObjectFromLogs(String url){
+    _redirectUrl(url);
+    Future.delayed(const Duration(seconds: 1), (){
+      _fetchLogs();
+      // emit(ScanScreenShowScannedObjectState(model, userId));
+    });    
+  }
+
+  _redirectUrlObject(InventoryItemModel model) async {
+    await _redirectUrl(model.url ?? "");
+    Future.delayed(const Duration(seconds: 1), (){
+      emit(ScanScreenShowScannedObjectState(model, userId));
+    });
+  }
+
+  String userId = "";
+  fetchUserID() async {
+    print("Fetching user id");
+
     var result = await _userDetailsRepository.getUserID();
-    if(result.isRight()){
-      var id = result.fold((l) => null, (r) => r) ?? "";
-      return id;
-    }
-    return "";
+    result.fold((l) => null, (r) {
+      userId = r;
+      print(r);
+    });
+    
   }
 
   String getUserID(){
-    if(getUserID().isEmpty){
-      fetchUserID();
-      return getUserID();
-    } else{
-      return getUserID();
+    if(userId.isNotEmpty){
+      return userId;
+    } else {
+      return "";
     }
   }
 
@@ -198,12 +214,23 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
 
                         if (photo != null) {
                           final inputImage = _helperUtil.getInputImageFile(photo);
-                          var result = await _scanRepo.processImage(inputImage);
-                          result.fold((l) {
-                            emit(ScanScreenFailure(l.getErrorMessage()));
-                          }, (r) {
-                            emit(ScanScreenShowScannedObjectState(r, getUserID()));
-                          });
+                          if(isLocalItemDetailsFetch){
+                            // local based item details
+                            var result = await _scanRepo.processImageLocal(inputImage);
+                            result.fold((l) {
+                              emit(ScanScreenFailure(l.getErrorMessage()));
+                            }, (r) {
+                              emit(ScanScreenShowScannedObjectState(r, getUserID()));
+                            });
+                          } else {
+                            // api based item details
+                            var result = await _scanRepo.processImage(inputImage);                            
+                            result.fold((l) {
+                              emit(ScanScreenFailure(l.getErrorMessage()));
+                            }, (r) {
+                              emit(ScanScreenShowScannedObjectState(r, getUserID()));
+                            });
+                          }
                         }
   }
 }

@@ -29,7 +29,6 @@ class UserDetailsRemoteDatasource extends IUserDetailsRemoteDatasource {
       );
       return Right(response.data["extId"] ?? "");
     } catch(e){
-      print(e);
       return Left(GetUserIDFailure());
     }
   }

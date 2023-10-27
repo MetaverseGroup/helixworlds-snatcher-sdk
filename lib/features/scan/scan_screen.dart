@@ -9,13 +9,41 @@ import 'package:helixworlds_snatcher_sdk/features/guide/guide_widget.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/widget/logs_screen_widget.dart';
 import 'scan_screen_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:go_router/go_router.dart';
+
+final appRouter = GoRouter(
+  routes: [ 
+    GoRoute(
+      path:"/",
+      builder: (BuildContext context, GoRouterState state) => ScanScreenWidget(), 
+      routes:[
+        GoRoute(
+          path:"logs",
+          builder: (BuildContext context, GoRouterState state) => LogsScreen(), 
+        )
+      ]
+    )
+  ]
+);
 
 class ScanScreenWidget extends StatelessWidget {
-
+  /// call this to do lookup on local data item
   static Widget builder(BuildContext context) {
     return BlocProvider<ScanScreenPageBloc>(
-        create: (context) => ScanScreenPageBloc(getUserDetailsRepo(), getLogLocalDS(), scanRepository(), getImagePicker(), getHelperUtil()),
-        child: ScanScreenWidget()
+        create: (context) => ScanScreenPageBloc(getUserDetailsRepo(), getLogLocalDS(), scanRepository(), getImagePicker(), getHelperUtil(), isLocalItemDetailsFetch: true),
+        child: MaterialApp.router(
+          routerConfig: appRouter,
+        )
+    );
+  }
+  
+  /// call this to do look up on inventory api for the item
+  static Widget builderInventory(BuildContext context) {
+    return BlocProvider<ScanScreenPageBloc>(
+        create: (context) => ScanScreenPageBloc(getUserDetailsRepo(), getLogLocalDS(), scanRepository(), getImagePicker(), getHelperUtil(), isLocalItemDetailsFetch: false),
+        child: MaterialApp.router(
+          routerConfig: appRouter,
+        )
     );
   }
 
@@ -56,14 +84,18 @@ class ScanScreenWidget extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.52,
                     width: double.infinity,
                     child: Center(
-                      child: CachedNetworkImage(imageUrl: state.object?.image ?? "")
-                      // uncomment this if testing using a local image insted of inventory image
-                      // child: SvgPicture.asset(
-                      //   "lib/assets/${state.object?.image ?? ""}",
-                      //   width: MediaQuery.of(context).size.width - 100,
-                      //   fit: BoxFit.fitWidth,
-                      //   package: packageName,
-                      // ),
+                      child:  !context.read<ScanScreenPageBloc>().isLocalItemDetailsFetch ? CachedNetworkImage(
+                        imageUrl: state.object?.image ?? "",
+                        width: MediaQuery.of(context).size.width - 100,
+                        fit: BoxFit.fitWidth,
+                      ) 
+                      :
+                      SvgPicture.asset(
+                        "lib/assets/${state.object?.image ?? ""}",
+                        width: MediaQuery.of(context).size.width - 100,
+                        fit: BoxFit.fitWidth,
+                        package: packageName,
+                      ),
                     ),
                   ),
                   Padding(
@@ -135,20 +167,6 @@ class ScanScreenWidget extends StatelessWidget {
           );
       } else if(state is ScanScreenShowGuideState) {
         return GuideDetailsWidget();
-      } else if(state is ScanScreenViewLogsState){
-        return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Container(
-              margin: const EdgeInsets.only(top: 120),
-              height: MediaQuery.of(context).size.height * 0.7,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: const Color(0xff3F4358).withOpacity(0.6),
-              ),
-              child: LogsHistoryWidget(state.logs),
-            ),
-          );
       } else {
         return Container();
       }
@@ -206,6 +224,7 @@ class ScanScreenWidget extends StatelessWidget {
                     InkWell(
                         onTap: () async {
                           context.read<ScanScreenPageBloc>().add(ScanScreenViewLogsEvent());
+                          context.go("/logs");
                         },
                         child: const CircleAvatar(
                           radius: 25,
@@ -257,25 +276,6 @@ class ScanScreenWidget extends StatelessWidget {
                     )
         ]);         
       } else if(state is ScanScreenShowGuideState){
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children:[
-            InkWell(
-                          onTap: () async {
-                            context.read<ScanScreenPageBloc>().add(ScanScreenBackEvent("/"));
-                          },
-                          child: const CircleAvatar(
-                            radius: 25,
-                            backgroundColor: Colors.white,
-                            child: CircleAvatar(
-                              radius: 24,
-                              backgroundColor: Color(0xff3F4358),
-                              child: Icon(Icons.arrow_back_ios)
-                            ),
-                          ),
-          )
-        ]);
-      } else if(state is ScanScreenViewLogsState){
         return Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children:[
