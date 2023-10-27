@@ -3,6 +3,7 @@
 
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:app_common_modules/core/success.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
@@ -28,6 +29,7 @@ main(){
   MockInputImage? inputImage;
   MockHelperUtil? helperUtil;
   HelperUtil? rHelperUtil;
+  String dateTime = '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
 
   setUp(() {
     rHelperUtil = HelperUtil();
@@ -79,9 +81,13 @@ main(){
 
 
   group("testing method process local based item details", (){
-    test("tshirt object", () async{
-      var myScanRepo = ScanRepository(imageDetector!, logLocalDS!, localDS!, remoteDS!, rHelperUtil!);
+    test("tshirt object", () async {
       when(imageDetector?.processImage(inputImage)).thenAnswer((realInvocation) => Future.value("p003"));
+      when(logLocalDS?.getLogs()).thenAnswer((realInvocation) => Future.value(const Right([])));
+      when(logLocalDS?.cacheLogs([])).thenAnswer((realInvocation) => Future.value(Right(CacheSuccess())));
+      when(helperUtil?.getDateString()).thenAnswer((realInvocation) => dateTime);
+
+      var myScanRepo = ScanRepository(imageDetector!, logLocalDS!, localDS!, remoteDS!, rHelperUtil!);
       var result = await myScanRepo.processImageLocal(inputImage!);
       expect(result.isRight(), true);
       var rightValue = result.fold((l) => null, (r) => r);

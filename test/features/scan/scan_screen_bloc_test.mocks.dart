@@ -205,6 +205,35 @@ class MockIScanRepository extends _i1.Mock implements _i11.IScanRepository {
 
   @override
   _i6.Future<
+      _i2.Either<_i7.Failure, _i12.InventoryItemModel>> processImageLocal(
+          _i4.InputImage? image) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #processImageLocal,
+          [image],
+        ),
+        returnValue:
+            _i6.Future<_i2.Either<_i7.Failure, _i12.InventoryItemModel>>.value(
+                _FakeEither_0<_i7.Failure, _i12.InventoryItemModel>(
+          this,
+          Invocation.method(
+            #processImageLocal,
+            [image],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i2.Either<_i7.Failure, _i12.InventoryItemModel>>.value(
+                _FakeEither_0<_i7.Failure, _i12.InventoryItemModel>(
+          this,
+          Invocation.method(
+            #processImageLocal,
+            [image],
+          ),
+        )),
+      ) as _i6.Future<_i2.Either<_i7.Failure, _i12.InventoryItemModel>>);
+
+  @override
+  _i6.Future<
       _i2.Either<_i7.Failure, _i12.InventoryItemModel>> getInventoryItemByID(
           String? id) =>
       (super.noSuchMethod(
@@ -548,6 +577,16 @@ class MockHelperUtil extends _i1.Mock implements _i14.HelperUtil {
       ) as _i6.Future<_i2.Either<_i7.Failure, _i9.Success>>);
 
   @override
+  String getDateString() => (super.noSuchMethod(
+        Invocation.method(
+          #getDateString,
+          [],
+        ),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+
+  @override
   _i6.Future<_i2.Either<_i7.Failure, _i15.Response<dynamic>>> getRequest(
     _i15.Dio? dio,
     String? url,
@@ -585,4 +624,54 @@ class MockHelperUtil extends _i1.Mock implements _i14.HelperUtil {
           ),
         )),
       ) as _i6.Future<_i2.Either<_i7.Failure, _i15.Response<dynamic>>>);
+
+  @override
+  String getUrl(String? item) => (super.noSuchMethod(
+        Invocation.method(
+          #getUrl,
+          [item],
+        ),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+
+  @override
+  String getTitle(String? item) => (super.noSuchMethod(
+        Invocation.method(
+          #getTitle,
+          [item],
+        ),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+
+  @override
+  String getId(String? item) => (super.noSuchMethod(
+        Invocation.method(
+          #getId,
+          [item],
+        ),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+
+  @override
+  String getGame(String? item) => (super.noSuchMethod(
+        Invocation.method(
+          #getGame,
+          [item],
+        ),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+
+  @override
+  String getImage(String? item) => (super.noSuchMethod(
+        Invocation.method(
+          #getImage,
+          [item],
+        ),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
 }

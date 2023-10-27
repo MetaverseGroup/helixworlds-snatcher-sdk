@@ -1,6 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, duplicate_ignore
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'scan_model.dart';
@@ -20,22 +20,28 @@ InventoryItemModel _$InventoryItemModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$InventoryItemModel {
-  String? get id => throw _privateConstructorUsedError;
+  String? get id =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: "project_id")
   String? get projectId => throw _privateConstructorUsedError;
   String? get sku => throw _privateConstructorUsedError;
   String? get url => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get category => throw _privateConstructorUsedError;
-  String? get image => throw _privateConstructorUsedError;
+  String? get image =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: "twin_url")
-  String? get twinUrl => throw _privateConstructorUsedError;
+  String? get twinUrl =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: "twin_status")
-  String? get twinStatus => throw _privateConstructorUsedError;
+  String? get twinStatus =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: "twin_image")
-  String? get twinImage => throw _privateConstructorUsedError;
+  String? get twinImage =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: "created_at")
-  String? get createdAt => throw _privateConstructorUsedError;
+  String? get createdAt =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: "update_at")
   String? get updatedAt => throw _privateConstructorUsedError;
 
@@ -267,6 +273,7 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
 
   @override
   final String? id;
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "project_id")
   final String? projectId;
@@ -280,18 +287,23 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
   final String? category;
   @override
   final String? image;
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "twin_url")
   final String? twinUrl;
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "twin_status")
   final String? twinStatus;
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "twin_image")
   final String? twinImage;
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "created_at")
   final String? createdAt;
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "update_at")
   final String? updatedAt;
@@ -367,7 +379,7 @@ abstract class _InventoryItemModel implements InventoryItemModel {
 
   @override
   String? get id;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(name: "project_id")
   String? get projectId;
   @override
@@ -380,19 +392,19 @@ abstract class _InventoryItemModel implements InventoryItemModel {
   String? get category;
   @override
   String? get image;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(name: "twin_url")
   String? get twinUrl;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(name: "twin_status")
   String? get twinStatus;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(name: "twin_image")
   String? get twinImage;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(name: "created_at")
   String? get createdAt;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(name: "update_at")
   String? get updatedAt;
   @override

@@ -24,6 +24,10 @@ class HelperUtil {
     }
   }
 
+  String getDateString(){
+    return '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
+  }
+
   Future<Either<Failure, Response>> getRequest(Dio dio, String url) async{
     try{
       var response = await dio.get(url,

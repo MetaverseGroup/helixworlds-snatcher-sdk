@@ -45,27 +45,25 @@ class ScanRepository extends IScanRepository {
     }
   }
 
-  String _getDateString() {
-    return '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
-  }
-
-  _logModel(InventoryItemModel object) async {
+  logModel(InventoryItemModel object) async {
     var logsResult = await logLocalDS.getLogs();
-    var logs = logsResult.fold((l) => null, (r) => r) ?? [];
+    List<MyLogModel> newLogs = [];
+    List<MyLogModel> logs = logsResult.fold((l) => null, (r) => r) ?? [];
+    newLogs.addAll(logs);
     final model = MyLogModel(
               id: object.id,
               name: object.title,
               image: object.image,
-              date: _getDateString(),
+              date: _helperUtil.getDateString(),
               game: object.projectId,
               url: object.url ?? ""
     );
-    logs.add(model);
+    newLogs.add(model);
     // cache the first 10 items 
-    if(logs.length > 10){
-      logLocalDS.cacheLogs(logs.reversed.toList().take(10).toList());
+    if(newLogs.length > 10){
+      logLocalDS.cacheLogs(newLogs.reversed.toList().take(10).toList());
     } else {
-      logLocalDS.cacheLogs(logs);
+      logLocalDS.cacheLogs(newLogs);
     }
   }
   
@@ -104,7 +102,7 @@ class ScanRepository extends IScanRepository {
           image: _helperUtil.getImage(result),
           projectId: _helperUtil.getGame(result)
         );
-        _logModel(model);
+        logModel(model);
 
         
 
@@ -114,6 +112,7 @@ class ScanRepository extends IScanRepository {
         return Left(ItemNotDetectedFailure());
       }
     } catch (e) {
+      print(e);
       return Left(ItemNotDetectedFailure());
     }
   }
