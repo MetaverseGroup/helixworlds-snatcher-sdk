@@ -14,6 +14,10 @@ class CustomTextStyles {
   static get bodyLarge19 => theme.textTheme.bodyLarge!.copyWith(
         fontSize: 19.fSize,
       );
+  static get errorLarge => theme.textTheme.bodyLarge!.copyWith(
+        fontSize: 19.fSize,
+        color: Colors.red
+  );
   static get bodyLargeLimeA200 => theme.textTheme.bodyLarge!.copyWith(
         color: appTheme.limeA200,
         fontSize: 18.fSize,

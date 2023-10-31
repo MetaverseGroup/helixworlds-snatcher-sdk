@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helixworlds_snatcher_sdk/const/image_const.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
+import 'package:helixworlds_snatcher_sdk/features/error/error_widget.dart';
 import 'package:helixworlds_snatcher_sdk/features/widgets/app_bar/appbar_title.dart';
 import 'package:helixworlds_snatcher_sdk/features/widgets/app_bar/custom_app_bar.dart';
 import 'package:helixworlds_snatcher_sdk/features/widgets/custom_elevated_button.dart';
@@ -77,6 +78,14 @@ class HomeScreen extends StatelessWidget {
                               child: Stack(
                                 alignment: Alignment.bottomCenter,
                                 children: [
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                        padding: EdgeInsets.only(
+                                          top: 40.v,
+                                        ),
+                                        child:const ErrorMessageWidget())
+                                  ),
                                   Align(
                                     alignment: Alignment.bottomCenter,
                                     child: Padding(
@@ -172,15 +181,6 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Opacity(
-                  //   opacity: 1,
-                  //   child: CustomImageView(
-                  //     svgPath: ImageConstant.imgGroup7,
-                  //     height: 754.v,
-                  //     width: 393.h,
-                  //     alignment: Alignment.center,
-                  //   ),
-                  // ),
                 ],
               ),
             ),

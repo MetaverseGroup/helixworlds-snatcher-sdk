@@ -80,11 +80,11 @@ class ViewProductScreen extends StatelessWidget {
                   SizedBox(height: 15.v),
                   Text(
                     model.projectId ?? "",
-                    style: theme.textTheme.labelLarge,
+                    style: theme.textTheme.bodyLarge,
                   ),
                   SizedBox(height: 64.v),
                   SizedBox(
-                    height: 562.v,
+                    height: 558.v,
                     width: double.maxFinite,
                     child: Stack(
                       alignment: Alignment.topCenter,

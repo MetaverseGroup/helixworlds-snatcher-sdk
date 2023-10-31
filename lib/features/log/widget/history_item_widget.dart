@@ -44,7 +44,7 @@ class HistoryItemWidget extends StatelessWidget {
                   borderRadius: BorderRadiusStyle.roundedBorder10,
                 ),
                 child: CustomImageView(
-                  svgPath: isLocal ? historyItemModelObj.image : "",
+                  svgPath: isLocal ? "" : "",
                   url: !isLocal ? historyItemModelObj.image : "",
                   height: 53.adaptSize,
                   width: 53.adaptSize,
