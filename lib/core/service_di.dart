@@ -6,8 +6,8 @@ import 'package:app_common_modules/core/failure.dart';
 import 'package:app_common_modules/core/success.dart';
 import 'package:dartz/dartz.dart';
 import 'package:app_common_modules/di/services_di.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
@@ -15,7 +15,10 @@ import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repository.dart';
+import 'package:helixworlds_snatcher_sdk/theme/bloc/theme_bloc.dart';
+import 'package:helixworlds_snatcher_sdk/theme/theme_helper.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
+import 'package:helixworlds_snatcher_sdk/utils/pref_utils.dart';
 import 'package:helixworlds_snatcher_sdk/utils/sentry_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,14 +35,28 @@ const String sentry_dsn = "https://891ca197d27341cbd2c2a92fc2990d18@o45061031787
 
 final GetIt serviceLocator = GetIt.instance;
 setupServices() async {
+  _setupSentry();
   _setupImagePicker();
   _setupHelper();
   setupCommonModulesServices();
+  serviceLocator.registerLazySingleton(() => PrefUtils(_getSharedPref()));
+  serviceLocator.registerLazySingleton(() => ThemeBloc(ThemeState(
+          themeType: getPrefUtils().getThemeData(),
+  )));
   _setupMLServices();
   _setupUserDetailsServices();
   _setupScanServices();
   _setupLogService();
   _setupBloc();
+}
+
+_setupSentry() async {
+  await SentryFlutter.init(
+      (options) {
+        options.dsn = sentry_dsn;
+        options.tracesSampleRate = 1.0;
+      },
+  );
 }
 
 _setupHelper(){
@@ -49,6 +66,18 @@ SentryUtil getSentryUtil(){
   return serviceLocator<SentryUtil>();
 }
 
+ThemeBloc getThemeBloc(){
+  return serviceLocator<ThemeBloc>();
+}
+
+PrefUtils getPrefUtils(){
+  return serviceLocator<PrefUtils>();
+}
+
+PrimaryColors get appTheme => ThemeHelper(getPrefUtils()).themeColor();
+ThemeData get theme => ThemeHelper(getPrefUtils()).themeData();
+
+
 
 /// call this in main 
 /// 
@@ -57,19 +86,11 @@ SentryUtil getSentryUtil(){
 ///    SentryNavigatorObserver(),
 ///  ],
 ///)
-setupSentry(Widget widget) async {
-  runZonedGuarded(() async {
-    await SentryFlutter.init(
-      (options) {
-        options.dsn = sentry_dsn;
-        options.tracesSampleRate = 1.0;
-      },
-    );
-    runApp(widget);
-  }, (exception, stackTrace) async {
-    await Sentry.captureException(exception, stackTrace: stackTrace);
-  });
+
+void captureException(Object exception, StackTrace stackTrace) async {
+  await Sentry.captureException(exception, stackTrace: stackTrace);
 }
+
 
 void verifyIfSentryIsWorking() async {
   try {

@@ -24,8 +24,14 @@ class HelperUtil {
     }
   }
 
+  String formatDate(String dateString){
+    var date = DateTime.tryParse(dateString) ?? DateTime.now();
+    return '${date.day}/${date.month}/${date.year}';
+  }
+
   String getDateString(){
-    return '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
+    var date = DateTime.now();
+    return date.toIso8601String();
   }
 
   Future<Either<Failure, Response>> getRequest(Dio dio, String url) async{
@@ -137,25 +143,25 @@ class HelperUtil {
 
   String getImage(String item){
     if (item.contains('p001')) {
-      return 's_cow.svg';
+      return 'lib/assets/s_cow.svg';
     } else if (item.contains('p002')) {
-      return 's_pants.svg';
+      return 'lib/assets/s_pants.svg';
     } else if (item.contains('p003')) {
-      return 's_shirt.svg';
+      return 'lib/assets/s_shirt.svg';
     } else if (item.contains('p004')) {
-      return 's_woolen.svg';
+      return 'lib/assets/s_woolen.svg';
     } else if (item.contains('p005')) {
-      return 's_metaverse.svg';
+      return 'lib/assets/s_metaverse.svg';
     } else if (item.contains('p006')) {
-      return 's_hulks.svg';
+      return 'lib/assets/s_hulks.svg';
     } else if (item.contains('p007')) {
-      return 's_polysleep.svg';
+      return 'lib/assets/s_polysleep.svg';
     } else if (item.contains('p008')) {
-      return 's_polysleep.svg';
+      return 'lib/assets/s_polysleep.svg';
     } else if (item.contains('p009')) {
-      return 's_polysleep.svg';
+      return 'lib/assets/s_polysleep.svg';
     } else if(item.contains('p010')){
-      return 's_circle_k.svg';
+      return 'lib/assets/s_circle_k.svg';
     } else {
       return '';
     }
