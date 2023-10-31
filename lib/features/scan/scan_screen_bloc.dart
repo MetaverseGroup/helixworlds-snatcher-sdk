@@ -14,6 +14,10 @@ import '../user_details/user_details_repository.dart';
 abstract class ScanScreenState extends Equatable  {}
 abstract class ScanScreenEvent extends Equatable {}
 
+class ScanScreenGetStartedEvent extends ScanScreenEvent {
+  @override
+  List<Object> get props => [];
+}
 
 class ScanScreenTakePictureEvent extends ScanScreenEvent {
   @override
@@ -45,6 +49,11 @@ class ScanScreenViewGuideEvent extends ScanScreenEvent {
   List<Object?> get props => [];
 }
 
+
+class ScanScreenGettingStartedState extends ScanScreenState { 
+  @override
+  List<Object?> get props => [];
+}
 
 class ScanScreenInitialState extends ScanScreenState {
   @override
@@ -110,8 +119,12 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
   final HelperUtil _helperUtil;
   final bool isLocalItemDetailsFetch;
 
-  ScanScreenPageBloc(this._userDetailsRepository, this._localDS, this._scanRepo, this.picker, this._helperUtil, {this.isLocalItemDetailsFetch = true}):super(ScanScreenInitialState()){
+  ScanScreenPageBloc(this._userDetailsRepository, this._localDS, this._scanRepo, this.picker, this._helperUtil, {this.isLocalItemDetailsFetch = true}):super(ScanScreenGettingStartedState()){
     fetchUserID();
+
+    on<ScanScreenGetStartedEvent>((event, emit){
+      emit(ScanScreenInitialState());
+    });
     on<ScanScreenRedirectToUrlEvent>((event, emit){
       _redirectUrlObjectFromLogs(event.url);
     });

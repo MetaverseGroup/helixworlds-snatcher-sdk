@@ -9,7 +9,7 @@ name: Dart
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "MOB-15" ]
   pull_request:
     branches: [ "main" ]
 

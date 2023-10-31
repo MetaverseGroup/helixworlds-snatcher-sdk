@@ -2,17 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
-import 'package:helixworlds_snatcher_sdk/features/scan/scan_screen.dart';
+import 'package:helixworlds_snatcher_sdk/helixworlds_sdk.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupServices();
   Future.delayed(const Duration(seconds: 1)).then((_) {
-    // Proceed with the rest of your app.
-    // runApp(MyApp());
-    setupSentry(const MyApp());
-    verifyIfSentryIsWorking();
-  });    
+    runZonedGuarded(() async {
+      runApp(const MyApp());
+    }, (exception, stackTrace) async {
+      // captureException(exception, stackTrace);
+    });
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ScanScreenWidget.builder(context),
+      home: HelixworldsSDK.builder(context),
     );
   }
 }
