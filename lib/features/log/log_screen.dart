@@ -5,7 +5,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:helixworlds_snatcher_sdk/const/image_const.dart';
-import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/widget/history_item_widget.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/scan_screen_bloc.dart';
@@ -37,6 +36,7 @@ class LogsScreen extends StatelessWidget {
                 styleType: Style.bgShadow),
             body: SizedBox(
                 width: double.maxFinite,
+                height: double.maxFinite,
                 child: Column(children: [
                   SizedBox(height: 1.v),
                   Expanded(
@@ -56,17 +56,6 @@ class LogsScreen extends StatelessWidget {
                                   return HistoryItemWidget(historyModelObj[index]);
                                 });
                           })),
-                  Container(
-                      height: 130.v,
-                      width: double.maxFinite,
-                      decoration:
-                          BoxDecoration(color: appTheme.gray900, boxShadow: [
-                        BoxShadow(
-                            color: appTheme.blueGray800,
-                            spreadRadius: 2.h,
-                            blurRadius: 2.h,
-                            offset: const Offset(0, 1))
-                      ]))
                 ]))));
   }
 }
