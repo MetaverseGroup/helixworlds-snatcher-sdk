@@ -49,6 +49,15 @@ class HomeScreen extends StatelessWidget {
                     alignment: Alignment.center,
                     child: 
                     CustomImageView(
+                      svgPath: ImageConstant.imgGroup7,
+                      width: double.maxFinite,
+                      height: double.maxFinite
+                    )
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: 
+                    CustomImageView(
                       svgPath: ImageConstant.imgGroup8,
                       width: 400.v,
                       height: 400.h
@@ -59,7 +68,6 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SizedBox(height: 20.v),
                         CustomAppBar(
                           centerTitle: true,
                           title: AppbarTitle(

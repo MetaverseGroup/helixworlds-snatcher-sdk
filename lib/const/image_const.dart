@@ -11,9 +11,9 @@ class ImageConstant {
   static String imgCamera = '$imagePath/img_camera.svg';
 
   static String package = "helixworlds_snatcher_sdk";
-  static String imgGroup8 = '$imagePath/img_group8.svg';
+  static String imgGroup8 = 'lib/assets/images/img_group8.svg';
 
-  static String imgGroup7 = '$imagePath/img_group7.svg';
+  static String imgGroup7 = 'lib/assets/images/Group7.svg';
 
   static String imgQuestion = '$imagePath/img_question.svg';
 
