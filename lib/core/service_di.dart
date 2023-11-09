@@ -7,7 +7,6 @@ import 'package:app_common_modules/core/success.dart';
 import 'package:dartz/dartz.dart';
 import 'package:app_common_modules/di/services_di.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
@@ -34,7 +33,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 const String sentry_dsn = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264";
 
 final GetIt serviceLocator = GetIt.instance;
-setupServices() async {
+setupServices(String tfliteModel) async {
   _setupSentry();
   _setupImagePicker();
   _setupHelper();
@@ -43,7 +42,7 @@ setupServices() async {
   serviceLocator.registerLazySingleton(() => ThemeBloc(ThemeState(
           themeType: getPrefUtils().getThemeData(),
   )));
-  _setupMLServices();
+  _setupMLServices(tfliteModel);
   _setupUserDetailsServices();
   _setupScanServices();
   _setupLogService();
@@ -125,13 +124,13 @@ Dio _getDio(){
   return getNetworkUtil().getDio(isDebug: true);
 }
 
-Future<Either<Failure, Success>> _setupMLServices() async {
+Future<Either<Failure, Success>> _setupMLServices(String tflitePath) async {
   try{
-    final byteData = await rootBundle.load("packages/helixworlds_snatcher_sdk/assets/model.tflite");
-    final path = '${(await getTemporaryDirectory()).path}/model.tflite';
-    final tfFile = File(path);
-    await tfFile.writeAsBytes(byteData.buffer
-          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+    // final byteData = await rootBundle.load("packages/helixworlds_snatcher_sdk/assets/model.tflite");
+    // final path = '${(await getTemporaryDirectory()).path}/model.tflite';
+    final tfFile = File(tflitePath);
+    // await tfFile.writeAsBytes(byteData.buffer
+    //       .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
     final modelPath = tfFile.path;
     final options = LocalLabelerOptions(modelPath: modelPath);
     serviceLocator.registerLazySingleton(() => ImageLabeler(options: options));
@@ -156,20 +155,6 @@ String assetPicker(String path) {
   return modelPath ?? "";
 }
 
-fetchDirectory(String dir) async {
-  var directory = Directory(dir);
-  // List the directories in the directory.
-  await for (var entity in directory.list()) {
-    // If the entity is a directory, print its path.
-    if (entity is Directory) {
-
-    }
-  }
-}
-
-checkDir(){
-  fetchDirectory("/data/user/0/com.example.example/");
-}
 
 Future<String> _getApplicationPath(String path) async {
   var result = await getApplicationSupportDirectory();
