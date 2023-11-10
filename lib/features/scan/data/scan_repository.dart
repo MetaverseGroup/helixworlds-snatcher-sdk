@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:app_common_modules/core/failure.dart';
+import 'package:app_common_modules/core/success.dart';
 import 'package:dartz/dartz.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
@@ -19,6 +20,7 @@ abstract class IScanRepository {
   Future<Either<Failure, InventoryItemModel>> processImageLocal(InputImage image);
   /// pass the ID of the object detected from image detector ex. p001
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id);
+  Future<Either<Failure, Success>> cacheSavedItem(InventoryItemModel items);
 }
 
 class ScanRepository extends IScanRepository {
@@ -114,5 +116,27 @@ class ScanRepository extends IScanRepository {
     } catch (e) {
       return Left(ItemNotDetectedFailure());
     }
+  }
+  
+  @override
+  Future<Either<Failure, Success>> cacheSavedItem(InventoryItemModel object) async {
+    // TODO: implement cacheSavedItem
+    var localResult = await logLocalDS.getSavedItems();
+    final model = MyLogModel(
+              id: object.id,
+              name: object.title,
+              image: object.image,
+              date: _helperUtil.getDateString(),
+              game: object.projectId,
+              url: object.url ?? ""
+    );
+    var logItems = localResult.fold((l) {}, (r) => r) ?? [];
+    logItems.add(model);
+    if(logItems.length > 10){
+      logLocalDS.cacheSaveItems(logItems.reversed.toList().take(10).toList());
+    } else {
+      logLocalDS.cacheSaveItems(logItems);
+    }
+    return Right(CacheSuccess());
   }
 }
