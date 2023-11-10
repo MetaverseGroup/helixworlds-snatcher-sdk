@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:helixworlds_snatcher_sdk/core/const.dart';
 
 class CustomImageView extends StatelessWidget {
   ///[url] is required parameter for fetching network image
@@ -108,7 +107,7 @@ class CustomImageView extends StatelessWidget {
           height: height,
           width: width,
           fit: fit ?? BoxFit.contain,
-          package: packageName,
+          // package: packageName,
           // color: color,
         ),
       );
