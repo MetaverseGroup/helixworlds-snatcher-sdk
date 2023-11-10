@@ -130,14 +130,16 @@ class ScanRepository extends IScanRepository {
                 game: items.projectId,
                 url: items.url ?? ""
       );
+      List<MyLogModel> myitems = [];
       List<MyLogModel> logItems = localResult.fold((l) => null, (r) => r) ?? [];
-      logItems.add(model);
-      if(logItems.length > 10){
+      myitems.addAll(logItems);
+      myitems.add(model);
+      if(myitems.length > 10){
         print("CACHE LOGS 10");
-        logLocalDS.cacheSaveItems(logItems.reversed.toList().take(10).toList());
+        logLocalDS.cacheSaveItems(myitems.reversed.toList().take(10).toList());
       } else {
         print("CACHE LOGS");
-        logLocalDS.cacheSaveItems(logItems);
+        logLocalDS.cacheSaveItems(myitems);
       }
       return Right(CacheSuccess());
     }catch(e){
