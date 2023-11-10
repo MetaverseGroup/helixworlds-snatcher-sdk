@@ -47,7 +47,6 @@ flutter:
 
   assets:
     - lib/assets/
-    - lib/assets/images/
 
 
 flutter_icons:

@@ -143,25 +143,25 @@ class HelperUtil {
 
   String getImage(String item){
     if (item.contains('p001')) {
-      return 'lib/assets/s_cow.svg';
+      return 'assets/s_cow.png';
     } else if (item.contains('p002')) {
-      return 'lib/assets/s_pants.svg';
+      return 'assets/s_pants.png';
     } else if (item.contains('p003')) {
-      return 'lib/assets/s_shirt.svg';
+      return 'assets/s_shirt.png';
     } else if (item.contains('p004')) {
-      return 'lib/assets/s_woolen.svg';
+      return 'assets/s_woolen.png';
     } else if (item.contains('p005')) {
-      return 'lib/assets/s_metaverse.svg';
+      return 'assets/s_metaverse.png';
     } else if (item.contains('p006')) {
-      return 'lib/assets/s_hulks.svg';
+      return 'assets/s_hulks.png';
     } else if (item.contains('p007')) {
-      return 'lib/assets/s_polysleep.svg';
+      return 'assets/s_polysleep.png';
     } else if (item.contains('p008')) {
-      return 'lib/assets/s_polysleep.svg';
+      return 'assets/s_polysleep.png';
     } else if (item.contains('p009')) {
-      return 'lib/assets/s_polysleep.svg';
+      return 'assets/s_polysleep.png';
     } else if(item.contains('p010')){
-      return 'lib/assets/s_circle_k.svg';
+      return 'assets/s_circlek.png';
     } else {
       return '';
     }
