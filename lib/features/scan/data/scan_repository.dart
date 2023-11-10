@@ -120,24 +120,30 @@ class ScanRepository extends IScanRepository {
   
   @override
   Future<Either<Failure, Success>> cacheSavedItem(InventoryItemModel items) async {
-    var localResult = await logLocalDS.getSavedItems();
-    final model = MyLogModel(
-              id: items.id,
-              name: items.title,
-              image: items.image,
-              date: _helperUtil.getDateString(),
-              game: items.projectId,
-              url: items.url ?? ""
-    );
-    List<MyLogModel> logItems = localResult.fold((l) => null, (r) => r) ?? [];
-    logItems.add(model);
-    if(logItems.length > 10){
-      print("CACHE LOGS 10");
-      logLocalDS.cacheSaveItems(logItems.reversed.toList().take(10).toList());
-    } else {
-      print("CACHE LOGS");
-      logLocalDS.cacheSaveItems(logItems);
+    try{
+      var localResult = await logLocalDS.getSavedItems();
+      final model = MyLogModel(
+                id: items.id,
+                name: items.title,
+                image: items.image,
+                date: _helperUtil.getDateString(),
+                game: items.projectId,
+                url: items.url ?? ""
+      );
+      List<MyLogModel> logItems = localResult.fold((l) => null, (r) => r) ?? [];
+      logItems.add(model);
+      if(logItems.length > 10){
+        print("CACHE LOGS 10");
+        logLocalDS.cacheSaveItems(logItems.reversed.toList().take(10).toList());
+      } else {
+        print("CACHE LOGS");
+        logLocalDS.cacheSaveItems(logItems);
+      }
+      return Right(CacheSuccess());
+    }catch(e){
+      print("ERROR");
+      print(e);
+      return Left(CacheFailure());
     }
-    return Right(CacheSuccess());
   }
 }
