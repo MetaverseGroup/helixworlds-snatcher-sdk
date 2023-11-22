@@ -1,4 +1,41 @@
-import 'package:app_common_modules/core/failure.dart';
+
+import 'package:equatable/equatable.dart';
+
+class Failure extends Equatable {
+  final String message;
+  final String code;
+  const Failure({this.message = "", this.code = ""});
+  @override
+  List<Object> get props => [message, code];
+
+  String getErrorMessage(){
+    return "Unable to process service at this time";
+  }
+}
+
+
+class EmailValidationFailure extends Failure {}
+class InvalidInputFailure extends Failure {}
+class ParseAmountFailure extends Failure {}
+
+class LocationPermissionDeniedFailure extends Failure {}
+class GeoLocationUtilFailure extends Failure {}
+class LocationServiceFailure extends Failure {}
+class LocationPermissionDeniedForeverFailure extends Failure {}
+class RegistrationFailure extends Failure {
+  
+  @override
+  String getErrorMessage(){
+    return "Please fill the required fields to proceed Registration";
+  }
+}
+
+class LocalDatasourceFailure extends Failure {
+  @override
+  String getErrorMessage(){
+    return "Please allow storage access on this app or consult with us about the issue";
+  }
+}
 
 class GetUserIDFailure extends Failure {
   @override
@@ -30,7 +67,7 @@ class GetItemByIDRemoteFailure extends Failure {
 class NoDataFoundFailure extends Failure {}
 
 class WebRouteFailure extends Failure {
-  WebRouteFailure(String message):super(message: message);
+  const WebRouteFailure(String message):super(message: message);
 
   @override
   String getErrorMessage() {

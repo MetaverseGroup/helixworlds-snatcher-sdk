@@ -1,10 +1,9 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'package:app_common_modules/core/failure.dart';
-import 'package:app_common_modules/core/success.dart';
 import 'package:dio/dio.dart';
 import 'package:dartz/dartz.dart';
 import 'package:helixworlds_snatcher_sdk/core/const.dart';
+import 'package:helixworlds_snatcher_sdk/core/success.dart';
 
 import '../../../core/failure.dart';
 

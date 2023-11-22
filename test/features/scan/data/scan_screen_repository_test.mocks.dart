@@ -3,11 +3,18 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
+import 'package:dartz/dartz.dart' as _i2;
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart'
-    as _i4;
-import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart' as _i2;
+    as _i5;
+import 'package:helixworlds_snatcher_sdk/core/failure.dart' as _i7;
+import 'package:helixworlds_snatcher_sdk/core/success.dart' as _i8;
+import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart'
+    as _i6;
+import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart'
+    as _i9;
+import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -21,18 +28,164 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
+  _FakeEither_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [ImageDetector].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockImageDetector extends _i1.Mock implements _i2.ImageDetector {
+class MockImageDetector extends _i1.Mock implements _i3.ImageDetector {
   @override
-  _i3.Future<String?> processImage(_i4.InputImage? inputImage) =>
+  _i4.Future<String?> processImage(_i5.InputImage? inputImage) =>
       (super.noSuchMethod(
         Invocation.method(
           #processImage,
           [inputImage],
         ),
-        returnValue: _i3.Future<String?>.value(),
-        returnValueForMissingStub: _i3.Future<String?>.value(),
-      ) as _i3.Future<String?>);
+        returnValue: _i4.Future<String?>.value(),
+        returnValueForMissingStub: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
+}
+
+/// A class which mocks [ILogLocalDatasource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockILogLocalDatasource extends _i1.Mock
+    implements _i6.ILogLocalDatasource {
+  @override
+  _i4.Future<_i2.Either<_i7.Failure, _i8.Success>> cacheSaveItems(
+          List<_i9.MyLogModel>? logs) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #cacheSaveItems,
+          [logs],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i7.Failure, _i8.Success>>.value(
+            _FakeEither_0<_i7.Failure, _i8.Success>(
+          this,
+          Invocation.method(
+            #cacheSaveItems,
+            [logs],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i7.Failure, _i8.Success>>.value(
+                _FakeEither_0<_i7.Failure, _i8.Success>(
+          this,
+          Invocation.method(
+            #cacheSaveItems,
+            [logs],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i7.Failure, _i8.Success>>);
+
+  @override
+  _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>> getSavedItems() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getSavedItems,
+          [],
+        ),
+        returnValue:
+            _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>>.value(
+                _FakeEither_0<_i7.Failure, List<_i9.MyLogModel>>(
+          this,
+          Invocation.method(
+            #getSavedItems,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>>.value(
+                _FakeEither_0<_i7.Failure, List<_i9.MyLogModel>>(
+          this,
+          Invocation.method(
+            #getSavedItems,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>>);
+
+  @override
+  _i4.Future<_i2.Either<_i7.Failure, _i8.Success>> cacheLogs(
+          List<_i9.MyLogModel>? logs) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #cacheLogs,
+          [logs],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i7.Failure, _i8.Success>>.value(
+            _FakeEither_0<_i7.Failure, _i8.Success>(
+          this,
+          Invocation.method(
+            #cacheLogs,
+            [logs],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i7.Failure, _i8.Success>>.value(
+                _FakeEither_0<_i7.Failure, _i8.Success>(
+          this,
+          Invocation.method(
+            #cacheLogs,
+            [logs],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i7.Failure, _i8.Success>>);
+
+  @override
+  _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>> getLogs() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getLogs,
+          [],
+        ),
+        returnValue:
+            _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>>.value(
+                _FakeEither_0<_i7.Failure, List<_i9.MyLogModel>>(
+          this,
+          Invocation.method(
+            #getLogs,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>>.value(
+                _FakeEither_0<_i7.Failure, List<_i9.MyLogModel>>(
+          this,
+          Invocation.method(
+            #getLogs,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>>);
+}
+
+/// A class which mocks [InputImage].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockInputImage extends _i1.Mock implements _i5.InputImage {
+  @override
+  _i5.InputImageType get type => (super.noSuchMethod(
+        Invocation.getter(#type),
+        returnValue: _i5.InputImageType.file,
+        returnValueForMissingStub: _i5.InputImageType.file,
+      ) as _i5.InputImageType);
+
+  @override
+  Map<String, dynamic> toJson() => (super.noSuchMethod(
+        Invocation.method(
+          #toJson,
+          [],
+        ),
+        returnValue: <String, dynamic>{},
+        returnValueForMissingStub: <String, dynamic>{},
+      ) as Map<String, dynamic>);
 }
