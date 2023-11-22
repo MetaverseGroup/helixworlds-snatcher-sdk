@@ -1,7 +1,10 @@
 name: helixworlds_snatcher_sdk
 description: A new Flutter project.
+homepage: https://www.helixworlds.com/
+documentation: https://github.com/MetaverseGroup/helixworlds-snatcher-sdk
 
-version: 1.0.0+3
+
+version: 1.0.0+1
 
 environment:
   sdk: '>=3.1.1 <4.0.0'
