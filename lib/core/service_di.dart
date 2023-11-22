@@ -15,7 +15,6 @@ import 'package:helixworlds_snatcher_sdk/theme/theme_helper.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/network_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/pref_utils.dart';
-import 'package:helixworlds_snatcher_sdk/utils/sentry_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
@@ -67,10 +66,6 @@ _setupSentry() async {
 }
 
 _setupHelper(){
-  serviceLocator.registerLazySingleton(()=> SentryUtil());
-}
-SentryUtil getSentryUtil(){
-  return serviceLocator<SentryUtil>();
 }
 
 ThemeBloc getThemeBloc(){

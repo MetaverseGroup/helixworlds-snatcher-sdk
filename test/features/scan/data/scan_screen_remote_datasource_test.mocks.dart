@@ -5,7 +5,6 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i10;
 
-import 'package:cross_file/cross_file.dart' as _i16;
 import 'package:dartz/dartz.dart' as _i7;
 import 'package:dio/dio.dart' as _i9;
 import 'package:dio/src/adapter.dart' as _i3;
@@ -25,6 +24,7 @@ import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_local_datasourc
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_remote_datasource.dart'
     as _i12;
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart' as _i15;
+import 'package:image_picker/image_picker.dart';
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -1141,7 +1141,7 @@ class MockIScanRemoteDatasource extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockHelperUtil extends _i1.Mock implements _i15.HelperUtil {
   @override
-  _i8.InputImage getInputImageFile(_i16.XFile? photo) => (super.noSuchMethod(
+  _i8.InputImage getInputImageFile(XFile? photo) => (super.noSuchMethod(
         Invocation.method(
           #getInputImageFile,
           [photo],
