@@ -1,10 +1,18 @@
 name: helixworlds_snatcher_sdk
-description: A new Flutter project.
+description: Image Labeling Technology provided by metaversegroup
 homepage: https://www.helixworlds.com/
 documentation: https://github.com/MetaverseGroup/helixworlds-snatcher-sdk
+platforms:
+  android:
+  ios:
+
+topics:
+  - image_labeling
+  - metaverse
 
 
 version: 1.0.0+1
+
 
 environment:
   sdk: '>=3.1.1 <4.0.0'
