@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 
 class Success extends Equatable{
   @override
@@ -14,3 +15,9 @@ class SetupDISuccess extends Success {}
 class WebRouteSuccess extends Success {}
 
 class RedirectWebSuccess extends Success {}
+
+class ObjectDetectedSuccess extends Success {
+  final InventoryItemModel item;
+  final String userId;
+  ObjectDetectedSuccess(this.item, this.userId);
+}

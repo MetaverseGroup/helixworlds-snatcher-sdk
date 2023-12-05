@@ -54,9 +54,26 @@ Helixworld . Mobile App for the Helixworld.
 > call this function to initialize the DI Class that will be used on the SDK
 ```
   import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
-
+  import 'package:helixworlds_snatcher_sdk/helixworlds_sdk.dart';
 
   setupServices()
+
+  /// this will get you access to the methods available on the SDK 
+  getSDK()
+
+  /// this is the methods you can use for scanning we should use the scanItem method and provide an optional param if is using amazon rekognition
+  Future<Either<Failure, Success>> scanItems(InputImage image);
+  Future<Either<Failure, Success>> scanItem({bool isAR = false});
+  Future<Either<Failure, Success>> scanItemsByAR(XFile image);
+
+  Future<Either<Failure, String>> getUserId();
+  Future<Either<Failure, Success>> cacheFavoritesItem(InventoryItemModel model);
+  Future<Either<Failure, List<MyLogModel>>> fetchFavoritesItems();
+  Future<Either<Failure, List<MyLogModel>>> fetchScannedItems();
+  Future<Either<Failure, Success>> redirectToUrl(String murl); 
+  bool isLocalFetch();
+  String getDefaultUserId();
+
 ```
 
 
@@ -78,7 +95,6 @@ flutter:
     - packages/helixworlds_snatcher_sdk/assets/model.tflite
 
 ```
-
 
 #### Testing
 > run all unit tests cases

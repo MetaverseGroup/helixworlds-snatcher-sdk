@@ -9,6 +9,7 @@ import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
+import 'package:helixworlds_snatcher_sdk/utils/arekognitiion_image_detector.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart';
 import 'package:mockito/annotations.dart';
@@ -19,13 +20,16 @@ import 'package:dartz/dartz.dart';
 
 
 @GenerateNiceMocks([MockSpec<ImageDetector>()])
-@GenerateNiceMocks([MockSpec<ILogLocalDatasource>()])
+@GenerateNiceMocks([MockSpec<ARekognitionImageDetector>()])
 @GenerateNiceMocks([MockSpec<InputImage>()])
+@GenerateNiceMocks([MockSpec<ILogLocalDatasource>()])
+
 main(){
   MockIScanRemoteDatasource? remoteDS;
   MockIScanLocalDatasource? localDS;
   IScanRepository? scanRepo;
   MockImageDetector? imageDetector;
+  MockARekognitionImageDetector? mARImageDetector;
   MockILogLocalDatasource? logLocalDS;
   MockInputImage? inputImage;
   MockHelperUtil? helperUtil;
@@ -34,12 +38,13 @@ main(){
 
   setUp(() {
     rHelperUtil = HelperUtil();
+    mARImageDetector = MockARekognitionImageDetector();
     helperUtil = MockHelperUtil();
     remoteDS = MockIScanRemoteDatasource();
     localDS = MockIScanLocalDatasource();
     imageDetector = MockImageDetector();
     logLocalDS = MockILogLocalDatasource();
-    scanRepo = ScanRepository(imageDetector!, logLocalDS!, localDS!, remoteDS!, helperUtil!);
+    scanRepo = ScanRepository(imageDetector!, logLocalDS!, localDS!, remoteDS!, helperUtil!, mARImageDetector!);
     inputImage = MockInputImage();
   });
 
@@ -88,7 +93,7 @@ main(){
       when(logLocalDS?.cacheLogs([])).thenAnswer((realInvocation) => Future.value(Right(CacheSuccess())));
       when(helperUtil?.getDateString()).thenAnswer((realInvocation) => dateTime);
 
-      var myScanRepo = ScanRepository(imageDetector!, logLocalDS!, localDS!, remoteDS!, rHelperUtil!);
+      var myScanRepo = ScanRepository(imageDetector!, logLocalDS!, localDS!, remoteDS!, rHelperUtil!, mARImageDetector!);
       var result = await myScanRepo.processImageLocal(inputImage!);
       expect(result.isRight(), true);
       var rightValue = result.fold((l) => null, (r) => r);

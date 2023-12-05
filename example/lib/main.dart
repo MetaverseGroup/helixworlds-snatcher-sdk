@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ScanScreenPageBloc>(
-        create: (context) => ScanScreenPageBloc(getUserDetailsRepo(), getLogLocalDS(), scanRepository(), getImagePicker(), getHelperUtil(), isLocalItemDetailsFetch: true),
+        create: (context) => ScanScreenPageBloc(getSDK()),
         child: BlocBuilder<ThemeBloc, ThemeState>(
           bloc: getThemeBloc(),
           builder: (context, state) {

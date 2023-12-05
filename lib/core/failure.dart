@@ -83,3 +83,4 @@ class HelperGetRequestFailure extends Failure {
 }
 
 class RedirectWebUrlFailure extends Failure {}
+

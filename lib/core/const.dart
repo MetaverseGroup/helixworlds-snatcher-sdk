@@ -1,7 +1,7 @@
 const bool isProd = false;
 const String baseUrl = isProd ? "" : "https://gatherer.d.helixworlds.io";
-const String inventoryUrl = isProd ? "" : "https://localhost:8080/dev/api";
-
+// const String inventoryUrl = isProd ? "" : "https://localhost:8080/dev/api";
+const String inventoryUrl = isProd ? "" : "https://ta7lrdv6ue.execute-api.us-east-1.amazonaws.com/dev/api";
 
 // const String packageName = "helixworlds_snatcher_sdk";
 // const String shopIcon =  "${packageName}lib/assets/shop.png";
