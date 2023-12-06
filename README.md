@@ -1,4 +1,57 @@
-# Helixworlds Snatcher SDK
+![Banner](./banner.png)
+
+## Getting Started
+[Coda Link](https://coda.io/d/_dnFTWBVBuj5/Mobile-Development-Flutter_suZvc)
+
+### Prerequisites
+* Download and install Flutter SDK
+* Download and install Android Studio
+* Download and install Xcode (if mac users)
+* Download and install Sourcetree
+
+
+## Description
+Helixworld . Mobile App for the Helixworld.
+
+### Setup 
+* our first setup is to download the flutter SDK
+[Flutter SDK Link Install Mac](https://docs.flutter.dev/get-started/install/macos)
+
+* Download also Sourcetree for Code Version Management
+[Sourcetree for Windows or Mac](https://www.sourcetreeapp.com/)
+
+* add existing local repo and point it to where you put the Flutter SDK and then checkout the version `3.13.7`
+* setup and Download Android Studio
+* setup and Download
+
+
+### Code Setup 
+* on pubspecs.yaml please include this 
+```
+dependencies:
+   helixworlds_snatcher_sdk:
+     git:
+       url: https://github.com/MetaverseGroup/helixworlds_snatcher_sdk.git 
+       ref: main
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - packages/helixworlds_snatcher_sdk/assets/model.tflite
+```
+
+
+
+### Troubleshooting issues in the Flutter Environment 
+* flutter doctor - (to be able to diagnose what your flutter tools lacks or having issues with)
+
+
+
+## Running 
+* dart run build_runner build (add this command if you are experiencing problems with model)
+* cd example
+* flutter run 
 
 
 ## TODO: 
