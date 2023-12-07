@@ -1,10 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, constant_identifier_names
 
 import 'dart:async';
-import 'package:app_common_modules/core/failure.dart';
-import 'package:app_common_modules/core/success.dart';
 import 'package:dartz/dartz.dart';
-import 'package:app_common_modules/di/services_di.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
@@ -16,8 +13,8 @@ import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repo
 import 'package:helixworlds_snatcher_sdk/theme/bloc/theme_bloc.dart';
 import 'package:helixworlds_snatcher_sdk/theme/theme_helper.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
+import 'package:helixworlds_snatcher_sdk/utils/network_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/pref_utils.dart';
-import 'package:helixworlds_snatcher_sdk/utils/sentry_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
@@ -28,15 +25,26 @@ import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:simple_connection_checker/simple_connection_checker.dart';
 
 const String sentry_dsn = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264";
 
 final GetIt serviceLocator = GetIt.instance;
+
+SharedPreferences? _sharedPref;
+
+NetworkUtil getNetworkUtil(){
+  return serviceLocator<NetworkUtil>();
+}
+
 setupServices(LocalLabelerOptions labelerOption) async {
+  _sharedPref = await SharedPreferences.getInstance();
+  SimpleConnectionChecker checker = SimpleConnectionChecker();
+  serviceLocator.registerLazySingleton(() => NetworkUtil(checker));
+  serviceLocator.allowReassignment = true;
   _setupSentry();
   _setupImagePicker();
   _setupHelper();
-  setupCommonModulesServices();
   serviceLocator.registerLazySingleton(() => PrefUtils(_getSharedPref()));
   serviceLocator.registerLazySingleton(() => ThemeBloc(ThemeState(
           themeType: getPrefUtils().getThemeData(),
@@ -58,10 +66,6 @@ _setupSentry() async {
 }
 
 _setupHelper(){
-  serviceLocator.registerLazySingleton(()=> SentryUtil());
-}
-SentryUtil getSentryUtil(){
-  return serviceLocator<SentryUtil>();
 }
 
 ThemeBloc getThemeBloc(){
@@ -116,7 +120,7 @@ HelperUtil getHelperUtil(){
 
 
 SharedPreferences _getSharedPref(){
-  return geSharedPref();
+  return _sharedPref!;
 }
 
 Dio _getDio(){

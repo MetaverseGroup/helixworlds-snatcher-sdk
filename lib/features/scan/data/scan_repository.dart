@@ -1,9 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'package:app_common_modules/core/failure.dart';
-import 'package:app_common_modules/core/success.dart';
 import 'package:dartz/dartz.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
+import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_local_datasource.dart';
@@ -135,16 +134,12 @@ class ScanRepository extends IScanRepository {
       myitems.addAll(logItems);
       myitems.add(model);
       if(myitems.length > 10){
-        print("CACHE LOGS 10");
         logLocalDS.cacheSaveItems(myitems.reversed.toList().take(10).toList());
       } else {
-        print("CACHE LOGS");
         logLocalDS.cacheSaveItems(myitems);
       }
       return Right(CacheSuccess());
     }catch(e){
-      print("ERROR");
-      print(e);
       return Left(CacheFailure());
     }
   }

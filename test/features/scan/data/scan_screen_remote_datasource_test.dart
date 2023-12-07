@@ -6,17 +6,18 @@ import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_remote_datasource.dart';
+import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:mockito/annotations.dart';
 import 'package:dio/dio.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dartz/dartz.dart';
-import '../scan_screen_bloc_test.mocks.dart';
 import 'const_temp_data_scan.dart';
 import 'scan_screen_remote_datasource_test.mocks.dart';
 
 
 @GenerateNiceMocks([MockSpec<Dio>()])
 @GenerateNiceMocks([MockSpec<IScanRemoteDatasource>()])
+@GenerateNiceMocks([MockSpec<HelperUtil>()])
 @GenerateNiceMocks([MockSpec<IScanLocalDatasource>()])
 
 main(){
