@@ -29,7 +29,7 @@ Helixworld . Mobile App for the Helixworld.
 * setup and Download
 
 ## Clone Repo
-> git clone https://github.com/MetaverseGroup/helixworlds-snatcher.git
+> git clone https://github.com/MetaverseGroup/helixworlds-snatcher-sdk.git
 
 > create new app in flutter
 * flutter create [app_name]
@@ -55,7 +55,7 @@ Helixworld . Mobile App for the Helixworld.
 ```
   import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 
-  
+
   setupServices()
 ```
 
