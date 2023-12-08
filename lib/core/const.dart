@@ -1,5 +1,5 @@
 const bool isProd = false;
-const String baseUrl = isProd ? "" : "https://gatherer.d.helixworlds.io";
+const String baseUrl = isProd ? "https://gatherer.helixworlds.io/" : "https://gatherer.d.helixworlds.io";
 const String inventoryUrl = isProd ? "" : "https://localhost:8080/dev/api";
 
 
