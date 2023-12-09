@@ -14,7 +14,7 @@ class NetworkUtil {
   /// 
   Dio getDio({bool isDebug = false, int maxWidth = 128, bool requestBody = true, bool requestHeader = true, bool request = true, bool error = true, bool responseBody = true, String cert = ""}) {
     Dio dio = Dio();
-
+    dio.options.contentType = Headers.jsonContentType;
     if (isDebug) {
       dio.interceptors.add(
         PrettyDioLogger(
