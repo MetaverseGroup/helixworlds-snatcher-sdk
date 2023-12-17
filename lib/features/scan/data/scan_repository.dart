@@ -148,4 +148,9 @@ class ScanRepository extends IScanRepository {
     }
   }
   
+  @override
+  Future<Either<Failure, InventoryItemModel>> processImageAR(XFile image) {
+    throw UnimplementedError();
+  }
+  
 }
