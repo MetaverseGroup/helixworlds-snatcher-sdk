@@ -53,8 +53,9 @@ class HelperUtil {
     } else if (item.contains('p003')) {
       return 'https://shop.helixworlds.io/products/mvg-t-shirt';
     } else if(item.contains("p010")) {
-      return "https://www.circlek.com";
-    } else if(item.contains("p011")) {
+      return "https://www.balenciaga.com/en-ca/searchcontent?fdid=skiwear-collection";      
+      // return "https://www.circlek.com";
+    } else if(item.contains("p008")) {
       return "https://www.balenciaga.com/en-ca/searchcontent?fdid=skiwear-collection";
     } else {
       return 'https://polysleep.ca/?esl-k=google-ads%7Cng%7Cc627335090052%7Cmb%7Ckpolysleep%7Cp%7Ct%7Cdc%7Ca105306157164%7Cg10444348233&gad=1&gclid=CjwKCAjw6eWnBhAKEiwADpnw9iQO2Gs7PRf9_1T4mvkyygyO8tlTmP_lEbAgDFam_8WfqOb4T6uj6hoCDkYQAvD_BwE';
@@ -76,13 +77,12 @@ class HelperUtil {
       return 'Hulk Labs';
     } else if (item.contains('p007')) {
       return 'Polysleep';
-    } else if (item.contains('p008')) {
-      return 'Polysleep Maple Fortnite';
     } else if (item.contains('p009')) {
       return 'Polysleep Logo';
     } else if (item.contains('p010')) {
-      return 'Circle K';
-    } else if (item.contains('p011')) {
+      // return 'Circle K';
+      return "BALENCIAGA SKIWEAR";
+    } else if (item.contains('p008')) {
       return 'Balenciaga SKIWEAR';
     } else {
       return '';
@@ -110,8 +110,6 @@ class HelperUtil {
       return 'p009';
     } else if(item.contains('p010')) {
       return 'p010';
-    } else if(item.contains('p011')) {
-      return 'p011';
     } else {
       return '';
     }
@@ -132,15 +130,14 @@ class HelperUtil {
       return 'Woolen Warfare';
     } else if (item.contains('p007')) {
       return 'Woolen Warfare';
-    } else if (item.contains('p008')) {
-      return 'Woolen Warfare';
     } else if (item.contains('p009')) {
       return 'Woolen Warfare';
     } else if (item.contains('p009')) {
       return 'Escape the Bear';
     } else if(item.contains('p010')) {
-      return 'Escape the Bear';
-    } else if(item.contains('p011')) {
+      // return 'Escape the Bear';
+      return "SKIWEAR MINI GAME";
+    } else if(item.contains('p008')) {
       return 'SKIWEAR';
     } else {
       return '';
@@ -162,13 +159,16 @@ class HelperUtil {
       return 'assets/s_hulks.png';
     } else if (item.contains('p007')) {
       return 'assets/s_polysleep.png';
-    } else if (item.contains('p008')) {
-      return 'assets/s_polysleep.png';
-    } else if (item.contains('p009')) {
+    } 
+    // else if (item.contains('p008')) {
+    //   return 'assets/s_polysleep.png';
+    // } 
+    else if (item.contains('p009')) {
       return 'assets/s_polysleep.png';
     } else if(item.contains('p010')){
-      return 'assets/s_circlek.png';
-    } else if(item.contains('p011')){
+      // return 'assets/s_circlek.png';
+      return 'assets/s_balenciaga_skiwear.png';      
+    } else if(item.contains('p008')){
       return 'assets/s_balenciaga_skiwear.png';
     } else {
       return '';

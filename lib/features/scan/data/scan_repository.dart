@@ -99,6 +99,8 @@ class ScanRepository extends IScanRepository {
       var result = await detector.processImage(image);
       if(result != null) {
         // this is hard coded details 
+        print("Scan Repo Result");
+        print(result);
         var model = InventoryItemModel(
           id: _helperUtil.getId(result),
           title: _helperUtil.getTitle(result),
@@ -108,36 +110,13 @@ class ScanRepository extends IScanRepository {
         );
         logModel(model);
         return Right(model);
-
       } else {
+        print("Item No Detected Failure");
         return Left(ItemNotDetectedFailure());
       }
     } catch (e) {
-      return Left(ItemNotDetectedFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, InventoryItemModel>> processImageAR(XFile photo) async {
-    try {
-      // var result = await detector.processImage(image);
-      var result = await _arImageDetector.detectImage(photo);
-      if(result.isNotEmpty) {
-        // this is hard coded details 
-        var model = InventoryItemModel(
-          id: _helperUtil.getId(result),
-          title: _helperUtil.getTitle(result),
-          url: _helperUtil.getUrl(result),
-          image: _helperUtil.getImage(result),
-          projectId: _helperUtil.getGame(result)
-        );
-        logModel(model);
-        return Right(model);
-
-      } else {
-        return Left(ItemNotDetectedFailure());
-      }
-    } catch (e) {
+      print("ERROR");
+      print(e);
       return Left(ItemNotDetectedFailure());
     }
   }
