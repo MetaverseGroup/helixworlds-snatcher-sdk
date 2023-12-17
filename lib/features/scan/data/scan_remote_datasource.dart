@@ -5,12 +5,14 @@ import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:dio/dio.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../core/const.dart';
 
 abstract class IScanRemoteDatasource {
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id);
-
+  /// this will upload the image and the scanned service will return the inventory details of the object scanned
+  Future<Either<Failure, InventoryItemModel>> objectScanned(XFile photo);
 }
 
 
@@ -35,6 +37,12 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
     } catch(e){
       return Left(GetItemByIDRemoteFailure());
     }
+  }
+  
+  @override
+  Future<Either<Failure, InventoryItemModel>> objectScanned(XFile photo) {
+    // TODO: implement objectScanned
+    throw UnimplementedError();
   } 
 
 

@@ -1,14 +1,11 @@
-// ignore_for_file: depend_on_referenced_packages
+// ignore_for_file: depend_on_referenced_packages, invalid_use_of_visible_for_testing_member, duplicate_ignore
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
+import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
-import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
-import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repository.dart';
-import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:helixworlds_snatcher_sdk/helixworlds_sdk.dart';
 
 
 abstract class ScanScreenState extends Equatable  {}
@@ -111,15 +108,9 @@ class ScanScreenShowGuideState extends ScanScreenState {
 }
 
 class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
+  final IHelixworldsSDKService _helixworldSDK;
 
-  final IUserDetailsRepository _userDetailsRepository;
-  final ILogLocalDatasource _localDS;
-  final IScanRepository _scanRepo;
-  final ImagePicker picker;
-  final HelperUtil _helperUtil;
-  final bool isLocalItemDetailsFetch;
-
-  ScanScreenPageBloc(this._userDetailsRepository, this._localDS, this._scanRepo, this.picker, this._helperUtil, {this.isLocalItemDetailsFetch = true}):super(ScanScreenGettingStartedState()){
+  ScanScreenPageBloc(this._helixworldSDK):super(ScanScreenGettingStartedState()){
     fetchUserID();
 
     on<ScanScreenGetStartedEvent>((event, emit){
@@ -131,8 +122,17 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     on<ScanScreenLaunchToUrlEvent>((event, emit){
       _redirectUrlObject(event.model);
     });
-    on<ScanScreenTakePictureEvent>((event, emit){
-      _pickImage();
+    on<ScanScreenTakePictureEvent>((event, emit) async{
+      var result = await _helixworldSDK.scanItem();
+      if(result.isRight()){
+        var rightResult = result.fold((l) => null, (r) => r);
+        if(rightResult is ObjectDetectedSuccess){
+          emit(ScanScreenShowScannedObjectState(rightResult.item, rightResult.userId));
+        }
+      } else {
+          var leftValue = result.fold((l) => l, (r) => null);
+          emit(ScanScreenFailure(leftValue?.getErrorMessage() ?? ""));
+      }
     });
     on<ScanScreenViewLogsEvent>((event, emit) {
       _fetchLogs();
@@ -150,7 +150,8 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
 
   _fetchLogs() async {
     _toLoadingState();
-    var result = await _localDS.getLogs();
+
+    var result = await _helixworldSDK.fetchScannedItems();
     result.fold((l) {
       // ignore: invalid_use_of_visible_for_testing_member
       emit(ScanScreenFailure(l.getErrorMessage()));
@@ -161,26 +162,19 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
   }
 
   _redirectUrl(String murl) async{
-    var userId = getUserID();
-    final userParam =
-        userId.isNotEmpty ? '?userId=$userId' : '';
-    final Uri url =
-        Uri.parse(murl + userParam);
-    var result = await _helperUtil.redirectUrl(url);
+    var result = await _helixworldSDK.redirectToUrl(murl);
     result.fold((l) {
-      // ignore: invalid_use_of_visible_for_testing_member
       emit(ScanScreenFailure(l.getErrorMessage()));
     }, (r) {
-      // ignore: invalid_use_of_visible_for_testing_member
-      emit(ScanScreenSuccessRedirectState(url.toString()));
+      emit(ScanScreenSuccessRedirectState(""));
     });
+
   }
 
   _redirectUrlObjectFromLogs(String url){
     _redirectUrl(url);
     Future.delayed(const Duration(seconds: 1), (){
       _fetchLogs();
-      // emit(ScanScreenShowScannedObjectState(model, userId));
     });    
   }
 
@@ -194,19 +188,15 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
 
   String userId = "";
   fetchUserID() async {
-    var result = await _userDetailsRepository.getUserID();
+    var result = await _helixworldSDK.getUserId();
     result.fold((l) => null, (r) {
       userId = r;
-    });
-    
+    });    
   }
 
   String getUserID(){
-    if(userId.isNotEmpty){
-      return userId;
-    } else {
-      return "";
-    }
+    var result = _helixworldSDK.getDefaultUserId();
+    return result;
   }
 
   _toLoadingState(){
@@ -216,34 +206,7 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     }
   }
 
-
-  _pickImage() async {
-                        final XFile? photo =
-                            await picker.pickImage(source: ImageSource.camera);
-
-                        if (photo != null) {
-                          final inputImage = _helperUtil.getInputImageFile(photo);
-                          if(isLocalItemDetailsFetch){
-                            // local based item details
-                            var result = await _scanRepo.processImageLocal(inputImage);
-                            result.fold((l) {
-                              // ignore: invalid_use_of_visible_for_testing_member
-                              emit(ScanScreenFailure(l.getErrorMessage()));
-                            }, (r) {
-                              // ignore: invalid_use_of_visible_for_testing_member
-                              emit(ScanScreenShowScannedObjectState(r, getUserID()));
-                            });
-                          } else {
-                            // api based item details
-                            var result = await _scanRepo.processImage(inputImage);                            
-                            result.fold((l) {
-                              // ignore: invalid_use_of_visible_for_testing_member
-                              emit(ScanScreenFailure(l.getErrorMessage()));
-                            }, (r) {
-                              // ignore: invalid_use_of_visible_for_testing_member
-                              emit(ScanScreenShowScannedObjectState(r, getUserID()));
-                            });
-                          }
-                        }
+  bool isLocalItemDetailsFetch(){
+    return _helixworldSDK.isLocalFetch();
   }
 }

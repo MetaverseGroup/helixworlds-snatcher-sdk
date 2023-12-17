@@ -10,8 +10,10 @@ import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repository.dart';
+import 'package:helixworlds_snatcher_sdk/helixworlds_sdk.dart';
 import 'package:helixworlds_snatcher_sdk/theme/bloc/theme_bloc.dart';
 import 'package:helixworlds_snatcher_sdk/theme/theme_helper.dart';
+import 'package:helixworlds_snatcher_sdk/utils/arekognitiion_image_detector.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/network_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/pref_utils.dart';
@@ -54,6 +56,7 @@ setupServices(LocalLabelerOptions labelerOption) async {
   _setupScanServices();
   _setupLogService();
   _setupBloc();
+  _setupSDK();
 }
 
 _setupSentry() async {
@@ -187,7 +190,7 @@ IUserDetailsRepository getUserDetailsRepo(){
 _setupScanServices(){
   serviceLocator.registerLazySingleton(() => ScanRemoteDatasource(_getDio(), getHelperUtil()));
   serviceLocator.registerLazySingleton(() => ScanLocalDatasource(_getSharedPref()));
-  serviceLocator.registerLazySingleton(() => ScanRepository(getImageDetector(), getLogLocalDS(), _getScanLocalDS(), _getScanRemoteDS(), getHelperUtil()));
+  serviceLocator.registerLazySingleton(() => ScanRepository(getImageDetector(), getLogLocalDS(), _getScanLocalDS(), _getScanRemoteDS(), getHelperUtil(), getARekognitionImageDetector()));
 }
 
 IScanRemoteDatasource _getScanRemoteDS(){
@@ -207,6 +210,19 @@ _setupLogService(){
 
 ILogLocalDatasource getLogLocalDS(){
   return serviceLocator<LogLocalDatasource>();
+}
+
+_setupSDK(){
+  serviceLocator.registerLazySingleton(()=> ARekognitionImageDetector());
+  serviceLocator.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil()));
+}
+
+ARekognitionImageDetector getARekognitionImageDetector(){
+  return serviceLocator<ARekognitionImageDetector>();
+}
+
+IHelixworldsSDKService getSDK(){
+  return serviceLocator<HelixworldsSDKService>();
 }
 
 

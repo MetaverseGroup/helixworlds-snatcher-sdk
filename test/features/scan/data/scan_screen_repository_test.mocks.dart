@@ -3,18 +3,22 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
-import 'package:dartz/dartz.dart' as _i2;
+import 'package:aws_rekognition_api/rekognition-2016-06-27.dart' as _i2;
+import 'package:dartz/dartz.dart' as _i3;
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart'
-    as _i5;
-import 'package:helixworlds_snatcher_sdk/core/failure.dart' as _i7;
-import 'package:helixworlds_snatcher_sdk/core/success.dart' as _i8;
-import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart'
     as _i6;
-import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart'
+import 'package:helixworlds_snatcher_sdk/core/failure.dart' as _i10;
+import 'package:helixworlds_snatcher_sdk/core/success.dart' as _i11;
+import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart'
     as _i9;
-import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart' as _i3;
+import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart'
+    as _i12;
+import 'package:helixworlds_snatcher_sdk/utils/arekognitiion_image_detector.dart'
+    as _i7;
+import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart' as _i4;
+import 'package:image_picker/image_picker.dart' as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -28,8 +32,18 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
-  _FakeEither_0(
+class _FakeRekognition_0 extends _i1.SmartFake implements _i2.Rekognition {
+  _FakeRekognition_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
+  _FakeEither_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -41,143 +55,58 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
 /// A class which mocks [ImageDetector].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockImageDetector extends _i1.Mock implements _i3.ImageDetector {
+class MockImageDetector extends _i1.Mock implements _i4.ImageDetector {
   @override
-  _i4.Future<String?> processImage(_i5.InputImage? inputImage) =>
+  _i5.Future<String?> processImage(_i6.InputImage? inputImage) =>
       (super.noSuchMethod(
         Invocation.method(
           #processImage,
           [inputImage],
         ),
-        returnValue: _i4.Future<String?>.value(),
-        returnValueForMissingStub: _i4.Future<String?>.value(),
-      ) as _i4.Future<String?>);
+        returnValue: _i5.Future<String?>.value(),
+        returnValueForMissingStub: _i5.Future<String?>.value(),
+      ) as _i5.Future<String?>);
 }
 
-/// A class which mocks [ILogLocalDatasource].
+/// A class which mocks [ARekognitionImageDetector].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockILogLocalDatasource extends _i1.Mock
-    implements _i6.ILogLocalDatasource {
+class MockARekognitionImageDetector extends _i1.Mock
+    implements _i7.ARekognitionImageDetector {
   @override
-  _i4.Future<_i2.Either<_i7.Failure, _i8.Success>> cacheSaveItems(
-          List<_i9.MyLogModel>? logs) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #cacheSaveItems,
-          [logs],
+  _i2.Rekognition get service => (super.noSuchMethod(
+        Invocation.getter(#service),
+        returnValue: _FakeRekognition_0(
+          this,
+          Invocation.getter(#service),
         ),
-        returnValue: _i4.Future<_i2.Either<_i7.Failure, _i8.Success>>.value(
-            _FakeEither_0<_i7.Failure, _i8.Success>(
+        returnValueForMissingStub: _FakeRekognition_0(
           this,
-          Invocation.method(
-            #cacheSaveItems,
-            [logs],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i7.Failure, _i8.Success>>.value(
-                _FakeEither_0<_i7.Failure, _i8.Success>(
-          this,
-          Invocation.method(
-            #cacheSaveItems,
-            [logs],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i7.Failure, _i8.Success>>);
+          Invocation.getter(#service),
+        ),
+      ) as _i2.Rekognition);
 
   @override
-  _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>> getSavedItems() =>
-      (super.noSuchMethod(
+  _i5.Future<String> detectImage(_i8.XFile? inputImage) => (super.noSuchMethod(
         Invocation.method(
-          #getSavedItems,
-          [],
+          #detectImage,
+          [inputImage],
         ),
-        returnValue:
-            _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>>.value(
-                _FakeEither_0<_i7.Failure, List<_i9.MyLogModel>>(
-          this,
-          Invocation.method(
-            #getSavedItems,
-            [],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>>.value(
-                _FakeEither_0<_i7.Failure, List<_i9.MyLogModel>>(
-          this,
-          Invocation.method(
-            #getSavedItems,
-            [],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>>);
-
-  @override
-  _i4.Future<_i2.Either<_i7.Failure, _i8.Success>> cacheLogs(
-          List<_i9.MyLogModel>? logs) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #cacheLogs,
-          [logs],
-        ),
-        returnValue: _i4.Future<_i2.Either<_i7.Failure, _i8.Success>>.value(
-            _FakeEither_0<_i7.Failure, _i8.Success>(
-          this,
-          Invocation.method(
-            #cacheLogs,
-            [logs],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i7.Failure, _i8.Success>>.value(
-                _FakeEither_0<_i7.Failure, _i8.Success>(
-          this,
-          Invocation.method(
-            #cacheLogs,
-            [logs],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i7.Failure, _i8.Success>>);
-
-  @override
-  _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>> getLogs() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getLogs,
-          [],
-        ),
-        returnValue:
-            _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>>.value(
-                _FakeEither_0<_i7.Failure, List<_i9.MyLogModel>>(
-          this,
-          Invocation.method(
-            #getLogs,
-            [],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>>.value(
-                _FakeEither_0<_i7.Failure, List<_i9.MyLogModel>>(
-          this,
-          Invocation.method(
-            #getLogs,
-            [],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i7.Failure, List<_i9.MyLogModel>>>);
+        returnValue: _i5.Future<String>.value(''),
+        returnValueForMissingStub: _i5.Future<String>.value(''),
+      ) as _i5.Future<String>);
 }
 
 /// A class which mocks [InputImage].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockInputImage extends _i1.Mock implements _i5.InputImage {
+class MockInputImage extends _i1.Mock implements _i6.InputImage {
   @override
-  _i5.InputImageType get type => (super.noSuchMethod(
+  _i6.InputImageType get type => (super.noSuchMethod(
         Invocation.getter(#type),
-        returnValue: _i5.InputImageType.file,
-        returnValueForMissingStub: _i5.InputImageType.file,
-      ) as _i5.InputImageType);
+        returnValue: _i6.InputImageType.file,
+        returnValueForMissingStub: _i6.InputImageType.file,
+      ) as _i6.InputImageType);
 
   @override
   Map<String, dynamic> toJson() => (super.noSuchMethod(
@@ -188,4 +117,118 @@ class MockInputImage extends _i1.Mock implements _i5.InputImage {
         returnValue: <String, dynamic>{},
         returnValueForMissingStub: <String, dynamic>{},
       ) as Map<String, dynamic>);
+}
+
+/// A class which mocks [ILogLocalDatasource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockILogLocalDatasource extends _i1.Mock
+    implements _i9.ILogLocalDatasource {
+  @override
+  _i5.Future<_i3.Either<_i10.Failure, _i11.Success>> cacheSaveItems(
+          List<_i12.MyLogModel>? logs) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #cacheSaveItems,
+          [logs],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i10.Failure, _i11.Success>>.value(
+            _FakeEither_1<_i10.Failure, _i11.Success>(
+          this,
+          Invocation.method(
+            #cacheSaveItems,
+            [logs],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i10.Failure, _i11.Success>>.value(
+                _FakeEither_1<_i10.Failure, _i11.Success>(
+          this,
+          Invocation.method(
+            #cacheSaveItems,
+            [logs],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i10.Failure, _i11.Success>>);
+
+  @override
+  _i5.Future<_i3.Either<_i10.Failure, List<_i12.MyLogModel>>> getSavedItems() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getSavedItems,
+          [],
+        ),
+        returnValue:
+            _i5.Future<_i3.Either<_i10.Failure, List<_i12.MyLogModel>>>.value(
+                _FakeEither_1<_i10.Failure, List<_i12.MyLogModel>>(
+          this,
+          Invocation.method(
+            #getSavedItems,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i10.Failure, List<_i12.MyLogModel>>>.value(
+                _FakeEither_1<_i10.Failure, List<_i12.MyLogModel>>(
+          this,
+          Invocation.method(
+            #getSavedItems,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i10.Failure, List<_i12.MyLogModel>>>);
+
+  @override
+  _i5.Future<_i3.Either<_i10.Failure, _i11.Success>> cacheLogs(
+          List<_i12.MyLogModel>? logs) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #cacheLogs,
+          [logs],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i10.Failure, _i11.Success>>.value(
+            _FakeEither_1<_i10.Failure, _i11.Success>(
+          this,
+          Invocation.method(
+            #cacheLogs,
+            [logs],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i10.Failure, _i11.Success>>.value(
+                _FakeEither_1<_i10.Failure, _i11.Success>(
+          this,
+          Invocation.method(
+            #cacheLogs,
+            [logs],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i10.Failure, _i11.Success>>);
+
+  @override
+  _i5.Future<_i3.Either<_i10.Failure, List<_i12.MyLogModel>>> getLogs() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getLogs,
+          [],
+        ),
+        returnValue:
+            _i5.Future<_i3.Either<_i10.Failure, List<_i12.MyLogModel>>>.value(
+                _FakeEither_1<_i10.Failure, List<_i12.MyLogModel>>(
+          this,
+          Invocation.method(
+            #getLogs,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i10.Failure, List<_i12.MyLogModel>>>.value(
+                _FakeEither_1<_i10.Failure, List<_i12.MyLogModel>>(
+          this,
+          Invocation.method(
+            #getLogs,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i10.Failure, List<_i12.MyLogModel>>>);
 }
