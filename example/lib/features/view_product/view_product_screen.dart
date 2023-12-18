@@ -104,8 +104,8 @@ class ViewProductScreen extends StatelessWidget {
                         Positioned(
                           top: -5.h,
                           child: CustomImageView(
-                          imagePath: context.read<ScanScreenPageBloc>().isLocalItemDetailsFetch ? model.image : "",
-                          url: !(context.read<ScanScreenPageBloc>().isLocalItemDetailsFetch) ? model.image ?? "" : "",
+                          imagePath: context.read<ScanScreenPageBloc>().isLocalItemDetailsFetch() ? model.image : "",
+                          url: !(context.read<ScanScreenPageBloc>().isLocalItemDetailsFetch()) ? model.image ?? "" : "",
                           height: 351.adaptSize,
                           width: 351.adaptSize,
                         )),
