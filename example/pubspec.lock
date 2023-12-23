@@ -294,7 +294,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.0+1"
+    version: "1.0.0+3"
   http:
     dependency: transitive
     description:
@@ -303,14 +303,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.6"
-  http_certificate_pinning:
-    dependency: transitive
-    description:
-      name: http_certificate_pinning
-      sha256: "2fc599846b0eb404ec325620f4054ce55bbe11fe150f172787bb6d8e458978d6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.6"
   http_parser:
     dependency: transitive
     description:
@@ -455,6 +447,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  mixpanel_flutter:
+    dependency: transitive
+    description:
+      name: mixpanel_flutter
+      sha256: "5dc993ade5eaad51ebb6c91230971a3443ac30a3d1d24399bc3db74c5705d400"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   nested:
     dependency: transitive
     description:

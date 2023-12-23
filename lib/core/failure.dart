@@ -4,12 +4,12 @@ import 'package:equatable/equatable.dart';
 class Failure extends Equatable {
   final String message;
   final String code;
-  const Failure({this.message = "", this.code = ""});
+  const Failure({this.message = "Unable to process service at this time", this.code = ""});
   @override
   List<Object> get props => [message, code];
 
   String getErrorMessage(){
-    return "Unable to process service at this time";
+    return message;
   }
 }
 
@@ -83,4 +83,12 @@ class HelperGetRequestFailure extends Failure {
 }
 
 class RedirectWebUrlFailure extends Failure {}
+
+class AnalyticsLogsFailure extends Failure {}
+
+class ServiceNotSetupFailure extends Failure {
+  const ServiceNotSetupFailure(String message):super(message: message);
+}
+
+class HSSDKFailure extends Failure {}
 

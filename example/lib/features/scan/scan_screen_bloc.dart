@@ -114,6 +114,7 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     fetchUserID();
 
     on<ScanScreenGetStartedEvent>((event, emit){
+      _helixworldSDK.getAnalyticsRepoService().mixPanelsTrackInstalls();
       emit(ScanScreenInitialState());
     });
     on<ScanScreenRedirectToUrlEvent>((event, emit){

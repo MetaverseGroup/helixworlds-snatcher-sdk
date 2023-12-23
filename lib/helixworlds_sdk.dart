@@ -5,7 +5,10 @@
 
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
+import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
+import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_remote_datasource.dart';
+import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_repository.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
@@ -28,6 +31,10 @@ abstract class IHelixworldsSDKService{
   Future<Either<Failure, Success>> redirectToUrl(String murl); 
   bool isLocalFetch();
   String getDefaultUserId();
+
+  /// analytics mixpanel tracking event
+  Future<Either<Failure, Success>> trackAnalyticsMixpanel(String name, Map<String, dynamic> value);
+  AnalyticsRepository getAnalyticsRepoService();
 } 
 
 class HelixworldsSDKService extends IHelixworldsSDKService {
@@ -37,7 +44,8 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   final ImagePicker picker;
   final HelperUtil _helperUtil;
   final bool isLocal;
-  HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, {this.isLocal = true});
+  final IAnalyticsMixpanelsRemoteDatasource analyticsMixpanelsRemoteDatasource;
+  HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, this.analyticsMixpanelsRemoteDatasource, {this.isLocal = true});
 
   @override
   Future<Either<Failure, Success>> scanItems(InputImage image) async {
@@ -166,6 +174,21 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
     } else {
       return Left(ItemNotDetectedFailure());
     }
+  }
+  
+  @override
+  Future<Either<Failure, Success>> trackAnalyticsMixpanel(String name, Map<String, dynamic> value) async {
+    try{
+      var result = await analyticsMixpanelsRemoteDatasource.trackEvent(name, value);
+      return result;
+    }catch(e){
+      return Left(HSSDKFailure());
+    }
+  }
+  
+  @override
+  AnalyticsRepository getAnalyticsRepoService() {
+    return getAnalyticsRepo();
   }
 
 
