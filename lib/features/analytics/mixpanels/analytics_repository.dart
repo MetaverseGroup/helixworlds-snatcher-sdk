@@ -3,6 +3,7 @@ import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IAnalyticsRepository {
 
@@ -12,21 +13,28 @@ abstract class IAnalyticsRepository {
   /// tracks scanned items using mixpanels
   Future<Either<Failure, Success>> mixPanelsScannedItems(InventoryItemModel item);
   Future<Either<Failure, Success>> mixPanelsRedirectToShopEvent(String url, String userId);
+  Future<Either<Failure, Success>> mixPanelsRedirectToShopEventItemId(String url, String userId, String itemId);
   Future<Either<Failure, Success>> mixPanelsSavedItems(InventoryItemModel item);
 }
+const String localKeyInstallation = "localKeyInstallation";
 
 class AnalyticsRepository extends IAnalyticsRepository {
   final IAnalyticsMixpanelsRemoteDatasource mixPanelRemoteDS;
-  AnalyticsRepository(this.mixPanelRemoteDS);
+  final SharedPreferences _sharedPref;
+  AnalyticsRepository(this.mixPanelRemoteDS, this._sharedPref);
 
   @override
   Future<Either<Failure, Success>> mixPanelsTrackInstalls() async {
     try {
-      print("Tracking installs");
-      var result = await mixPanelRemoteDS.trackEvent("installs", {"deviceModel": "Samsung s21 Plus", "os":"Android"});
-      return result;
+      var result = _sharedPref.getBool(localKeyInstallation) ?? false;
+      if(result == false){
+        var result = await mixPanelRemoteDS.trackEvent("installs", {});
+        return result;
+      } else {
+        _sharedPref.setBool(localKeyInstallation, true);
+        return Right(AnalyticsLogsSuccess());
+      }
     } catch(e) {
-      print("Mixpanels");
       return Left(RepositoryFailure());
     }
   }
@@ -55,6 +63,16 @@ class AnalyticsRepository extends IAnalyticsRepository {
   Future<Either<Failure, Success>> mixPanelsSavedItems(InventoryItemModel item) async {
     try {
       var result = await mixPanelRemoteDS.trackEvent("saved_items", item.toJson());
+      return result;
+    } catch(e) {
+      return Left(RepositoryFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, Success>> mixPanelsRedirectToShopEventItemId(String url, String userId, String itemId) async {
+    try {
+      var result = await mixPanelRemoteDS.trackEvent("redirect_to_shop", {"url": url, "userId": userId, "itemId": itemId });
       return result;
     } catch(e) {
       return Left(RepositoryFailure());

@@ -14,11 +14,11 @@ class AnalyticsMixpanelsRemoteDatasource extends IAnalyticsMixpanelsRemoteDataso
   @override
   Future<Either<Failure, Success>> trackEvent(String name, Map<String, dynamic> value) async {
     try{
+      // mixpanel.track(name);
       mixpanel.track(name, properties: value);
+      // mixpanel.timeEvent(name);
       return Right(AnalyticsLogsSuccess());
     }catch(e) {
-      print("ERROR");
-      print(e);
       return Left(AnalyticsLogsFailure());
     }
   }

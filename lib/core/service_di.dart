@@ -64,11 +64,11 @@ setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = ""}) as
 }
 _setupMixPanel(String token) async{
   if(token.isNotEmpty){
-    var mixpanel = await Mixpanel.init("Your Mixpanel Token", trackAutomaticEvents: false);
+    var mixpanel = await Mixpanel.init(token, trackAutomaticEvents: true);
     mixpanel.setLoggingEnabled(true);
     serviceLocator.registerLazySingleton(() => mixpanel);
     serviceLocator.registerLazySingleton(() => AnalyticsMixpanelsRemoteDatasource(mixpanel));
-    serviceLocator.registerLazySingleton(() => AnalyticsRepository(getAnalyticsMixpanelRemoteDS()));
+    serviceLocator.registerLazySingleton(() => AnalyticsRepository(getAnalyticsMixpanelRemoteDS(), _getSharedPref()));
   }
 }
 AnalyticsRepository getAnalyticsRepo(){
@@ -76,13 +76,6 @@ AnalyticsRepository getAnalyticsRepo(){
 }
 AnalyticsMixpanelsRemoteDatasource getAnalyticsMixpanelRemoteDS(){
   return serviceLocator<AnalyticsMixpanelsRemoteDatasource>();
-}
-Mixpanel _getMixPanel() {
-  try{
-    return serviceLocator<Mixpanel>();
-  }catch(e){
-    throw const ServiceNotSetupFailure("token not provided please refer on the readme for the setup");
-  }
 }
 
 _setupSentry() async {
