@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
+import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_remote_datasource.dart';
+import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_repository.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_remote_datasource.dart';
@@ -17,6 +19,7 @@ import 'package:helixworlds_snatcher_sdk/utils/arekognitiion_image_detector.dart
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/network_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/pref_utils.dart';
+import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
@@ -39,7 +42,7 @@ NetworkUtil getNetworkUtil(){
   return serviceLocator<NetworkUtil>();
 }
 
-setupServices(LocalLabelerOptions labelerOption) async {
+setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = ""}) async {
   _sharedPref = await SharedPreferences.getInstance();
   SimpleConnectionChecker checker = SimpleConnectionChecker();
   serviceLocator.registerLazySingleton(() => NetworkUtil(checker));
@@ -57,6 +60,22 @@ setupServices(LocalLabelerOptions labelerOption) async {
   _setupLogService();
   _setupBloc();
   _setupSDK();
+  _setupMixPanel(mixPanelToken);
+}
+_setupMixPanel(String token) async{
+  if(token.isNotEmpty){
+    var mixpanel = await Mixpanel.init(token, trackAutomaticEvents: true);
+    mixpanel.setLoggingEnabled(true);
+    serviceLocator.registerLazySingleton(() => mixpanel);
+    serviceLocator.registerLazySingleton(() => AnalyticsMixpanelsRemoteDatasource(mixpanel));
+    serviceLocator.registerLazySingleton(() => AnalyticsRepository(getAnalyticsMixpanelRemoteDS(), _getSharedPref()));
+  }
+}
+AnalyticsRepository getAnalyticsRepo(){
+  return serviceLocator<AnalyticsRepository>();
+}
+AnalyticsMixpanelsRemoteDatasource getAnalyticsMixpanelRemoteDS(){
+  return serviceLocator<AnalyticsMixpanelsRemoteDatasource>();
 }
 
 _setupSentry() async {
@@ -214,7 +233,7 @@ ILogLocalDatasource getLogLocalDS(){
 
 _setupSDK(){
   serviceLocator.registerLazySingleton(()=> ARekognitionImageDetector());
-  serviceLocator.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil()));
+  serviceLocator.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil(), getAnalyticsMixpanelRemoteDS()));
 }
 
 ARekognitionImageDetector getARekognitionImageDetector(){

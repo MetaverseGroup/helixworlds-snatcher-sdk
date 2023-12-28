@@ -21,10 +21,12 @@ class UserDetailsRemoteDatasource extends IUserDetailsRemoteDatasource {
   @override
   Future<Either<Failure, String>> getUserId() async {
     try{
-      var response = await dio.get("$baseUrl/user/find",
-        // options: Options(
-        //   contentType: "application/x-www-form-urlencoded"
-        // )
+      final headers = {
+        'Content-Type': 'application/json',
+      };
+      final options = Options(headers: headers);
+      var response = await dio.get("$baseUrl/user/find", 
+                                    options: options
       );
       return Right(response.data["extId"] ?? "");
     } catch(e){

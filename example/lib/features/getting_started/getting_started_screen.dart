@@ -46,6 +46,7 @@ class GettingStartedScreen extends StatelessWidget {
                     width: 158.h,
                     text: "Get Started ->",
                     onTap:(){
+                      
                       context.read<ScanScreenPageBloc>().add(ScanScreenGetStartedEvent());
                       context.go("/home");
                     }

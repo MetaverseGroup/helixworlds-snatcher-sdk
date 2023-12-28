@@ -41,7 +41,6 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
   
   @override
   Future<Either<Failure, InventoryItemModel>> objectScanned(XFile photo) {
-    // TODO: implement objectScanned
     throw UnimplementedError();
   } 
 

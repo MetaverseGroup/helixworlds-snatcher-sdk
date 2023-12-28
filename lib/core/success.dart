@@ -21,3 +21,5 @@ class ObjectDetectedSuccess extends Success {
   final String userId;
   ObjectDetectedSuccess(this.item, this.userId);
 }
+
+class AnalyticsLogsSuccess extends Success {}
