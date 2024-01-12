@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, constant_identifier_names
 
 import 'dart:async';
+import 'package:aws_rekognition_api/rekognition-2016-06-27.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
@@ -42,7 +43,11 @@ NetworkUtil getNetworkUtil(){
   return serviceLocator<NetworkUtil>();
 }
 
-setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = ""}) async {
+String myProjectARN = "";
+/// labelerOptions -> 
+/// mixPanelToken -> used for analytics tracking purposes
+/// arRegion, arAccessKey, arSecretKey, projectARN -> this data is fetched if you setup amazon rekognition and utilized the cloud image labeling
+setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", String arRegion = "", String arAccessKey = "", String arSecretKey = "", String projectARN = ""}) async {
   _sharedPref = await SharedPreferences.getInstance();
   SimpleConnectionChecker checker = SimpleConnectionChecker();
   serviceLocator.registerLazySingleton(() => NetworkUtil(checker));
@@ -59,9 +64,29 @@ setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = ""}) as
   _setupScanServices();
   _setupLogService();
   _setupBloc();
+  // rekognition
+  myProjectARN = projectARN;
+  _setupARekognition(arRegion, arAccessKey, arSecretKey);
+
   _setupSDK();
   _setupMixPanel(mixPanelToken);
+  
 }
+
+_setupARekognition(String region, String accessKey, String secretKey){
+  if(region.isNotEmpty && accessKey.isNotEmpty && secretKey.isNotEmpty) {
+    serviceLocator.registerLazySingleton(() => Rekognition(
+      region: region,
+      credentials: AwsClientCredentials(accessKey: accessKey, secretKey: secretKey),
+    ));
+  }
+}
+Rekognition _getARekognition(){
+  return serviceLocator<Rekognition>();
+}
+
+
+
 _setupMixPanel(String token) async{
   if(token.isNotEmpty){
     var mixpanel = await Mixpanel.init(token, trackAutomaticEvents: true);
@@ -232,7 +257,7 @@ ILogLocalDatasource getLogLocalDS(){
 }
 
 _setupSDK(){
-  serviceLocator.registerLazySingleton(()=> ARekognitionImageDetector());
+  serviceLocator.registerLazySingleton(()=> ARekognitionImageDetector(_getARekognition(), myProjectARN));
   serviceLocator.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil(), getAnalyticsMixpanelRemoteDS()));
 }
 

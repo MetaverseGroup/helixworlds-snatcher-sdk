@@ -125,7 +125,7 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
       _helixworldSDK.getAnalyticsRepoService().mixPanelsRedirectToShopEventItemId(event.model.url ?? "", _helixworldSDK.getDefaultUserId(), event.model.id ?? "");
     });
     on<ScanScreenTakePictureEvent>((event, emit) async{
-      var result = await _helixworldSDK.scanItem();
+      var result = await _helixworldSDK.scanItem(isAR: true);
       if(result.isRight()){
         var rightResult = result.fold((l) => null, (r) => r);
         if(rightResult is ObjectDetectedSuccess){

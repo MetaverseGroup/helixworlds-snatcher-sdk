@@ -65,7 +65,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final modelPath = await _getModel("assets/model.tflite");
   final options = LocalLabelerOptions(modelPath: modelPath);
-  setupServices(options, mixPanelToken: "c680bac0fb6044d20faaa729a54cb081");
+  setupServices(
+    options, 
+    mixPanelToken: "c680bac0fb6044d20faaa729a54cb081",
+    projectARN: "arn:aws:rekognition:ap-southeast-1:462576712224:project/mvg-image-recog/version/mvg-image-recog.2023-10-30T12.14.53/1698639293317",
+    arAccessKey: "",
+    arRegion: ""
+  );
   Future.delayed(const Duration(seconds: 1)).then((_) {
     runZonedGuarded(() async {
       runApp(const MyApp());
