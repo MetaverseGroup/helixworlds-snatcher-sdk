@@ -122,6 +122,8 @@ class ScanRepository extends IScanRepository {
     try {
       // var result = await detector.processImage(image);
       var result = await _arImageDetector.detectImage(photo);
+      // print("PROCESS AR IMAGE");
+      // print(result);
       if(result.isNotEmpty) {
         // this is hard coded details 
         var model = InventoryItemModel(

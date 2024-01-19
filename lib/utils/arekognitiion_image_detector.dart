@@ -12,8 +12,7 @@ class ARekognitionImageDetector {
   Future<String> detectImage(XFile inputImage) async {
     try{
       var data = await inputImage.readAsBytes();
-      // put the project arn
-      var result = await service.detectCustomLabels(image: Image(bytes: data, ), projectVersionArn: projectARN);
+      var result = await service.detectCustomLabels(image: Image(bytes: data), projectVersionArn: projectARN);
       for(var i in result.customLabels ?? []){
         return i.name;        
       }
