@@ -82,7 +82,7 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   @override
   Future<Either<Failure, Success>> scanItem({bool isAR = false}) async {
     try{
-      var image = await picker.pickImage(source: ImageSource.camera);
+      var image = await picker.pickImage(source: ImageSource.camera, imageQuality: 80);
       var imageInput = _helperUtil.getInputImageFile(image!);
       if(isAR){
         var result = await scanItemsByAR(image);
@@ -168,6 +168,7 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   @override
   Future<Either<Failure, Success>> scanItemsByAR(XFile image) async {
     var result = await scanRepo.processImageAR(image);
+    
     var rightResult = result.fold((l) => null, (r) => r);
     if(result.isRight()){
       return Right(ObjectDetectedSuccess(rightResult!, getDefaultUserId()));

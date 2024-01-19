@@ -11,7 +11,7 @@ topics:
   - metaverse
 
 
-version: 1.0.2+5
+version: 1.0.3+6
 
 
 environment:
@@ -46,6 +46,7 @@ dependencies:
   simple_connection_checker: ^0.2.1
   get_it: ^7.2.0
   mixpanel_flutter: ^2.2.0
+  firebase_analytics: ^10.8.0
 
   cached_network_image: ^3.2.0
 

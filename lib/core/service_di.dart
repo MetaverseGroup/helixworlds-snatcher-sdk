@@ -3,10 +3,12 @@
 import 'dart:async';
 import 'package:aws_rekognition_api/rekognition-2016-06-27.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
+import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_googleanalytics_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_repository.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
@@ -69,7 +71,7 @@ setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", Str
   _setupARekognition(arRegion, arAccessKey, arSecretKey);
 
   _setupSDK();
-  _setupMixPanel(mixPanelToken);
+  _setupAnalytics(mixPanelToken);
   
 }
 
@@ -86,16 +88,46 @@ Rekognition _getARekognition(){
 }
 
 
+_setupAnalytics(String token) async{
 
-_setupMixPanel(String token) async{
+  try{
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    serviceLocator.registerLazySingleton(() => analytics);
+    serviceLocator.registerLazySingleton(() => FirebaseAnalyticsObserver(analytics: analytics));
+    serviceLocator.registerLazySingleton(() => GoogleAnalyticsRemoteDatasource(analytics, getFBAnalyticsObserver()));
+  }catch(e){
+    // print("Error setting up google analytics");
+  }
+  var analytics = getGoogleAnalyticsRemoteDS();
+
   if(token.isNotEmpty){
     var mixpanel = await Mixpanel.init(token, trackAutomaticEvents: true);
     mixpanel.setLoggingEnabled(true);
     serviceLocator.registerLazySingleton(() => mixpanel);
     serviceLocator.registerLazySingleton(() => AnalyticsMixpanelsRemoteDatasource(mixpanel));
-    serviceLocator.registerLazySingleton(() => AnalyticsRepository(getAnalyticsMixpanelRemoteDS(), _getSharedPref()));
+    if(analytics == null){
+      serviceLocator.registerLazySingleton(() => AnalyticsRepository(_getSharedPref(), mixPanelRemoteDS: getAnalyticsMixpanelRemoteDS(), googleAnalyticsRemoteDS: getGoogleAnalyticsRemoteDS()));
+    } else {
+      serviceLocator.registerLazySingleton(() => AnalyticsRepository(_getSharedPref(), mixPanelRemoteDS: getAnalyticsMixpanelRemoteDS()));
+    }
+  } else if(analytics != null) {
+    serviceLocator.registerLazySingleton(() => AnalyticsRepository(_getSharedPref(), googleAnalyticsRemoteDS: getGoogleAnalyticsRemoteDS()));
   }
 }
+FirebaseAnalytics getFBAnalytics(){
+  return serviceLocator<FirebaseAnalytics>();
+}
+FirebaseAnalyticsObserver getFBAnalyticsObserver(){
+  return serviceLocator<FirebaseAnalyticsObserver>();
+}
+GoogleAnalyticsRemoteDatasource? getGoogleAnalyticsRemoteDS(){
+  try{
+    return serviceLocator<GoogleAnalyticsRemoteDatasource>();
+  }catch(e){
+    return null;
+  }
+}
+
 AnalyticsRepository getAnalyticsRepo(){
   return serviceLocator<AnalyticsRepository>();
 }
