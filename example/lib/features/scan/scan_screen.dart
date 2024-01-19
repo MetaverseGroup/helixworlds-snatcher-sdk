@@ -204,12 +204,10 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<ScanScreenPageBloc, ScanScreenState>(
           bloc: context.read<ScanScreenPageBloc>(),
           builder: (context, state) {
-            print("Change State");
-            print(state);
 
             Widget iconState = state is ScanScreenLoadingState ? const CircularProgressIndicator(color: Colors.white) : const Icon(Icons.camera_alt, size: 50);
 
-            
+
             return InkWell(
               onTap: () async {
                 if(state is! ScanScreenLoadingState){
