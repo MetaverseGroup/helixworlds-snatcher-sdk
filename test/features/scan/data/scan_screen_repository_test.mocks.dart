@@ -11,6 +11,8 @@ import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart'
     as _i6;
 import 'package:helixworlds_snatcher_sdk/core/failure.dart' as _i10;
 import 'package:helixworlds_snatcher_sdk/core/success.dart' as _i11;
+import 'package:helixworlds_snatcher_sdk/features/auth/auth_local_datasource.dart'
+    as _i13;
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart'
     as _i9;
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart'
@@ -85,6 +87,13 @@ class MockARekognitionImageDetector extends _i1.Mock
           Invocation.getter(#service),
         ),
       ) as _i2.Rekognition);
+
+  @override
+  String get projectARN => (super.noSuchMethod(
+        Invocation.getter(#projectARN),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
 
   @override
   _i5.Future<String> detectImage(_i8.XFile? inputImage) => (super.noSuchMethod(
@@ -231,4 +240,63 @@ class MockILogLocalDatasource extends _i1.Mock
           ),
         )),
       ) as _i5.Future<_i3.Either<_i10.Failure, List<_i12.MyLogModel>>>);
+}
+
+/// A class which mocks [IAuthLocalDatasource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockIAuthLocalDatasource extends _i1.Mock
+    implements _i13.IAuthLocalDatasource {
+  @override
+  _i5.Future<_i3.Either<_i10.Failure, _i11.Success>> cacheGathererAccessToken(
+          String? token) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #cacheGathererAccessToken,
+          [token],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i10.Failure, _i11.Success>>.value(
+            _FakeEither_1<_i10.Failure, _i11.Success>(
+          this,
+          Invocation.method(
+            #cacheGathererAccessToken,
+            [token],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i10.Failure, _i11.Success>>.value(
+                _FakeEither_1<_i10.Failure, _i11.Success>(
+          this,
+          Invocation.method(
+            #cacheGathererAccessToken,
+            [token],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i10.Failure, _i11.Success>>);
+
+  @override
+  _i5.Future<_i3.Either<_i10.Failure, String>> getGathererAccessToken() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getGathererAccessToken,
+          [],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i10.Failure, String>>.value(
+            _FakeEither_1<_i10.Failure, String>(
+          this,
+          Invocation.method(
+            #getGathererAccessToken,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i10.Failure, String>>.value(
+                _FakeEither_1<_i10.Failure, String>(
+          this,
+          Invocation.method(
+            #getGathererAccessToken,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i10.Failure, String>>);
 }

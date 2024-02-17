@@ -112,6 +112,8 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
 
   ScanScreenPageBloc(this._helixworldSDK):super(ScanScreenGettingStartedState()){
     fetchUserID();
+    // please fill this with your client ID and secret key from MVG Team
+    _helixworldSDK.loginMobile("AccessKey", "Secret");
     on<ScanScreenGetStartedEvent>((event, emit){
       _helixworldSDK.getAnalyticsRepoService().analyticsTrackInstalls();
       emit(ScanScreenInitialState());

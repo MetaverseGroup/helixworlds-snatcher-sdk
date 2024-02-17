@@ -68,9 +68,9 @@ void main() async {
   setupServices(
     options, 
     mixPanelToken: "c680bac0fb6044d20faaa729a54cb081",
-    projectARN: "arn:aws:rekognition:us-east-1:979222079345:project/mvg_jan_18_2024_image_model/version/mvg_jan_18_2024_image_model.2024-01-18T07.27.57/1705534077691",
-    arAccessKey: "",
-    arSecretKey: "",
+    projectARN: "arn:aws:rekognition:us-east-1:979222079345:project/mvg_jan_20_2024_image_model/version/mvg_jan_20_2024_image_model.2024-01-20T05.47.36/1705700856639",
+    arAccessKey: "AKIA6H7RPE5YY4MUTG6Y",
+    arSecretKey: "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",
     arRegion: "us-east-1"
   );
   Future.delayed(const Duration(seconds: 1)).then((_) {

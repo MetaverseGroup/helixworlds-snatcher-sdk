@@ -23,3 +23,8 @@ class ObjectDetectedSuccess extends Success {
 }
 
 class AnalyticsLogsSuccess extends Success {}
+
+class AuthSuccessToken extends Success {
+  final String accessToken;
+  AuthSuccessToken(this.accessToken);
+}

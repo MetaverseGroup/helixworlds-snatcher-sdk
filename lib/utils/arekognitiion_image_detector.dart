@@ -13,11 +13,16 @@ class ARekognitionImageDetector {
     try{
       var data = await inputImage.readAsBytes();
       var result = await service.detectCustomLabels(image: Image(bytes: data), projectVersionArn: projectARN);
+      // print("AR RESULT");
+      // print(result.customLabels?.length);
       for(var i in result.customLabels ?? []){
+        // print(i.name);
         return i.name;        
       }
       return "";
     }catch(e){
+      // print("ERROR");
+      // print(e);
       return "";
     }
   }
