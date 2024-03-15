@@ -63,6 +63,10 @@ dev_dependencies:
   mockito: any
   bloc_test: ^9.1.4
 
+analyzer:
+  exclude:
+    - "**/*.freezed.dart"
+
 flutter:
   uses-material-design: true
 

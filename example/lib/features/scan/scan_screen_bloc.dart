@@ -128,7 +128,10 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     });
     on<ScanScreenTakePictureEvent>((event, emit) async{
       emit(ScanScreenLoadingState());
-      var result = await _helixworldSDK.scanItem(isAR: true);
+      // using local based model scan
+      var result = await _helixworldSDK.scanItem();
+      // using the cloud based model scan
+      // var result = await _helixworldSDK.scanItem(isAR: true);
       if(result.isRight()){
         var rightResult = result.fold((l) => null, (r) => r);
         if(rightResult is ObjectDetectedSuccess){

@@ -2,8 +2,6 @@
 
 
 // ignore_for_file: depend_on_referenced_packages
-
-import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
@@ -21,7 +19,7 @@ import 'package:dartz/dartz.dart';
 abstract class IHelixworldsSDKService{
   /// set isAR = true then it will process the image detection using amazon rekognition
   Future<Either<Failure, Success>> scanItem({bool isAR = false});
-  Future<Either<Failure, Success>> scanItems(InputImage image);  
+  Future<Either<Failure, Success>> scanItems(XFile image);  
   Future<Either<Failure, Success>> scanItemsByAR(XFile image);
 
   Future<Either<Failure, String>> getUserId();
@@ -51,10 +49,11 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, this.analyticsMixpanelsRemoteDatasource, {this.isLocal = true});
 
   @override
-  Future<Either<Failure, Success>> scanItems(InputImage image) async {
+  Future<Either<Failure, Success>> scanItems(XFile image) async {
     try{
+       var imageInput = _helperUtil.getInputImageFile(image);
        if(isLocalFetch()){
-        var result = await scanRepo.processImageLocal(image);
+        var result = await scanRepo.processImageLocal(imageInput);
         var rightResult = result.fold((l) => null, (r) => r);
         var leftResult = result.fold((l) => l, (r) => null);
         var userResult = await getUserId();
@@ -66,7 +65,7 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
         }
       } else {
           // using the gatherer database
-          var result = await scanRepo.processImage(image);
+          var result = await scanRepo.processImage(imageInput);
           var rightResult = result.fold((l) => null, (r) => r);
           var leftResult = result.fold((l) => l, (r) => null);
           var userResult = await getUserId();
@@ -86,12 +85,12 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   Future<Either<Failure, Success>> scanItem({bool isAR = false}) async {
     try{
       var image = await picker.pickImage(source: ImageSource.camera, imageQuality: 80);
-      var imageInput = _helperUtil.getInputImageFile(image!);
+      // var imageInput = _helperUtil.getInputImageFile(image!);
       if(isAR){
-        var result = await scanItemsByAR(image);
+        var result = await scanItemsByAR(image!);
         return result;
       } else {
-        var result = await scanItems(imageInput);
+        var result = await scanItems(image!);
         return result;
       }
     } catch(e) {

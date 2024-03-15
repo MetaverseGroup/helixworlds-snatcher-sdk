@@ -69,8 +69,8 @@ void main() async {
     options, 
     mixPanelToken: "c680bac0fb6044d20faaa729a54cb081",
     projectARN: "arn:aws:rekognition:us-east-1:979222079345:project/mvg_jan_20_2024_image_model/version/mvg_jan_20_2024_image_model.2024-01-20T05.47.36/1705700856639",
-    arAccessKey: "put access key here",
-    arSecretKey: "put secret key here",
+    arAccessKey: "access key here",
+    arSecretKey: "secret key here",
     arRegion: "us-east-1"
   );
   Future.delayed(const Duration(seconds: 1)).then((_) {
