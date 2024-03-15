@@ -35,6 +35,9 @@ abstract class IHelixworldsSDKService{
   /// analytics mixpanel tracking event
   Future<Either<Failure, Success>> trackAnalyticsMixpanel(String name, Map<String, dynamic> value);
   AnalyticsRepository getAnalyticsRepoService();
+
+  /// auth gatherer just pass the developerId provided by metaverse group and secret key to be able to access our scanning api service features 
+  Future<Either<Failure, Success>> loginMobile(String developerId, String secret);
 } 
 
 class HelixworldsSDKService extends IHelixworldsSDKService {
@@ -82,7 +85,7 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   @override
   Future<Either<Failure, Success>> scanItem({bool isAR = false}) async {
     try{
-      var image = await picker.pickImage(source: ImageSource.camera);
+      var image = await picker.pickImage(source: ImageSource.camera, imageQuality: 80);
       var imageInput = _helperUtil.getInputImageFile(image!);
       if(isAR){
         var result = await scanItemsByAR(image);
@@ -168,6 +171,7 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   @override
   Future<Either<Failure, Success>> scanItemsByAR(XFile image) async {
     var result = await scanRepo.processImageAR(image);
+    
     var rightResult = result.fold((l) => null, (r) => r);
     if(result.isRight()){
       return Right(ObjectDetectedSuccess(rightResult!, getDefaultUserId()));
@@ -189,6 +193,16 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   @override
   AnalyticsRepository getAnalyticsRepoService() {
     return getAnalyticsRepo();
+  }
+  
+  @override
+  Future<Either<Failure, Success>> loginMobile(String developerId, String secret, {String field = "destination"}) async {
+    try{
+      var result = await getAuthRepo().mobileLogin(developerId, secret, field: field);
+      return result;
+    }catch(e){
+      return Left(AuthenticationFailure());
+    }
   }
 
 

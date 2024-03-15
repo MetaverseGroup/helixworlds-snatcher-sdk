@@ -92,3 +92,5 @@ class ServiceNotSetupFailure extends Failure {
 
 class HSSDKFailure extends Failure {}
 
+class AuthenticationFailure extends Failure {}
+

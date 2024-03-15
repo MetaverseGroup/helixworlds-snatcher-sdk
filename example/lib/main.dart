@@ -68,9 +68,10 @@ void main() async {
   setupServices(
     options, 
     mixPanelToken: "c680bac0fb6044d20faaa729a54cb081",
-    projectARN: "arn:aws:rekognition:ap-southeast-1:462576712224:project/mvg-image-recog/version/mvg-image-recog.2023-10-30T12.14.53/1698639293317",
-    arAccessKey: "",
-    arRegion: ""
+    projectARN: "arn:aws:rekognition:us-east-1:979222079345:project/mvg_jan_20_2024_image_model/version/mvg_jan_20_2024_image_model.2024-01-20T05.47.36/1705700856639",
+    arAccessKey: "put access key here",
+    arSecretKey: "put secret key here",
+    arRegion: "us-east-1"
   );
   Future.delayed(const Duration(seconds: 1)).then((_) {
     runZonedGuarded(() async {

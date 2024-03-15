@@ -3,12 +3,17 @@
 import 'dart:async';
 import 'package:aws_rekognition_api/rekognition-2016-06-27.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
+import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_googleanalytics_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_repository.dart';
+import 'package:helixworlds_snatcher_sdk/features/auth/auth_local_datasource.dart';
+import 'package:helixworlds_snatcher_sdk/features/auth/auth_remote_datasource.dart';
+import 'package:helixworlds_snatcher_sdk/features/auth/auth_repository.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_remote_datasource.dart';
@@ -33,8 +38,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:simple_connection_checker/simple_connection_checker.dart';
 
-const String sentry_dsn = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264";
-
 final GetIt serviceLocator = GetIt.instance;
 
 SharedPreferences? _sharedPref;
@@ -47,12 +50,12 @@ String myProjectARN = "";
 /// labelerOptions -> 
 /// mixPanelToken -> used for analytics tracking purposes
 /// arRegion, arAccessKey, arSecretKey, projectARN -> this data is fetched if you setup amazon rekognition and utilized the cloud image labeling
-setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", String arRegion = "", String arAccessKey = "", String arSecretKey = "", String projectARN = ""}) async {
+setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", String arRegion = "", String arAccessKey = "", String arSecretKey = "", String projectARN = "", String sentryDSN = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264"}) async {
   _sharedPref = await SharedPreferences.getInstance();
   SimpleConnectionChecker checker = SimpleConnectionChecker();
   serviceLocator.registerLazySingleton(() => NetworkUtil(checker));
   serviceLocator.allowReassignment = true;
-  _setupSentry();
+  _setupSentry(sentryDSN);
   _setupImagePicker();
   _setupHelper();
   serviceLocator.registerLazySingleton(() => PrefUtils(_getSharedPref()));
@@ -69,7 +72,7 @@ setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", Str
   _setupARekognition(arRegion, arAccessKey, arSecretKey);
 
   _setupSDK();
-  _setupMixPanel(mixPanelToken);
+  _setupAnalytics(mixPanelToken);
   
 }
 
@@ -86,16 +89,46 @@ Rekognition _getARekognition(){
 }
 
 
+_setupAnalytics(String token) async{
 
-_setupMixPanel(String token) async{
+  try{
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    serviceLocator.registerLazySingleton(() => analytics);
+    serviceLocator.registerLazySingleton(() => FirebaseAnalyticsObserver(analytics: analytics));
+    serviceLocator.registerLazySingleton(() => GoogleAnalyticsRemoteDatasource(analytics, getFBAnalyticsObserver()));
+  }catch(e){
+    // print("Error setting up google analytics");
+  }
+  var analytics = getGoogleAnalyticsRemoteDS();
+
   if(token.isNotEmpty){
     var mixpanel = await Mixpanel.init(token, trackAutomaticEvents: true);
     mixpanel.setLoggingEnabled(true);
     serviceLocator.registerLazySingleton(() => mixpanel);
     serviceLocator.registerLazySingleton(() => AnalyticsMixpanelsRemoteDatasource(mixpanel));
-    serviceLocator.registerLazySingleton(() => AnalyticsRepository(getAnalyticsMixpanelRemoteDS(), _getSharedPref()));
+    if(analytics == null){
+      serviceLocator.registerLazySingleton(() => AnalyticsRepository(_getSharedPref(), mixPanelRemoteDS: getAnalyticsMixpanelRemoteDS(), googleAnalyticsRemoteDS: getGoogleAnalyticsRemoteDS()));
+    } else {
+      serviceLocator.registerLazySingleton(() => AnalyticsRepository(_getSharedPref(), mixPanelRemoteDS: getAnalyticsMixpanelRemoteDS()));
+    }
+  } else if(analytics != null) {
+    serviceLocator.registerLazySingleton(() => AnalyticsRepository(_getSharedPref(), googleAnalyticsRemoteDS: getGoogleAnalyticsRemoteDS()));
   }
 }
+FirebaseAnalytics getFBAnalytics(){
+  return serviceLocator<FirebaseAnalytics>();
+}
+FirebaseAnalyticsObserver getFBAnalyticsObserver(){
+  return serviceLocator<FirebaseAnalyticsObserver>();
+}
+GoogleAnalyticsRemoteDatasource? getGoogleAnalyticsRemoteDS(){
+  try{
+    return serviceLocator<GoogleAnalyticsRemoteDatasource>();
+  }catch(e){
+    return null;
+  }
+}
+
 AnalyticsRepository getAnalyticsRepo(){
   return serviceLocator<AnalyticsRepository>();
 }
@@ -103,10 +136,10 @@ AnalyticsMixpanelsRemoteDatasource getAnalyticsMixpanelRemoteDS(){
   return serviceLocator<AnalyticsMixpanelsRemoteDatasource>();
 }
 
-_setupSentry() async {
+_setupSentry(String sentryDSN) async {
   await SentryFlutter.init(
       (options) {
-        options.dsn = sentry_dsn;
+        options.dsn = sentryDSN;
         options.tracesSampleRate = 1.0;
       },
   );
@@ -232,9 +265,24 @@ IUserDetailsRepository getUserDetailsRepo(){
 }
 
 _setupScanServices(){
+  serviceLocator.registerLazySingleton(() => AuthRemoteDatasource(_getDio()));
+  serviceLocator.registerLazySingleton(() => AuthLocalDatasource(_getSharedPref()));
+  serviceLocator.registerLazySingleton(() => AuthRepository(_getAuthLocalDS(), _getAuthRemoteDS()));
+  
   serviceLocator.registerLazySingleton(() => ScanRemoteDatasource(_getDio(), getHelperUtil()));
   serviceLocator.registerLazySingleton(() => ScanLocalDatasource(_getSharedPref()));
-  serviceLocator.registerLazySingleton(() => ScanRepository(getImageDetector(), getLogLocalDS(), _getScanLocalDS(), _getScanRemoteDS(), getHelperUtil(), getARekognitionImageDetector()));
+  serviceLocator.registerLazySingleton(() => ScanRepository(getImageDetector(), getLogLocalDS(), _getScanLocalDS(), _getScanRemoteDS(), getHelperUtil(), _getAuthLocalDS()));
+
+}
+
+AuthRemoteDatasource _getAuthRemoteDS(){
+  return serviceLocator<AuthRemoteDatasource>();
+}
+AuthLocalDatasource _getAuthLocalDS(){
+  return serviceLocator<AuthLocalDatasource>();
+}
+AuthRepository getAuthRepo(){
+  return serviceLocator<AuthRepository>();
 }
 
 IScanRemoteDatasource _getScanRemoteDS(){

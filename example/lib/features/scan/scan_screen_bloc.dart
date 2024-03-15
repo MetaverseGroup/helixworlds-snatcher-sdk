@@ -112,24 +112,27 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
 
   ScanScreenPageBloc(this._helixworldSDK):super(ScanScreenGettingStartedState()){
     fetchUserID();
+    // please fill this with your client ID and secret key from MVG Team
+    _helixworldSDK.loginMobile("AccessKey", "Secret");
     on<ScanScreenGetStartedEvent>((event, emit){
-      _helixworldSDK.getAnalyticsRepoService().mixPanelsTrackInstalls();
+      _helixworldSDK.getAnalyticsRepoService().analyticsTrackInstalls();
       emit(ScanScreenInitialState());
     });
     on<ScanScreenRedirectToUrlEvent>((event, emit){
       _redirectUrlObjectFromLogs(event.url);
-      _helixworldSDK.getAnalyticsRepoService().mixPanelsRedirectToShopEvent(event.url, _helixworldSDK.getDefaultUserId());
+      _helixworldSDK.getAnalyticsRepoService().analyticsRedirectToShopEvent(event.url, _helixworldSDK.getDefaultUserId());
     });
     on<ScanScreenLaunchToUrlEvent>((event, emit){
       _redirectUrlObject(event.model);
-      _helixworldSDK.getAnalyticsRepoService().mixPanelsRedirectToShopEventItemId(event.model.url ?? "", _helixworldSDK.getDefaultUserId(), event.model.id ?? "");
+      _helixworldSDK.getAnalyticsRepoService().analyticsRedirectToShopEventItemId(event.model.url ?? "", _helixworldSDK.getDefaultUserId(), event.model.id ?? "");
     });
     on<ScanScreenTakePictureEvent>((event, emit) async{
+      emit(ScanScreenLoadingState());
       var result = await _helixworldSDK.scanItem(isAR: true);
       if(result.isRight()){
         var rightResult = result.fold((l) => null, (r) => r);
         if(rightResult is ObjectDetectedSuccess){
-          _helixworldSDK.getAnalyticsRepoService().mixPanelsScannedItems(rightResult.item);
+          _helixworldSDK.getAnalyticsRepoService().analyticsScannedItems(rightResult.item);
           emit(ScanScreenShowScannedObjectState(rightResult.item, rightResult.userId));
         }
       } else {

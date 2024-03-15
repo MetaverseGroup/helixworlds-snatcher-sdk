@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
+import 'package:helixworlds_snatcher_sdk/features/auth/auth_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
@@ -23,28 +24,31 @@ import 'package:dartz/dartz.dart';
 @GenerateNiceMocks([MockSpec<ARekognitionImageDetector>()])
 @GenerateNiceMocks([MockSpec<InputImage>()])
 @GenerateNiceMocks([MockSpec<ILogLocalDatasource>()])
+@GenerateNiceMocks([MockSpec<IAuthLocalDatasource>()])
 
 main(){
   MockIScanRemoteDatasource? remoteDS;
   MockIScanLocalDatasource? localDS;
   IScanRepository? scanRepo;
   MockImageDetector? imageDetector;
-  MockARekognitionImageDetector? mARImageDetector;
   MockILogLocalDatasource? logLocalDS;
   MockInputImage? inputImage;
   MockHelperUtil? helperUtil;
+  MockIAuthLocalDatasource? mAuthLocalDS;
+
   HelperUtil? rHelperUtil;
   String dateTime = '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
 
   setUp(() {
     rHelperUtil = HelperUtil();
-    mARImageDetector = MockARekognitionImageDetector();
+    // mARImageDetector = MockARekognitionImageDetector();
     helperUtil = MockHelperUtil();
     remoteDS = MockIScanRemoteDatasource();
     localDS = MockIScanLocalDatasource();
     imageDetector = MockImageDetector();
     logLocalDS = MockILogLocalDatasource();
-    scanRepo = ScanRepository(imageDetector!, logLocalDS!, localDS!, remoteDS!, helperUtil!, mARImageDetector!);
+    mAuthLocalDS = MockIAuthLocalDatasource();
+    scanRepo = ScanRepository(imageDetector!, logLocalDS!, localDS!, remoteDS!, helperUtil!, mAuthLocalDS!);
     inputImage = MockInputImage();
   });
 
@@ -93,7 +97,7 @@ main(){
       when(logLocalDS?.cacheLogs([])).thenAnswer((realInvocation) => Future.value(Right(CacheSuccess())));
       when(helperUtil?.getDateString()).thenAnswer((realInvocation) => dateTime);
 
-      var myScanRepo = ScanRepository(imageDetector!, logLocalDS!, localDS!, remoteDS!, rHelperUtil!, mARImageDetector!);
+      var myScanRepo = ScanRepository(imageDetector!, logLocalDS!, localDS!, remoteDS!, rHelperUtil!, mAuthLocalDS!);
       var result = await myScanRepo.processImageLocal(inputImage!);
       expect(result.isRight(), true);
       var rightValue = result.fold((l) => null, (r) => r);

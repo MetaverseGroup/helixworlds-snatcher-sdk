@@ -23,8 +23,8 @@ import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_local_datasourc
     as _i18;
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_remote_datasource.dart'
     as _i12;
-import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart' as _i15;
-import 'package:image_picker/image_picker.dart';
+import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart' as _i16;
+import 'package:image_picker/image_picker.dart' as _i15;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -1134,14 +1134,52 @@ class MockIScanRemoteDatasource extends _i1.Mock
           ),
         )),
       ) as _i10.Future<_i7.Either<_i13.Failure, _i14.InventoryItemModel>>);
+
+  @override
+  _i10.Future<_i7.Either<_i13.Failure, String>> objectScanned(
+    _i15.XFile? photo,
+    String? accessToken,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #objectScanned,
+          [
+            photo,
+            accessToken,
+          ],
+        ),
+        returnValue: _i10.Future<_i7.Either<_i13.Failure, String>>.value(
+            _FakeEither_5<_i13.Failure, String>(
+          this,
+          Invocation.method(
+            #objectScanned,
+            [
+              photo,
+              accessToken,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i10.Future<_i7.Either<_i13.Failure, String>>.value(
+                _FakeEither_5<_i13.Failure, String>(
+          this,
+          Invocation.method(
+            #objectScanned,
+            [
+              photo,
+              accessToken,
+            ],
+          ),
+        )),
+      ) as _i10.Future<_i7.Either<_i13.Failure, String>>);
 }
 
 /// A class which mocks [HelperUtil].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHelperUtil extends _i1.Mock implements _i15.HelperUtil {
+class MockHelperUtil extends _i1.Mock implements _i16.HelperUtil {
   @override
-  _i8.InputImage getInputImageFile(XFile? photo) => (super.noSuchMethod(
+  _i8.InputImage getInputImageFile(_i15.XFile? photo) => (super.noSuchMethod(
         Invocation.method(
           #getInputImageFile,
           [photo],
