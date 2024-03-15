@@ -5,7 +5,7 @@
 
 
 
-name: Dart
+name: Prechecking Workflow
 
 on:
   push:

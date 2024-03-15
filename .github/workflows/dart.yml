@@ -5,7 +5,7 @@
 
 
 
-name: Dart
+name: Deployment Workflow
 
 on:
   pull_request:
@@ -22,15 +22,8 @@ jobs:
         with:
           flutter-version: '3.13.7'
 
-
       - name: Install dependencies
         run: dart pub get
-
-      - name: Analyze project source
-        run: dart analyze
-
-      - name: Run tests
-        run: flutter test test/
 
       - name: Publish package
         run: dart pub publish --force
