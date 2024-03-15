@@ -34,5 +34,3 @@ jobs:
 
       - name: Publish package
         run: dart pub publish --force
-        env:
-          PUB_CREDENTIALS: ${{ secrets.PUB_DEV_API_KEY }}
