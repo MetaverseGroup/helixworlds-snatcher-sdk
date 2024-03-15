@@ -8,10 +8,9 @@
 name: Dart
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    types: [closed]
+    branches: [main]
 
 jobs:
   build:
@@ -34,8 +33,6 @@ jobs:
         run: flutter test test/
 
       - name: Publish package
-        run: dart pub publish
+        run: dart pub publish --force
         env:
           PUB_CREDENTIALS: ${{ secrets.PUB_DEV_API_KEY }}
-
-        
