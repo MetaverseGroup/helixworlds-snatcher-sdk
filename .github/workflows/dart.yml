@@ -20,6 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2.11.0
+        with:
+          flutter-version: '3.13.7'
 
 
       - name: Install dependencies
@@ -30,3 +32,10 @@ jobs:
 
       - name: Run tests
         run: flutter test test/
+
+      - name: Publish package
+        run: dart pub publish
+        env:
+          PUB_CREDENTIALS: ${{ secrets.PUB_DEV_API_KEY }}
+
+        

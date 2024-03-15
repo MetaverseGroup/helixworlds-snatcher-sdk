@@ -12,15 +12,18 @@ class ImageDetector {
 
 
   Future<String?> processImage(InputImage inputImage) async {
-    final labels = await _labeler.processImage(inputImage);
-    // ignore: unused_local_variable
-    String text = 'Labels found: ${labels.length}\n\n';
+    try{
+      final labels = await _labeler.processImage(inputImage);
+      // ignore: unused_local_variable
+      String text = 'Labels found: ${labels.length}\n\n';
 
-    if (labels.isEmpty) {
-      return null;
+      if (labels.isEmpty) {
+        return null;
+      }
+      return labels.first.label;
+    }catch(e){
+      return "";
     }
-
-    return labels.first.label;
     // if (labels.first.confidence < 50) {
     //   return null;
     // }

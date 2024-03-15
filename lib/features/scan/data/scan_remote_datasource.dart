@@ -48,7 +48,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
           "Authorization": "Bearer $accessToken",
         });
         final response = await dio.post(
-          '$baseUrl/scanner/scan_image',
+          '$baseUrl/v2/scanner/scan_image',
           options: options,
           data: formData,
         );

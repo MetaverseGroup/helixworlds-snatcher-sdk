@@ -58,10 +58,16 @@ Helixworld . Mobile App for the Helixworld.
 
   setupServices()
 
+  /// for remote scan service it will require calling endpoint 
+  loginMobile("Developer ID", "Secret Key")
+
   /// this will get you access to the methods available on the SDK 
   getSDK()
 
-  /// this is the methods you can use for scanning we should use the scanItem method and provide an optional param if is using amazon rekognition
+  /// requirement in order to use the cloud based image recognition from MVG please contact our team in order to access this feature
+  Future<Either<Failure, Success>> loginMobile(String developerId, String secret);
+
+  /// this is the methods you can use for scanning we should use the scanItem method and provide an optional param if is using remote scan service
   Future<Either<Failure, Success>> scanItems(InputImage image);
   Future<Either<Failure, Success>> scanItem({bool isAR = false});
   Future<Either<Failure, Success>> scanItemsByAR(XFile image);
