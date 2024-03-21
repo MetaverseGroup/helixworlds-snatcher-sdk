@@ -10,6 +10,7 @@ import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_googleanalytics_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_remote_datasource.dart';
+import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_rudderstack_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_repository.dart';
 import 'package:helixworlds_snatcher_sdk/features/auth/auth_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/auth/auth_remote_datasource.dart';
@@ -27,6 +28,7 @@ import 'package:helixworlds_snatcher_sdk/utils/network_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/pref_utils.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rudder_sdk_flutter/RudderController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_repository.dart';
 import 'package:helixworlds_snatcher_sdk/features/user_details/data/user_details_local_datsource.dart';
@@ -37,6 +39,8 @@ import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:simple_connection_checker/simple_connection_checker.dart';
+import 'package:rudder_sdk_flutter/RudderClient.dart';
+import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -50,7 +54,9 @@ String myProjectARN = "";
 /// labelerOptions -> 
 /// mixPanelToken -> used for analytics tracking purposes
 /// arRegion, arAccessKey, arSecretKey, projectARN -> this data is fetched if you setup amazon rekognition and utilized the cloud image labeling
-setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", String arRegion = "", String arAccessKey = "", String arSecretKey = "", String projectARN = "", String sentryDSN = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264"}) async {
+/// rudderStackKey -> fetch this when you have access to your rudderstack, rudderPlaneUrl and rudderControlPlaneUrl
+
+setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", String arRegion = "", String arAccessKey = "", String arSecretKey = "", String projectARN = "", String sentryDSN = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264", String rudderStackKey = "", String rudderPlaneUrl = "https://rudderstacgwyx.dataplane.rudderstack.com", String rudderControlPlaneUrl = "https://api.rudderlabs.com"}) async {
   _sharedPref = await SharedPreferences.getInstance();
   SimpleConnectionChecker checker = SimpleConnectionChecker();
   serviceLocator.registerLazySingleton(() => NetworkUtil(checker));
@@ -70,7 +76,7 @@ setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", Str
   // rekognition
   myProjectARN = projectARN;
   _setupARekognition(arRegion, arAccessKey, arSecretKey);
-
+  _setupRudderStack(rudderStackKey, rudderControlPlaneUrl: rudderControlPlaneUrl, rudderPlaneUrl: rudderPlaneUrl);
   _setupSDK();
   _setupAnalytics(mixPanelToken);
   
@@ -315,6 +321,23 @@ ARekognitionImageDetector getARekognitionImageDetector(){
 
 IHelixworldsSDKService getSDK(){
   return serviceLocator<HelixworldsSDKService>();
+}
+
+// analytics service
+_setupRudderStack(String rudderStackKey, {String rudderPlaneUrl = "https://rudderstacgwyx.dataplane.rudderstack.com", String rudderControlPlaneUrl = "https://api.rudderlabs.com"}){
+  RudderConfigBuilder builder = RudderConfigBuilder();
+  builder.withDataPlaneUrl(rudderPlaneUrl);
+  builder.withControlPlaneUrl(rudderControlPlaneUrl);
+  // RudderOption options = RudderOption();
+  // options.putIntegration("Amplitude", true);
+
+  RudderClient.instance.initialize(rudderStackKey, config: builder.build());
+  serviceLocator.registerLazySingleton(() => AnalyticsRudderStackRemoteDatasource(_getRudderController()));
+}
+
+
+RudderController _getRudderController(){
+  return RudderClient.instance;
 }
 
 
