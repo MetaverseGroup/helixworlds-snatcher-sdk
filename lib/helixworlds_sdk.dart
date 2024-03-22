@@ -45,8 +45,8 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   final ImagePicker picker;
   final HelperUtil _helperUtil;
   final bool isLocal;
-  final IAnalyticsMixpanelsRemoteDatasource analyticsMixpanelsRemoteDatasource;
-  HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, this.analyticsMixpanelsRemoteDatasource, {this.isLocal = true});
+  final IAnalyticsMixpanelsRemoteDatasource? analyticsMixpanelsRemoteDatasource;
+  HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, {this.isLocal = true, this.analyticsMixpanelsRemoteDatasource});
 
   @override
   Future<Either<Failure, Success>> scanItems(XFile image) async {
@@ -182,8 +182,12 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   @override
   Future<Either<Failure, Success>> trackAnalyticsMixpanel(String name, Map<String, dynamic> value) async {
     try{
-      var result = await analyticsMixpanelsRemoteDatasource.trackEvent(name, value);
-      return result;
+      if(analyticsMixpanelsRemoteDatasource != null){
+        var result = await analyticsMixpanelsRemoteDatasource!.trackEvent(name, value);
+        return result;
+      } else {
+        return Left(AnalyticsLogsFailure());
+      }
     }catch(e){
       return Left(HSSDKFailure());
     }

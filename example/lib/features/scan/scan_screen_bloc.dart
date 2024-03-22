@@ -64,6 +64,11 @@ class ScanScreenBackEvent extends ScanScreenEvent {
   List<Object?> get props => [];
 }
 
+class ScanScreenLogAnalyticsInstallEvent extends ScanScreenEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class ScanScreenLoadingState extends ScanScreenState { 
   @override
   List<Object> get props => [];
@@ -114,7 +119,12 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     fetchUserID();
     // please fill this with your client ID and secret key from MVG Team
     _helixworldSDK.loginMobile("AccessKey", "Secret");
+    on<ScanScreenLogAnalyticsInstallEvent>((event, emit) {
+      // invoke track install
+      _helixworldSDK.getAnalyticsRepoService().analyticsScannedItems(const InventoryItemModel());
+    });
     on<ScanScreenGetStartedEvent>((event, emit){
+      _helixworldSDK.getAnalyticsRepoService().analyticsScannedItems(const InventoryItemModel());
       _helixworldSDK.getAnalyticsRepoService().analyticsTrackInstalls();
       emit(ScanScreenInitialState());
     });

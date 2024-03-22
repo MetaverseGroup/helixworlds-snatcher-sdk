@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'dart:async';
+import 'package:example/const/env_const.dart';
 import 'package:example/features/getting_started/getting_started_screen.dart';
 import 'package:example/features/guide/guide_screen.dart';
 import 'package:example/features/log/log_screen.dart';
@@ -8,6 +9,7 @@ import 'package:example/features/scan/scan_screen_bloc.dart';
 import 'package:example/features/view_product/view_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:go_router/go_router.dart';
 import 'package:helixworlds_snatcher_sdk/theme/bloc/theme_bloc.dart';
@@ -63,15 +65,17 @@ Future<String> _getModel(String assetPath) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: "assets/.env");
   final modelPath = await _getModel("assets/model.tflite");
   final options = LocalLabelerOptions(modelPath: modelPath);
   setupServices(
     options, 
-    mixPanelToken: "c680bac0fb6044d20faaa729a54cb081",
-    projectARN: "arn:aws:rekognition:us-east-1:979222079345:project/mvg_jan_20_2024_image_model/version/mvg_jan_20_2024_image_model.2024-01-20T05.47.36/1705700856639",
+    mixPanelToken: mixPanelToken ?? "",
     arAccessKey: "access key here",
     arSecretKey: "secret key here",
-    arRegion: "us-east-1"
+    arRegion: region ?? "",
+    rudderPlaneUrl: rudderDataPlaneUrl ?? "",
+    rudderStackKey: rudderKey ?? ""
   );
   Future.delayed(const Duration(seconds: 1)).then((_) {
     runZonedGuarded(() async {
@@ -93,6 +97,8 @@ class MyApp extends StatelessWidget {
         child: BlocBuilder<ThemeBloc, ThemeState>(
           bloc: getThemeBloc(),
           builder: (context, state) {
+            
+
             return MaterialApp.router(
               theme: theme,
               title: 'Helixworlds',

@@ -32,3 +32,4 @@ build/
 
 .flutter-plugins-dependencies
 .flutter-plugins
+/example/assets/.env

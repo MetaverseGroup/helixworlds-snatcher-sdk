@@ -1,3 +1,5 @@
-## 0.0.1
+## 1.0.4 + 7
 
-* TODO: Describe initial release.
+* Added Enhancements on null handler
+* added support for analytics for rudderstack
+
