@@ -17,10 +17,13 @@ class AnalyticsRudderStackRemoteDatasource extends IAnalyticsRudderStackRemoteDa
   AnalyticsRudderStackRemoteDatasource(this.rudderController);
   @override
   Future<Either<Failure, Success>> trackEvent(String name, RudderProperty value) async {
-    try{
+    try {
       rudderController.track(name, properties: value);
       return Right(AnalyticsLogsSuccess());
-    }catch(e){
+    } catch(e) {
+      RudderProperty properties = RudderProperty();
+      properties.put("error_message", e.toString());
+      rudderController.track("error_event", properties: properties);
       return Left(AnalyticsLogsFailure());
     }
   }
