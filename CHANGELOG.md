@@ -5,3 +5,6 @@
 
 ## 1.0.5 + 9
 * added new method for Helixworld SDK toggles for Production
+
+## 1.0.5 + 10
+* update GCG Details

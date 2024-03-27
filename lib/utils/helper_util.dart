@@ -89,7 +89,7 @@ class HelperUtil {
     } else if (item.contains('p008')) {
       return 'Balenciaga SKIWEAR';
     } else if (item.contains('P012')) {
-      return 'GCG';
+      return 'GCG FANNY PACK';
     } else {
       return '';
     }
@@ -148,7 +148,7 @@ class HelperUtil {
     } else if(item.contains('p008')) {
       return 'SKIWEAR';
     } else if(item.contains('P012')) {
-      return 'FANNY PACK';
+      return 'FORTNITE';
     } else {
       return '';
     }
