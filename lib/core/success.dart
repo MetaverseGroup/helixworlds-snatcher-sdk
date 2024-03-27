@@ -28,3 +28,5 @@ class AuthSuccessToken extends Success {
   final String accessToken;
   AuthSuccessToken(this.accessToken);
 }
+
+class HSSSuccess extends Success {}

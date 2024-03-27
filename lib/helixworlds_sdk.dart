@@ -2,6 +2,7 @@
 
 
 // ignore_for_file: depend_on_referenced_packages
+import 'package:helixworlds_snatcher_sdk/core/const.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
@@ -17,6 +18,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class IHelixworldsSDKService{
+  // call this method in order to set whole SDK env to production environment
+  Future<Either<Failure, Success>> setForProduction();
   /// set isAR = true then it will process the image detection using amazon rekognition
   Future<Either<Failure, Success>> scanItem({bool isAR = false});
   Future<Either<Failure, Success>> scanItems(XFile image);  
@@ -205,6 +208,16 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
       return result;
     }catch(e){
       return Left(AuthenticationFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, Success>> setForProduction() async {
+    try{
+      setToProduction();
+      return Right(HSSSuccess());
+    }catch(e){
+      return Left(HSSDKFailure());
     }
   }
 

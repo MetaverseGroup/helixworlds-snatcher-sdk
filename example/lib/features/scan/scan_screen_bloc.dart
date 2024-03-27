@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages, invalid_use_of_visible_for_testing_member, duplicate_ignore
 
+import 'package:example/const/env_const.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
@@ -118,7 +119,7 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
   ScanScreenPageBloc(this._helixworldSDK):super(ScanScreenGettingStartedState()){
     fetchUserID();
     // please fill this with your client ID and secret key from MVG Team
-    _helixworldSDK.loginMobile("AccessKey", "Secret");
+    _helixworldSDK.loginMobile(developerKey ?? "", secretKey ?? "");
     on<ScanScreenLogAnalyticsInstallEvent>((event, emit) {
       // invoke track install
       _helixworldSDK.getAnalyticsRepoService().analyticsScannedItems(const InventoryItemModel());
@@ -139,9 +140,9 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     on<ScanScreenTakePictureEvent>((event, emit) async{
       emit(ScanScreenLoadingState());
       // using local based model scan
-      var result = await _helixworldSDK.scanItem();
+      // var result = await _helixworldSDK.scanItem();
       // using the cloud based model scan
-      // var result = await _helixworldSDK.scanItem(isAR: true);
+      var result = await _helixworldSDK.scanItem(isAR: true);
       if(result.isRight()){
         var rightResult = result.fold((l) => null, (r) => r);
         if(rightResult is ObjectDetectedSuccess){
