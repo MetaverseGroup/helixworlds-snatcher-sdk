@@ -1,5 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'dart:convert';
+
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
@@ -23,13 +26,23 @@ main(){
   MockIScanRemoteDatasource? remoteDS;
   
   setUp((){
+    WidgetsFlutterBinding.ensureInitialized();
     remoteDS = MockIScanRemoteDatasource();
   });
 
   group("mapping InventoryItemModel test", (){
-    test("success", (){
-      var result = InventoryItemModel.fromJson(scanSuccessResponse);
-      expect(result.id, "1ee");
+    test("success", () async{
+      try{
+        var jsonData = await loadJsonString('test/features/scan/data/testdata.json');
+        var result = InventoryItemModel.fromJson(
+          jsonDecode(
+            jsonData
+          )
+        );
+        expect(result.id, "1ee");
+      }catch(e){
+        expect(null, false);
+      }
     });
   });
 
