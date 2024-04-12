@@ -3,9 +3,9 @@ bool isProd = false;
 void setToProduction(){
   isProd = true;
 }
-void setBaseSDKUrl(String gathererUrl, String inventoryUrl){
+void setBaseSDKUrl(String gathererUrl, String inventUrl){
   baseUrl = gathererUrl;
-  inventoryUrl = inventoryUrl;
+  inventoryUrl = inventUrl;
 }
 String? baseUrl;
 String? inventoryUrl;

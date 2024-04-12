@@ -54,8 +54,9 @@ String myProjectARN = "";
 /// mixPanelToken -> used for analytics tracking purposes
 /// arRegion, arAccessKey, arSecretKey, projectARN -> this data is fetched if you setup amazon rekognition and utilized the cloud image labeling
 /// rudderStackKey -> fetch this when you have access to your rudderstack, rudderPlaneUrl and rudderControlPlaneUrl
+/// isLocal -> this will be used to identify if it will  
 
-setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", String arRegion = "", String arAccessKey = "", String arSecretKey = "", String projectARN = "", String sentryDSN = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264", String rudderStackKey = "", String rudderPlaneUrl = "https://rudderstacgwyx.dataplane.rudderstack.com"}) async {
+setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", String arRegion = "", String arAccessKey = "", String arSecretKey = "", String projectARN = "", String sentryDSN = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264", String rudderStackKey = "", String rudderPlaneUrl = "https://rudderstacgwyx.dataplane.rudderstack.com", bool isLocal = true}) async {
   _sharedPref = await SharedPreferences.getInstance();
   SimpleConnectionChecker checker = SimpleConnectionChecker();
   serviceLocator.registerLazySingleton(() => NetworkUtil(checker));
@@ -75,7 +76,7 @@ setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", Str
   // rekognition
   myProjectARN = projectARN;
   _setupARekognition(arRegion, arAccessKey, arSecretKey);
-  _setupSDK();
+  _setupSDK(isLocal: isLocal);
   _setupRudderStack(rudderStackKey, rudderPlaneUrl: rudderPlaneUrl);
   _setupAnalytics(mixPanelToken);
   
@@ -306,10 +307,10 @@ ILogLocalDatasource getLogLocalDS(){
   return serviceLocator<LogLocalDatasource>();
 }
 
-_setupSDK(){
+_setupSDK({bool isLocal = true}){
   serviceLocator.registerLazySingleton(()=> ARekognitionImageDetector(_getARekognition(), myProjectARN));
 
-  serviceLocator.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil(),  analyticsMixpanelsRemoteDatasource: getAnalyticsMixpanelRemoteDS()));
+  serviceLocator.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil(),  analyticsMixpanelsRemoteDatasource: getAnalyticsMixpanelRemoteDS(), isLocal: isLocal));
 }
 
 ARekognitionImageDetector getARekognitionImageDetector(){
