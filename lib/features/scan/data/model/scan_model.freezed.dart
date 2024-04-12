@@ -1,6 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint, duplicate_ignore
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'scan_model.dart';
@@ -20,30 +20,15 @@ InventoryItemModel _$InventoryItemModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$InventoryItemModel {
-  String? get id =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
-  @JsonKey(name: "project_id")
-  String? get projectId => throw _privateConstructorUsedError;
-  String? get sku => throw _privateConstructorUsedError;
+  @JsonKey(name: "inventoryId")
+  String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "redirectUrl")
   String? get url => throw _privateConstructorUsedError;
+  @JsonKey(name: "name")
   String? get title => throw _privateConstructorUsedError;
-  String? get category => throw _privateConstructorUsedError;
-  String? get image =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
-  @JsonKey(name: "twin_url")
-  String? get twinUrl =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
-  @JsonKey(name: "twin_status")
-  String? get twinStatus =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
-  @JsonKey(name: "twin_image")
-  String? get twinImage =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
-  @JsonKey(name: "created_at")
-  String? get createdAt =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
-  @JsonKey(name: "update_at")
-  String? get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'images')
+  List<ImageInfo>? get images => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -58,18 +43,11 @@ abstract class $InventoryItemModelCopyWith<$Res> {
       _$InventoryItemModelCopyWithImpl<$Res, InventoryItemModel>;
   @useResult
   $Res call(
-      {String? id,
-      @JsonKey(name: "project_id") String? projectId,
-      String? sku,
-      String? url,
-      String? title,
-      String? category,
-      String? image,
-      @JsonKey(name: "twin_url") String? twinUrl,
-      @JsonKey(name: "twin_status") String? twinStatus,
-      @JsonKey(name: "twin_image") String? twinImage,
-      @JsonKey(name: "created_at") String? createdAt,
-      @JsonKey(name: "update_at") String? updatedAt});
+      {@JsonKey(name: "inventoryId") String? id,
+      @JsonKey(name: "redirectUrl") String? url,
+      @JsonKey(name: "name") String? title,
+      @JsonKey(name: 'images') List<ImageInfo>? images,
+      String? description});
 }
 
 /// @nodoc
@@ -86,30 +64,15 @@ class _$InventoryItemModelCopyWithImpl<$Res, $Val extends InventoryItemModel>
   @override
   $Res call({
     Object? id = freezed,
-    Object? projectId = freezed,
-    Object? sku = freezed,
     Object? url = freezed,
     Object? title = freezed,
-    Object? category = freezed,
-    Object? image = freezed,
-    Object? twinUrl = freezed,
-    Object? twinStatus = freezed,
-    Object? twinImage = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? images = freezed,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      projectId: freezed == projectId
-          ? _value.projectId
-          : projectId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      sku: freezed == sku
-          ? _value.sku
-          : sku // ignore: cast_nullable_to_non_nullable
               as String?,
       url: freezed == url
           ? _value.url
@@ -119,33 +82,13 @@ class _$InventoryItemModelCopyWithImpl<$Res, $Val extends InventoryItemModel>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      category: freezed == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as String?,
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String?,
-      twinUrl: freezed == twinUrl
-          ? _value.twinUrl
-          : twinUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      twinStatus: freezed == twinStatus
-          ? _value.twinStatus
-          : twinStatus // ignore: cast_nullable_to_non_nullable
-              as String?,
-      twinImage: freezed == twinImage
-          ? _value.twinImage
-          : twinImage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
+      images: freezed == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<ImageInfo>?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -160,18 +103,11 @@ abstract class _$$InventoryItemModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? id,
-      @JsonKey(name: "project_id") String? projectId,
-      String? sku,
-      String? url,
-      String? title,
-      String? category,
-      String? image,
-      @JsonKey(name: "twin_url") String? twinUrl,
-      @JsonKey(name: "twin_status") String? twinStatus,
-      @JsonKey(name: "twin_image") String? twinImage,
-      @JsonKey(name: "created_at") String? createdAt,
-      @JsonKey(name: "update_at") String? updatedAt});
+      {@JsonKey(name: "inventoryId") String? id,
+      @JsonKey(name: "redirectUrl") String? url,
+      @JsonKey(name: "name") String? title,
+      @JsonKey(name: 'images') List<ImageInfo>? images,
+      String? description});
 }
 
 /// @nodoc
@@ -186,30 +122,15 @@ class __$$InventoryItemModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? projectId = freezed,
-    Object? sku = freezed,
     Object? url = freezed,
     Object? title = freezed,
-    Object? category = freezed,
-    Object? image = freezed,
-    Object? twinUrl = freezed,
-    Object? twinStatus = freezed,
-    Object? twinImage = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? images = freezed,
+    Object? description = freezed,
   }) {
     return _then(_$InventoryItemModelImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      projectId: freezed == projectId
-          ? _value.projectId
-          : projectId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      sku: freezed == sku
-          ? _value.sku
-          : sku // ignore: cast_nullable_to_non_nullable
               as String?,
       url: freezed == url
           ? _value.url
@@ -219,33 +140,13 @@ class __$$InventoryItemModelImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      category: freezed == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as String?,
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String?,
-      twinUrl: freezed == twinUrl
-          ? _value.twinUrl
-          : twinUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      twinStatus: freezed == twinStatus
-          ? _value.twinStatus
-          : twinStatus // ignore: cast_nullable_to_non_nullable
-              as String?,
-      twinImage: freezed == twinImage
-          ? _value.twinImage
-          : twinImage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
+      images: freezed == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<ImageInfo>?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -255,62 +156,42 @@ class __$$InventoryItemModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$InventoryItemModelImpl implements _InventoryItemModel {
   const _$InventoryItemModelImpl(
-      {this.id,
-      @JsonKey(name: "project_id") this.projectId,
-      this.sku,
-      this.url,
-      this.title,
-      this.category,
-      this.image,
-      @JsonKey(name: "twin_url") this.twinUrl,
-      @JsonKey(name: "twin_status") this.twinStatus,
-      @JsonKey(name: "twin_image") this.twinImage,
-      @JsonKey(name: "created_at") this.createdAt,
-      @JsonKey(name: "update_at") this.updatedAt});
+      {@JsonKey(name: "inventoryId") this.id,
+      @JsonKey(name: "redirectUrl") this.url,
+      @JsonKey(name: "name") this.title,
+      @JsonKey(name: 'images') final List<ImageInfo>? images,
+      this.description})
+      : _images = images;
 
   factory _$InventoryItemModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$InventoryItemModelImplFromJson(json);
 
   @override
+  @JsonKey(name: "inventoryId")
   final String? id;
-// ignore: invalid_annotation_target
   @override
-  @JsonKey(name: "project_id")
-  final String? projectId;
-  @override
-  final String? sku;
-  @override
+  @JsonKey(name: "redirectUrl")
   final String? url;
   @override
+  @JsonKey(name: "name")
   final String? title;
+  final List<ImageInfo>? _images;
   @override
-  final String? category;
+  @JsonKey(name: 'images')
+  List<ImageInfo>? get images {
+    final value = _images;
+    if (value == null) return null;
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
-  final String? image;
-// ignore: invalid_annotation_target
-  @override
-  @JsonKey(name: "twin_url")
-  final String? twinUrl;
-// ignore: invalid_annotation_target
-  @override
-  @JsonKey(name: "twin_status")
-  final String? twinStatus;
-// ignore: invalid_annotation_target
-  @override
-  @JsonKey(name: "twin_image")
-  final String? twinImage;
-// ignore: invalid_annotation_target
-  @override
-  @JsonKey(name: "created_at")
-  final String? createdAt;
-// ignore: invalid_annotation_target
-  @override
-  @JsonKey(name: "update_at")
-  final String? updatedAt;
+  final String? description;
 
   @override
   String toString() {
-    return 'InventoryItemModel(id: $id, projectId: $projectId, sku: $sku, url: $url, title: $title, category: $category, image: $image, twinUrl: $twinUrl, twinStatus: $twinStatus, twinImage: $twinImage, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'InventoryItemModel(id: $id, url: $url, title: $title, images: $images, description: $description)';
   }
 
   @override
@@ -319,29 +200,17 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
         (other.runtimeType == runtimeType &&
             other is _$InventoryItemModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.projectId, projectId) ||
-                other.projectId == projectId) &&
-            (identical(other.sku, sku) || other.sku == sku) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.category, category) ||
-                other.category == category) &&
-            (identical(other.image, image) || other.image == image) &&
-            (identical(other.twinUrl, twinUrl) || other.twinUrl == twinUrl) &&
-            (identical(other.twinStatus, twinStatus) ||
-                other.twinStatus == twinStatus) &&
-            (identical(other.twinImage, twinImage) ||
-                other.twinImage == twinImage) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, projectId, sku, url, title,
-      category, image, twinUrl, twinStatus, twinImage, createdAt, updatedAt);
+  int get hashCode => Object.hash(runtimeType, id, url, title,
+      const DeepCollectionEquality().hash(_images), description);
 
   @JsonKey(ignore: true)
   @override
@@ -360,55 +229,474 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
 
 abstract class _InventoryItemModel implements InventoryItemModel {
   const factory _InventoryItemModel(
-          {final String? id,
-          @JsonKey(name: "project_id") final String? projectId,
-          final String? sku,
-          final String? url,
-          final String? title,
-          final String? category,
-          final String? image,
-          @JsonKey(name: "twin_url") final String? twinUrl,
-          @JsonKey(name: "twin_status") final String? twinStatus,
-          @JsonKey(name: "twin_image") final String? twinImage,
-          @JsonKey(name: "created_at") final String? createdAt,
-          @JsonKey(name: "update_at") final String? updatedAt}) =
-      _$InventoryItemModelImpl;
+      {@JsonKey(name: "inventoryId") final String? id,
+      @JsonKey(name: "redirectUrl") final String? url,
+      @JsonKey(name: "name") final String? title,
+      @JsonKey(name: 'images') final List<ImageInfo>? images,
+      final String? description}) = _$InventoryItemModelImpl;
 
   factory _InventoryItemModel.fromJson(Map<String, dynamic> json) =
       _$InventoryItemModelImpl.fromJson;
 
   @override
+  @JsonKey(name: "inventoryId")
   String? get id;
-  @override // ignore: invalid_annotation_target
-  @JsonKey(name: "project_id")
-  String? get projectId;
   @override
-  String? get sku;
-  @override
+  @JsonKey(name: "redirectUrl")
   String? get url;
   @override
+  @JsonKey(name: "name")
   String? get title;
   @override
-  String? get category;
+  @JsonKey(name: 'images')
+  List<ImageInfo>? get images;
   @override
-  String? get image;
-  @override // ignore: invalid_annotation_target
-  @JsonKey(name: "twin_url")
-  String? get twinUrl;
-  @override // ignore: invalid_annotation_target
-  @JsonKey(name: "twin_status")
-  String? get twinStatus;
-  @override // ignore: invalid_annotation_target
-  @JsonKey(name: "twin_image")
-  String? get twinImage;
-  @override // ignore: invalid_annotation_target
-  @JsonKey(name: "created_at")
-  String? get createdAt;
-  @override // ignore: invalid_annotation_target
-  @JsonKey(name: "update_at")
-  String? get updatedAt;
+  String? get description;
   @override
   @JsonKey(ignore: true)
   _$$InventoryItemModelImplCopyWith<_$InventoryItemModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ImageInfo _$ImageInfoFromJson(Map<String, dynamic> json) {
+  return _ImageInfo.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ImageInfo {
+  @JsonKey(name: 'file')
+  FileInfo get file => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ImageInfoCopyWith<ImageInfo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ImageInfoCopyWith<$Res> {
+  factory $ImageInfoCopyWith(ImageInfo value, $Res Function(ImageInfo) then) =
+      _$ImageInfoCopyWithImpl<$Res, ImageInfo>;
+  @useResult
+  $Res call({@JsonKey(name: 'file') FileInfo file});
+
+  $FileInfoCopyWith<$Res> get file;
+}
+
+/// @nodoc
+class _$ImageInfoCopyWithImpl<$Res, $Val extends ImageInfo>
+    implements $ImageInfoCopyWith<$Res> {
+  _$ImageInfoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? file = null,
+  }) {
+    return _then(_value.copyWith(
+      file: null == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as FileInfo,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FileInfoCopyWith<$Res> get file {
+    return $FileInfoCopyWith<$Res>(_value.file, (value) {
+      return _then(_value.copyWith(file: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ImageInfoImplCopyWith<$Res>
+    implements $ImageInfoCopyWith<$Res> {
+  factory _$$ImageInfoImplCopyWith(
+          _$ImageInfoImpl value, $Res Function(_$ImageInfoImpl) then) =
+      __$$ImageInfoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'file') FileInfo file});
+
+  @override
+  $FileInfoCopyWith<$Res> get file;
+}
+
+/// @nodoc
+class __$$ImageInfoImplCopyWithImpl<$Res>
+    extends _$ImageInfoCopyWithImpl<$Res, _$ImageInfoImpl>
+    implements _$$ImageInfoImplCopyWith<$Res> {
+  __$$ImageInfoImplCopyWithImpl(
+      _$ImageInfoImpl _value, $Res Function(_$ImageInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? file = null,
+  }) {
+    return _then(_$ImageInfoImpl(
+      file: null == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as FileInfo,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ImageInfoImpl implements _ImageInfo {
+  const _$ImageInfoImpl({@JsonKey(name: 'file') required this.file});
+
+  factory _$ImageInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ImageInfoImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'file')
+  final FileInfo file;
+
+  @override
+  String toString() {
+    return 'ImageInfo(file: $file)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ImageInfoImpl &&
+            (identical(other.file, file) || other.file == file));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, file);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ImageInfoImplCopyWith<_$ImageInfoImpl> get copyWith =>
+      __$$ImageInfoImplCopyWithImpl<_$ImageInfoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ImageInfoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ImageInfo implements ImageInfo {
+  const factory _ImageInfo(
+      {@JsonKey(name: 'file') required final FileInfo file}) = _$ImageInfoImpl;
+
+  factory _ImageInfo.fromJson(Map<String, dynamic> json) =
+      _$ImageInfoImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'file')
+  FileInfo get file;
+  @override
+  @JsonKey(ignore: true)
+  _$$ImageInfoImplCopyWith<_$ImageInfoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+FileInfo _$FileInfoFromJson(Map<String, dynamic> json) {
+  return _FileInfo.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FileInfo {
+  String get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get extension => throw _privateConstructorUsedError;
+  String get path => throw _privateConstructorUsedError;
+  String get downloadUrl => throw _privateConstructorUsedError;
+  int get size => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at')
+  DateTime get updatedAt => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FileInfoCopyWith<FileInfo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FileInfoCopyWith<$Res> {
+  factory $FileInfoCopyWith(FileInfo value, $Res Function(FileInfo) then) =
+      _$FileInfoCopyWithImpl<$Res, FileInfo>;
+  @useResult
+  $Res call(
+      {String id,
+      String name,
+      String extension,
+      String path,
+      String downloadUrl,
+      int size,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt});
+}
+
+/// @nodoc
+class _$FileInfoCopyWithImpl<$Res, $Val extends FileInfo>
+    implements $FileInfoCopyWith<$Res> {
+  _$FileInfoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? extension = null,
+    Object? path = null,
+    Object? downloadUrl = null,
+    Object? size = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      extension: null == extension
+          ? _value.extension
+          : extension // ignore: cast_nullable_to_non_nullable
+              as String,
+      path: null == path
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
+              as String,
+      downloadUrl: null == downloadUrl
+          ? _value.downloadUrl
+          : downloadUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      size: null == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FileInfoImplCopyWith<$Res>
+    implements $FileInfoCopyWith<$Res> {
+  factory _$$FileInfoImplCopyWith(
+          _$FileInfoImpl value, $Res Function(_$FileInfoImpl) then) =
+      __$$FileInfoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String name,
+      String extension,
+      String path,
+      String downloadUrl,
+      int size,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt});
+}
+
+/// @nodoc
+class __$$FileInfoImplCopyWithImpl<$Res>
+    extends _$FileInfoCopyWithImpl<$Res, _$FileInfoImpl>
+    implements _$$FileInfoImplCopyWith<$Res> {
+  __$$FileInfoImplCopyWithImpl(
+      _$FileInfoImpl _value, $Res Function(_$FileInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? extension = null,
+    Object? path = null,
+    Object? downloadUrl = null,
+    Object? size = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+  }) {
+    return _then(_$FileInfoImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      extension: null == extension
+          ? _value.extension
+          : extension // ignore: cast_nullable_to_non_nullable
+              as String,
+      path: null == path
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
+              as String,
+      downloadUrl: null == downloadUrl
+          ? _value.downloadUrl
+          : downloadUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      size: null == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FileInfoImpl implements _FileInfo {
+  const _$FileInfoImpl(
+      {required this.id,
+      required this.name,
+      required this.extension,
+      required this.path,
+      required this.downloadUrl,
+      required this.size,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'updated_at') required this.updatedAt});
+
+  factory _$FileInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FileInfoImplFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String name;
+  @override
+  final String extension;
+  @override
+  final String path;
+  @override
+  final String downloadUrl;
+  @override
+  final int size;
+  @override
+  @JsonKey(name: 'created_at')
+  final DateTime createdAt;
+  @override
+  @JsonKey(name: 'updated_at')
+  final DateTime updatedAt;
+
+  @override
+  String toString() {
+    return 'FileInfo(id: $id, name: $name, extension: $extension, path: $path, downloadUrl: $downloadUrl, size: $size, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FileInfoImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.extension, extension) ||
+                other.extension == extension) &&
+            (identical(other.path, path) || other.path == path) &&
+            (identical(other.downloadUrl, downloadUrl) ||
+                other.downloadUrl == downloadUrl) &&
+            (identical(other.size, size) || other.size == size) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, extension, path,
+      downloadUrl, size, createdAt, updatedAt);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FileInfoImplCopyWith<_$FileInfoImpl> get copyWith =>
+      __$$FileInfoImplCopyWithImpl<_$FileInfoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FileInfoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FileInfo implements FileInfo {
+  const factory _FileInfo(
+          {required final String id,
+          required final String name,
+          required final String extension,
+          required final String path,
+          required final String downloadUrl,
+          required final int size,
+          @JsonKey(name: 'created_at') required final DateTime createdAt,
+          @JsonKey(name: 'updated_at') required final DateTime updatedAt}) =
+      _$FileInfoImpl;
+
+  factory _FileInfo.fromJson(Map<String, dynamic> json) =
+      _$FileInfoImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get name;
+  @override
+  String get extension;
+  @override
+  String get path;
+  @override
+  String get downloadUrl;
+  @override
+  int get size;
+  @override
+  @JsonKey(name: 'created_at')
+  DateTime get createdAt;
+  @override
+  @JsonKey(name: 'updated_at')
+  DateTime get updatedAt;
+  @override
+  @JsonKey(ignore: true)
+  _$$FileInfoImplCopyWith<_$FileInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

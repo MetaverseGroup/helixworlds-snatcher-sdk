@@ -59,9 +59,9 @@ class ScanRepository extends IScanRepository {
     final model = MyLogModel(
               id: object.id,
               name: object.title,
-              image: object.image,
+              image: object.images?.first.file.downloadUrl,
               date: _helperUtil.getDateString(),
-              game: object.projectId,
+              // game: object.projectId,
               url: object.url ?? ""
     );
     newLogs.add(model);
@@ -104,9 +104,9 @@ class ScanRepository extends IScanRepository {
         var model = InventoryItemModel(
           id: _helperUtil.getId(result),
           title: _helperUtil.getTitle(result),
-          url: _helperUtil.getUrl(result),
-          image: _helperUtil.getImage(result),
-          projectId: _helperUtil.getGame(result)
+          url: _helperUtil.getUrl(result)
+          // image: _helperUtil.getImage(result),
+          // projectId: _helperUtil.getGame(result)
         );
         logModel(model);
         return Right(model);
@@ -131,16 +131,10 @@ class ScanRepository extends IScanRepository {
         if(result.isRight()){
           var rightResult = result.fold((l) => null, (r) => r) ?? "";
           if(_helperUtil.getId(rightResult).isNotEmpty) {
-          // this is hard coded details 
-          var model = InventoryItemModel(
-            id: _helperUtil.getId(rightResult),
-            title: _helperUtil.getTitle(rightResult),
-            url: _helperUtil.getUrl(rightResult),
-            image: _helperUtil.getImage(rightResult),
-            projectId: _helperUtil.getGame(rightResult)
-          );
-          logModel(model);
-          return Right(model);
+          var inventoryResult = await _remoteDS.getInventoryItemByID(rightResult);
+          var rightInventoryResult = inventoryResult.fold((l) => null, (r) => r);
+          logModel(rightInventoryResult ?? const InventoryItemModel());
+          return inventoryResult;
         } else {
           return Left(ItemNotDetectedFailure());
         }
@@ -159,9 +153,9 @@ class ScanRepository extends IScanRepository {
       final model = MyLogModel(
                 id: items.id,
                 name: items.title,
-                image: items.image,
+                // image: items.image,
                 date: _helperUtil.getDateString(),
-                game: items.projectId,
+                // game: items.projectId,
                 url: items.url ?? ""
       );
       List<MyLogModel> myitems = [];

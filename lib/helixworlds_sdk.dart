@@ -88,7 +88,6 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   Future<Either<Failure, Success>> scanItem({bool isAR = false}) async {
     try{
       var image = await picker.pickImage(source: ImageSource.camera, imageQuality: 80);
-      // var imageInput = _helperUtil.getInputImageFile(image!);
       if(isAR){
         var result = await scanItemsByAR(image!);
         return result;

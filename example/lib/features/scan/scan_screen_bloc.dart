@@ -122,11 +122,9 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     _helixworldSDK.loginMobile(developerKey ?? "", secretKey ?? "");
     on<ScanScreenLogAnalyticsInstallEvent>((event, emit) {
       // invoke track install
-      _helixworldSDK.getAnalyticsRepoService().analyticsScannedItems(const InventoryItemModel());
+      _helixworldSDK.getAnalyticsRepoService().analyticsTrackInstalls();
     });
     on<ScanScreenGetStartedEvent>((event, emit){
-      _helixworldSDK.getAnalyticsRepoService().analyticsScannedItems(const InventoryItemModel());
-      _helixworldSDK.getAnalyticsRepoService().analyticsTrackInstalls();
       emit(ScanScreenInitialState());
     });
     on<ScanScreenRedirectToUrlEvent>((event, emit){
