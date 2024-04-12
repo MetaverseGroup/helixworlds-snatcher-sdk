@@ -53,6 +53,10 @@ Helixworld . Mobile App for the Helixworld.
 ### Integration Setup
 > call this function to initialize the DI Class that will be used on the SDK
 ```
+  // call this method to setup your url coordinate with our team in order to get this values on in your .env file
+  
+  setBaseSDKUrl(gathererUrl, inventoryUrl)
+
   import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
   import 'package:helixworlds_snatcher_sdk/helixworlds_sdk.dart';
 
