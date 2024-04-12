@@ -13,3 +13,7 @@
 * Major Changes migrated to api inventory items look up
 * code enhancements added for url services
 * documentation updates
+
+## 1.0.7 + 12
+* Patch and Bugfixes for API call and the constants
+
