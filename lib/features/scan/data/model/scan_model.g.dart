@@ -40,24 +40,10 @@ Map<String, dynamic> _$$ImageInfoImplToJson(_$ImageInfoImpl instance) =>
 
 _$FileInfoImpl _$$FileInfoImplFromJson(Map<String, dynamic> json) =>
     _$FileInfoImpl(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      extension: json['extension'] as String,
-      path: json['path'] as String,
-      downloadUrl: json['downloadUrl'] as String,
-      size: json['size'] as int,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
+      downloadUrl: json['download_url'] as String?,
     );
 
 Map<String, dynamic> _$$FileInfoImplToJson(_$FileInfoImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'extension': instance.extension,
-      'path': instance.path,
-      'downloadUrl': instance.downloadUrl,
-      'size': instance.size,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
+      'download_url': instance.downloadUrl,
     };

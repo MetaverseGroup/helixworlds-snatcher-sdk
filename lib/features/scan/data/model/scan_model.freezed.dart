@@ -416,16 +416,8 @@ FileInfo _$FileInfoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$FileInfo {
-  String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get extension => throw _privateConstructorUsedError;
-  String get path => throw _privateConstructorUsedError;
-  String get downloadUrl => throw _privateConstructorUsedError;
-  int get size => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
-  DateTime get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "download_url")
+  String? get downloadUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -438,15 +430,7 @@ abstract class $FileInfoCopyWith<$Res> {
   factory $FileInfoCopyWith(FileInfo value, $Res Function(FileInfo) then) =
       _$FileInfoCopyWithImpl<$Res, FileInfo>;
   @useResult
-  $Res call(
-      {String id,
-      String name,
-      String extension,
-      String path,
-      String downloadUrl,
-      int size,
-      @JsonKey(name: 'created_at') DateTime createdAt,
-      @JsonKey(name: 'updated_at') DateTime updatedAt});
+  $Res call({@JsonKey(name: "download_url") String? downloadUrl});
 }
 
 /// @nodoc
@@ -462,48 +446,13 @@ class _$FileInfoCopyWithImpl<$Res, $Val extends FileInfo>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? extension = null,
-    Object? path = null,
-    Object? downloadUrl = null,
-    Object? size = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? downloadUrl = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      extension: null == extension
-          ? _value.extension
-          : extension // ignore: cast_nullable_to_non_nullable
-              as String,
-      path: null == path
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
-              as String,
-      downloadUrl: null == downloadUrl
+      downloadUrl: freezed == downloadUrl
           ? _value.downloadUrl
           : downloadUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      size: null == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as int,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String?,
     ) as $Val);
   }
 }
@@ -516,15 +465,7 @@ abstract class _$$FileInfoImplCopyWith<$Res>
       __$$FileInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String name,
-      String extension,
-      String path,
-      String downloadUrl,
-      int size,
-      @JsonKey(name: 'created_at') DateTime createdAt,
-      @JsonKey(name: 'updated_at') DateTime updatedAt});
+  $Res call({@JsonKey(name: "download_url") String? downloadUrl});
 }
 
 /// @nodoc
@@ -538,48 +479,13 @@ class __$$FileInfoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? extension = null,
-    Object? path = null,
-    Object? downloadUrl = null,
-    Object? size = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? downloadUrl = freezed,
   }) {
     return _then(_$FileInfoImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      extension: null == extension
-          ? _value.extension
-          : extension // ignore: cast_nullable_to_non_nullable
-              as String,
-      path: null == path
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
-              as String,
-      downloadUrl: null == downloadUrl
+      downloadUrl: freezed == downloadUrl
           ? _value.downloadUrl
           : downloadUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      size: null == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as int,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String?,
     ));
   }
 }
@@ -587,41 +493,18 @@ class __$$FileInfoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$FileInfoImpl implements _FileInfo {
-  const _$FileInfoImpl(
-      {required this.id,
-      required this.name,
-      required this.extension,
-      required this.path,
-      required this.downloadUrl,
-      required this.size,
-      @JsonKey(name: 'created_at') required this.createdAt,
-      @JsonKey(name: 'updated_at') required this.updatedAt});
+  const _$FileInfoImpl({@JsonKey(name: "download_url") this.downloadUrl});
 
   factory _$FileInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$FileInfoImplFromJson(json);
 
   @override
-  final String id;
-  @override
-  final String name;
-  @override
-  final String extension;
-  @override
-  final String path;
-  @override
-  final String downloadUrl;
-  @override
-  final int size;
-  @override
-  @JsonKey(name: 'created_at')
-  final DateTime createdAt;
-  @override
-  @JsonKey(name: 'updated_at')
-  final DateTime updatedAt;
+  @JsonKey(name: "download_url")
+  final String? downloadUrl;
 
   @override
   String toString() {
-    return 'FileInfo(id: $id, name: $name, extension: $extension, path: $path, downloadUrl: $downloadUrl, size: $size, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'FileInfo(downloadUrl: $downloadUrl)';
   }
 
   @override
@@ -629,24 +512,13 @@ class _$FileInfoImpl implements _FileInfo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FileInfoImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.extension, extension) ||
-                other.extension == extension) &&
-            (identical(other.path, path) || other.path == path) &&
             (identical(other.downloadUrl, downloadUrl) ||
-                other.downloadUrl == downloadUrl) &&
-            (identical(other.size, size) || other.size == size) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.downloadUrl == downloadUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, extension, path,
-      downloadUrl, size, createdAt, updatedAt);
+  int get hashCode => Object.hash(runtimeType, downloadUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -664,37 +536,15 @@ class _$FileInfoImpl implements _FileInfo {
 
 abstract class _FileInfo implements FileInfo {
   const factory _FileInfo(
-          {required final String id,
-          required final String name,
-          required final String extension,
-          required final String path,
-          required final String downloadUrl,
-          required final int size,
-          @JsonKey(name: 'created_at') required final DateTime createdAt,
-          @JsonKey(name: 'updated_at') required final DateTime updatedAt}) =
+          {@JsonKey(name: "download_url") final String? downloadUrl}) =
       _$FileInfoImpl;
 
   factory _FileInfo.fromJson(Map<String, dynamic> json) =
       _$FileInfoImpl.fromJson;
 
   @override
-  String get id;
-  @override
-  String get name;
-  @override
-  String get extension;
-  @override
-  String get path;
-  @override
-  String get downloadUrl;
-  @override
-  int get size;
-  @override
-  @JsonKey(name: 'created_at')
-  DateTime get createdAt;
-  @override
-  @JsonKey(name: 'updated_at')
-  DateTime get updatedAt;
+  @JsonKey(name: "download_url")
+  String? get downloadUrl;
   @override
   @JsonKey(ignore: true)
   _$$FileInfoImplCopyWith<_$FileInfoImpl> get copyWith =>

@@ -32,14 +32,7 @@ abstract class ImageInfo with _$ImageInfo {
 @freezed
 abstract class FileInfo with _$FileInfo {
   const factory FileInfo({
-    required String id,
-    required String name,
-    required String extension,
-    required String path,
-    required String downloadUrl,
-    required int size,
-    @JsonKey(name: 'created_at') required DateTime createdAt,
-    @JsonKey(name: 'updated_at') required DateTime updatedAt,
+    @JsonKey(name: "download_url") String? downloadUrl,
   }) = _FileInfo;
 
   factory FileInfo.fromJson(Map<String, dynamic> json) => _$FileInfoFromJson(json);
