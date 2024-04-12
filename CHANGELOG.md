@@ -8,3 +8,8 @@
 
 ## 1.0.5 + 10
 * update GCG Details
+
+## 1.0.7 + 11
+* Major Changes migrated to api inventory items look up
+* code enhancements added for url services
+* documentation updates
