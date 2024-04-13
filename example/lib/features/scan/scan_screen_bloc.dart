@@ -122,18 +122,18 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     _helixworldSDK.loginMobile(developerKey ?? "", secretKey ?? "");
     on<ScanScreenLogAnalyticsInstallEvent>((event, emit) {
       // invoke track install
-      _helixworldSDK.getAnalyticsRepoService().analyticsTrackInstalls();
+      _helixworldSDK.getAnalyticsRepoService()?.analyticsTrackInstalls();
     });
     on<ScanScreenGetStartedEvent>((event, emit){
       emit(ScanScreenInitialState());
     });
     on<ScanScreenRedirectToUrlEvent>((event, emit){
       _redirectUrlObjectFromLogs(event.url);
-      _helixworldSDK.getAnalyticsRepoService().analyticsRedirectToShopEvent(event.url, _helixworldSDK.getDefaultUserId());
+      _helixworldSDK.getAnalyticsRepoService()?.analyticsRedirectToShopEvent(event.url, _helixworldSDK.getDefaultUserId());
     });
     on<ScanScreenLaunchToUrlEvent>((event, emit){
       _redirectUrlObject(event.model);
-      _helixworldSDK.getAnalyticsRepoService().analyticsRedirectToShopEventItemId(event.model.url ?? "", _helixworldSDK.getDefaultUserId(), event.model.id ?? "");
+      _helixworldSDK.getAnalyticsRepoService()?.analyticsRedirectToShopEventItemId(event.model.url ?? "", _helixworldSDK.getDefaultUserId(), event.model.id ?? "");
     });
     on<ScanScreenTakePictureEvent>((event, emit) async{
       emit(ScanScreenLoadingState());
@@ -144,7 +144,7 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
       if(result.isRight()){
         var rightResult = result.fold((l) => null, (r) => r);
         if(rightResult is ObjectDetectedSuccess){
-          _helixworldSDK.getAnalyticsRepoService().analyticsScannedItems(rightResult.item);
+          _helixworldSDK.getAnalyticsRepoService()?.analyticsScannedItems(rightResult.item);
           emit(ScanScreenShowScannedObjectState(rightResult.item, rightResult.userId));
         }
       } else {

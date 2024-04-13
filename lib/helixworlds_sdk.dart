@@ -35,7 +35,7 @@ abstract class IHelixworldsSDKService{
 
   /// analytics mixpanel tracking event
   Future<Either<Failure, Success>> trackAnalyticsMixpanel(String name, Map<String, dynamic> value);
-  AnalyticsRepository getAnalyticsRepoService();
+  AnalyticsRepository? getAnalyticsRepoService();
 
   /// auth gatherer just pass the developerId provided by metaverse group and secret key to be able to access our scanning api service features 
   Future<Either<Failure, Success>> loginMobile(String developerId, String secret);
@@ -196,8 +196,12 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   }
   
   @override
-  AnalyticsRepository getAnalyticsRepoService() {
-    return getAnalyticsRepo();
+  AnalyticsRepository? getAnalyticsRepoService() {
+    try {
+      return getAnalyticsRepo();
+    }catch(e){
+      return null;
+    }
   }
   
   @override

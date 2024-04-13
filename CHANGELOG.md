@@ -17,3 +17,5 @@
 ## 1.0.7 + 12
 * Patch and Bugfixes for API call and the constants
 
+## 1.0.7 + 13
+* Patch Null handler on AnalyticsRepository
