@@ -49,20 +49,6 @@ main(){
 
   group("testing getInventoryItemByID", (){
     test("success mock 1234 status code 200", () async {
-      // when(mHelperUtil?.getRequest(mDio, "$inventoryUrl/inventory/1234"))
-      // .thenAnswer((_) async {
-      //     return Right(Response(
-      //       requestOptions: RequestOptions(
-      //         method: "GET",
-      //         path: "/inventory/1234",
-      //         data: {},
-      //         baseUrl: inventoryUrl
-      //       ),
-      //       data: scanSuccessResponse,
-      //       statusCode: 200
-      //     ));
-      //   },
-      // );
       when(remoteDS?.getInventoryItemByID("1234"))
       .thenAnswer((_) async {
           return const Right(InventoryItemModel(id: "1ee"));
@@ -75,26 +61,11 @@ main(){
     });
 
     test("failure mock 1234 status code 404", () async {
-      // when(mHelperUtil?.getRequest(mDio, "$inventoryUrl/inventory/1234"))
-      // .thenAnswer((_) async {
-      //     return Right(Response(
-      //       requestOptions: RequestOptions(
-      //         method: "GET",
-      //         path: "/inventory/1234",
-      //         data: {},
-      //         baseUrl: inventoryUrl
-      //       ),
-      //       data: scanFailureResponse,
-      //       statusCode: 404
-      //     ));
-      //   },
-      // );
       when(remoteDS?.getInventoryItemByID("1234"))
       .thenAnswer((_) async {
         return Left(GetItemByIDRemoteFailure());
         },
       );
-
       var result = await remoteDS?.getInventoryItemByID("1234");      
       expect(result?.isLeft(), true);
       result?.fold((l) {
