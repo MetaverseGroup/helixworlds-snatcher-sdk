@@ -19,3 +19,6 @@
 
 ## 1.0.7 + 13
 * Patch Null handler on AnalyticsRepository
+
+## 1.0.7 + 14
+* Patch Scan Repo inventory checking ID

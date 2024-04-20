@@ -130,14 +130,14 @@ class ScanRepository extends IScanRepository {
         var result = await _remoteDS.objectScanned(photo, token ?? "");
         if(result.isRight()){
           var rightResult = result.fold((l) => null, (r) => r) ?? "";
-          if(_helperUtil.getId(rightResult).isNotEmpty) {
           var inventoryResult = await _remoteDS.getInventoryItemByID(rightResult);
           var rightInventoryResult = inventoryResult.fold((l) => null, (r) => r);
-          logModel(rightInventoryResult ?? const InventoryItemModel());
-          return inventoryResult;
-        } else {
-          return Left(ItemNotDetectedFailure());
-        }
+          if(rightInventoryResult != null){
+            logModel(rightInventoryResult);
+            return Right(rightInventoryResult);
+          } else {
+            return Left(ItemNotDetectedFailure());
+          }
       } else {
           return Left(ItemNotDetectedFailure());
       }
