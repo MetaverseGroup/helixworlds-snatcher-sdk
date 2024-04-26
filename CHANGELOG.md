@@ -22,3 +22,6 @@
 
 ## 1.0.7 + 14
 * Patch Scan Repo inventory checking ID
+
+## 1.0.8 + 15
+* Sentry Env
