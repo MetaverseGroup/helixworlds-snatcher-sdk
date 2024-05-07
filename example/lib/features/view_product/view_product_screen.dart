@@ -26,9 +26,9 @@ class ViewProductScreen extends StatelessWidget {
 
     return BlocBuilder<ScanScreenPageBloc, ScanScreenState>(
       builder: (context, state) {
-        InventoryItemModel model = const InventoryItemModel();
+        InventoryItemModel model = const InventoryItemModel(images: []);
         if(state is ScanScreenShowScannedObjectState){
-          model = state.object ?? const InventoryItemModel();
+          model = state.object ?? const InventoryItemModel(images: []);
         }
 
         return SafeArea(
@@ -79,7 +79,7 @@ class ViewProductScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 15.v),
                   Text(
-                    model.projectId ?? "",
+                    model.title ?? "",
                     style: theme.textTheme.bodyLarge,
                   ),
                   SizedBox(height: 64.v),
@@ -104,8 +104,8 @@ class ViewProductScreen extends StatelessWidget {
                         Positioned(
                           top: -5.h,
                           child: CustomImageView(
-                          imagePath: context.read<ScanScreenPageBloc>().isLocalItemDetailsFetch() ? model.image : "",
-                          url: !(context.read<ScanScreenPageBloc>().isLocalItemDetailsFetch()) ? model.image ?? "" : "",
+                          imagePath: context.read<ScanScreenPageBloc>().isLocalItemDetailsFetch() ? model.images?.first.file.downloadUrl : "",
+                          url: !(context.read<ScanScreenPageBloc>().isLocalItemDetailsFetch()) ? model.images?.first.file.downloadUrl ?? "" : "",
                           height: 351.adaptSize,
                           width: 351.adaptSize,
                         )),

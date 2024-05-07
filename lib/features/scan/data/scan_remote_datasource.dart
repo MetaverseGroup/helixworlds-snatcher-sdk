@@ -22,7 +22,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
   @override
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id) async {
     try{
-      var reponseResult = await _helperUtil.getRequest(dio, "$inventoryUrl/inventory/$id");
+      var reponseResult = await _helperUtil.getRequest(dio, "$inventoryUrl/api/inventory/$id/info");
       var response = reponseResult.fold((l) => null, (r) => r);
       if(reponseResult.isRight()) {
         if(response?.statusCode == 200){

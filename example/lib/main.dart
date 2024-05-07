@@ -10,6 +10,7 @@ import 'package:example/features/view_product/view_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:helixworlds_snatcher_sdk/core/const.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:go_router/go_router.dart';
 import 'package:helixworlds_snatcher_sdk/theme/bloc/theme_bloc.dart';
@@ -66,6 +67,13 @@ Future<String> _getModel(String assetPath) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/.env");
+  setBaseSDKUrl(
+    isProd ? dotenv.get('GATHERER_PROD_URL', fallback: 'no gatherer url set') : dotenv.get('GATHERER_DEV_URL', fallback: 'no gatherer url set'), 
+    
+    isProd ? dotenv.get('INVENTORY_PROD_URL', fallback: 'no inventory url set') : dotenv.get('INVENTORY_DEV_URL', fallback: 'no inventory url set')
+  );
+
+
   final modelPath = await _getModel("assets/model.tflite");
   final options = LocalLabelerOptions(modelPath: modelPath);
   setupServices(

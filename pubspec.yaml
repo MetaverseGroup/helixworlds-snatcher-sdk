@@ -9,9 +9,10 @@ platforms:
 topics:
   - imagelabeling
   - metaverse
+  - storyfire
 
 
-version: 1.0.5+10
+version: 1.0.8+15
 
 
 environment:
