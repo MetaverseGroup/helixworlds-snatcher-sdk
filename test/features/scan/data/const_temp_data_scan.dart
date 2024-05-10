@@ -6,7 +6,7 @@ Future<String> loadJsonString(String filePath) async {
 }
 
 
-dynamic scanSuccessResponse = loadJsonString('test/features/scan/data/testdata,json');
+Future<String> scanSuccessResponse = loadJsonString('test/features/scan/data/testdata.json');
 
 dynamic scanFailureResponse = {
   'message': ''

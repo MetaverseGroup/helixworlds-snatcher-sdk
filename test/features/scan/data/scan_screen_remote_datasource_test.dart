@@ -33,7 +33,7 @@ main(){
   group("mapping InventoryItemModel test", (){
     test("success", () async{
       try{
-        var jsonData = await loadJsonString('test/features/scan/data/testdata.json');
+        var jsonData = await scanSuccessResponse;
         var result = InventoryItemModel.fromJson(
           jsonDecode(
             jsonData
@@ -48,15 +48,16 @@ main(){
 
 
   group("testing getInventoryItemByID", (){
-    test("success mock 1234 status code 200", () async {
-      when(remoteDS?.getInventoryItemByID("1234"))
+    test("success mock 1ee status code 200", () async {
+      var jsonData = await scanSuccessResponse;
+      when(remoteDS?.getInventoryItemByID("1ee"))
       .thenAnswer((_) async {
-          return const Right(InventoryItemModel(id: "1ee"));
+          return Right(InventoryItemModel.fromJson(jsonDecode(
+            jsonData
+          )));
         },
       );
-    
-
-      var result = await remoteDS?.getInventoryItemByID("1234");      
+      var result = await remoteDS?.getInventoryItemByID("1ee");      
       expect(result?.isRight(), true);
     });
 
