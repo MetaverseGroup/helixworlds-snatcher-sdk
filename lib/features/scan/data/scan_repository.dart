@@ -153,9 +153,8 @@ class ScanRepository extends IScanRepository {
       final model = MyLogModel(
                 id: items.id,
                 name: items.title,
-                // image: items.image,
+                image: items.images?.first.file.downloadUrl ?? '',
                 date: _helperUtil.getDateString(),
-                // game: items.projectId,
                 url: items.url ?? ""
       );
       List<MyLogModel> myitems = [];

@@ -6,7 +6,6 @@ import 'package:helixworlds_snatcher_sdk/core/const.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
-import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_repository.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
@@ -34,7 +33,6 @@ abstract class IHelixworldsSDKService{
   String getDefaultUserId();
 
   /// analytics mixpanel tracking event
-  Future<Either<Failure, Success>> trackAnalyticsMixpanel(String name, Map<String, dynamic> value);
   AnalyticsRepository? getAnalyticsRepoService();
 
   /// auth gatherer just pass the developerId provided by metaverse group and secret key to be able to access our scanning api service features 
@@ -48,8 +46,7 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   final ImagePicker picker;
   final HelperUtil _helperUtil;
   final bool isLocal;
-  final IAnalyticsMixpanelsRemoteDatasource? analyticsMixpanelsRemoteDatasource;
-  HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, {this.isLocal = true, this.analyticsMixpanelsRemoteDatasource});
+  HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, {this.isLocal = true});
 
   @override
   Future<Either<Failure, Success>> scanItems(XFile image) async {
@@ -178,20 +175,6 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
       return Right(ObjectDetectedSuccess(rightResult!, getDefaultUserId()));
     } else {
       return Left(ItemNotDetectedFailure());
-    }
-  }
-  
-  @override
-  Future<Either<Failure, Success>> trackAnalyticsMixpanel(String name, Map<String, dynamic> value) async {
-    try{
-      if(analyticsMixpanelsRemoteDatasource != null){
-        var result = await analyticsMixpanelsRemoteDatasource!.trackEvent(name, value);
-        return result;
-      } else {
-        return Left(AnalyticsLogsFailure());
-      }
-    }catch(e){
-      return Left(HSSDKFailure());
     }
   }
   

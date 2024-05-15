@@ -12,7 +12,7 @@ topics:
   - storyfire
 
 
-version: 1.0.9+16
+version: 1.0.10+18
 
 
 environment:
@@ -32,7 +32,6 @@ dependencies:
   path_provider: ^2.1.1
   path: ^1.8.3
   url_launcher: ^6.1.14
-  sentry_flutter: ^7.10.1
 
   provider: ^6.0.2
   equatable: ^2.0.3
@@ -46,7 +45,6 @@ dependencies:
   go_router: ^5.2.0
   simple_connection_checker: ^0.2.1
   get_it: ^7.2.0
-  mixpanel_flutter: ^2.2.0
   firebase_analytics: any
   rudder_sdk_flutter: ^2.1.0
   rudder_sdk_flutter_platform_interface: any

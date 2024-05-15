@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_googleanalytics_remote_datasource.dart';
-import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_rudderstack_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,20 +28,16 @@ const String analytics_attemptScannedItems = "attempt_scanned_items";
 const String analytics_redirectToShopEventId = "analytics_redirectToShopEventId";
 
 class AnalyticsRepository extends IAnalyticsRepository {
-  final IAnalyticsMixpanelsRemoteDatasource? mixPanelRemoteDS;
   final SharedPreferences _sharedPref;
   final IGoogleAnalyticsRemoteDatasource? googleAnalyticsRemoteDS;
   final IAnalyticsRudderStackRemoteDatasource? rudderStackRemoteDS;
-  AnalyticsRepository(this._sharedPref, {this.googleAnalyticsRemoteDS, this.mixPanelRemoteDS, this.rudderStackRemoteDS});
+  AnalyticsRepository(this._sharedPref, {this.googleAnalyticsRemoteDS, this.rudderStackRemoteDS});
 
   @override
   Future<Either<Failure, Success>> analyticsTrackInstalls() async {
     try {
       var result = _sharedPref.getBool(localKeyInstallation) ?? false;
       if(result == false){
-        if(mixPanelRemoteDS != null){
-          await mixPanelRemoteDS?.trackEvent(analytics_installKey, {});
-        }
         if(googleAnalyticsRemoteDS != null){
           await googleAnalyticsRemoteDS?.sendAnalytics(analytics_installKey, {});
         }
@@ -62,9 +57,6 @@ class AnalyticsRepository extends IAnalyticsRepository {
   @override
   Future<Either<Failure, Success>> analyticsScannedItems(InventoryItemModel item) async {
     try {
-        if(mixPanelRemoteDS != null){
-          await mixPanelRemoteDS?.trackEvent(analytics_scannedItems, item.toJson());
-        }
         if(googleAnalyticsRemoteDS != null){
           await googleAnalyticsRemoteDS?.sendAnalytics(analytics_scannedItems, item.toJson());
         }
@@ -81,9 +73,6 @@ class AnalyticsRepository extends IAnalyticsRepository {
   Future<Either<Failure, Success>> analyticsRedirectToShopEvent(String url, String userId) async {
     try {
         dynamic value = {"url": url, "userId": userId};
-        if(mixPanelRemoteDS != null){
-          await mixPanelRemoteDS?.trackEvent(analytics_redirectToShop, value);
-        }
         if(googleAnalyticsRemoteDS != null){
           await googleAnalyticsRemoteDS?.sendAnalytics(analytics_redirectToShop, value);
         }
@@ -99,9 +88,6 @@ class AnalyticsRepository extends IAnalyticsRepository {
   @override
   Future<Either<Failure, Success>> analyticsSavedItems(InventoryItemModel item) async {
     try {
-        if(mixPanelRemoteDS != null){
-          await mixPanelRemoteDS?.trackEvent(analytics_savedItems, item.toJson());
-        }
         if(googleAnalyticsRemoteDS != null){
           await googleAnalyticsRemoteDS?.sendAnalytics(analytics_savedItems, item.toJson());
         }
@@ -119,9 +105,6 @@ class AnalyticsRepository extends IAnalyticsRepository {
     try {
         dynamic value = {"url": url, "userId": userId, "itemId": itemId };
 
-        if(mixPanelRemoteDS != null){
-          await mixPanelRemoteDS?.trackEvent(analytics_redirectToShopEventId, value);
-        }
         if(googleAnalyticsRemoteDS != null){
           await googleAnalyticsRemoteDS?.sendAnalytics(analytics_redirectToShopEventId, value);
         }
@@ -138,9 +121,6 @@ class AnalyticsRepository extends IAnalyticsRepository {
   Future<Either<Failure, Success>> analyticsAttemptScannedItems(Map<String, dynamic> scanResult, InventoryItemModel expectedItem) async {
     try {
         dynamic value = {"scan_result": scanResult, "expected_item": expectedItem.toJson() };
-        if(mixPanelRemoteDS != null){
-          await mixPanelRemoteDS?.trackEvent(analytics_attemptScannedItems, value);
-        }
         if(googleAnalyticsRemoteDS != null){
           await googleAnalyticsRemoteDS?.sendAnalytics(analytics_attemptScannedItems, value);
         }

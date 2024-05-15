@@ -9,7 +9,6 @@ import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_googleanalytics_remote_datasource.dart';
-import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_rudderstack_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_repository.dart';
 import 'package:helixworlds_snatcher_sdk/features/auth/auth_local_datasource.dart';
@@ -26,7 +25,6 @@ import 'package:helixworlds_snatcher_sdk/utils/arekognitiion_image_detector.dart
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/network_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/pref_utils.dart';
-import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,7 +35,6 @@ import 'package:helixworlds_snatcher_sdk/features/user_details/data/user_details
 import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:simple_connection_checker/simple_connection_checker.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
@@ -61,9 +58,7 @@ setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", Str
   SimpleConnectionChecker checker = SimpleConnectionChecker();
   serviceLocator.registerLazySingleton(() => NetworkUtil(checker));
   serviceLocator.allowReassignment = true;
-  _setupSentry(sentryDSN, env);
   _setupImagePicker();
-  _setupHelper();
   serviceLocator.registerLazySingleton(() => PrefUtils(_getSharedPref()));
   serviceLocator.registerLazySingleton(() => ThemeBloc(ThemeState(
           themeType: getPrefUtils().getThemeData(),
@@ -106,13 +101,7 @@ _setupAnalytics(String token) async{
     // print("Error setting up google analytics");
   }
 
-  if(token.isNotEmpty){
-    var mixpanel = await Mixpanel.init(token, trackAutomaticEvents: true);
-    mixpanel.setLoggingEnabled(true);
-    serviceLocator.registerLazySingleton(() => mixpanel);
-    serviceLocator.registerLazySingleton(() => AnalyticsMixpanelsRemoteDatasource(mixpanel));
-  }
-  serviceLocator.registerLazySingleton(() => AnalyticsRepository(_getSharedPref(), mixPanelRemoteDS: getAnalyticsMixpanelRemoteDS(), googleAnalyticsRemoteDS: getGoogleAnalyticsRemoteDS(), rudderStackRemoteDS: rudderAnalyticsRemoteDS()));
+  serviceLocator.registerLazySingleton(() => AnalyticsRepository(_getSharedPref(), googleAnalyticsRemoteDS: getGoogleAnalyticsRemoteDS(), rudderStackRemoteDS: rudderAnalyticsRemoteDS()));
 }
 FirebaseAnalytics getFBAnalytics(){
   return serviceLocator<FirebaseAnalytics>();
@@ -130,26 +119,6 @@ GoogleAnalyticsRemoteDatasource? getGoogleAnalyticsRemoteDS(){
 
 AnalyticsRepository getAnalyticsRepo(){
   return serviceLocator<AnalyticsRepository>();
-}
-AnalyticsMixpanelsRemoteDatasource? getAnalyticsMixpanelRemoteDS(){
-  try{
-    return serviceLocator<AnalyticsMixpanelsRemoteDatasource>();
-  }catch(e){
-    return null;
-  }
-}
-
-_setupSentry(String sentryDSN, String env) async {
-  await SentryFlutter.init(
-      (options) {
-        options.dsn = sentryDSN;
-        options.tracesSampleRate = 1.0;
-        options.environment=env;
-      },
-  );
-}
-
-_setupHelper(){
 }
 
 ThemeBloc getThemeBloc(){
@@ -172,22 +141,6 @@ ThemeData get theme => ThemeHelper(getPrefUtils()).themeData();
 ///    SentryNavigatorObserver(),
 ///  ],
 ///)
-
-void captureException(Object exception, StackTrace stackTrace) async {
-  await Sentry.captureException(exception, stackTrace: stackTrace);
-}
-
-
-void verifyIfSentryIsWorking() async {
-  try {
-    throw CacheFailure;
-  } catch (exception, stackTrace) {
-    await Sentry.captureException(
-      exception,
-      stackTrace: stackTrace,
-    );
-  }
-}
 
 _setupImagePicker(){
   serviceLocator.registerLazySingleton(() => ImagePicker());
@@ -311,7 +264,7 @@ ILogLocalDatasource getLogLocalDS(){
 _setupSDK({bool isLocal = true}){
   serviceLocator.registerLazySingleton(()=> ARekognitionImageDetector(_getARekognition(), myProjectARN));
 
-  serviceLocator.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil(),  analyticsMixpanelsRemoteDatasource: getAnalyticsMixpanelRemoteDS(), isLocal: isLocal));
+  serviceLocator.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil(), isLocal: isLocal));
 }
 
 ARekognitionImageDetector getARekognitionImageDetector(){
