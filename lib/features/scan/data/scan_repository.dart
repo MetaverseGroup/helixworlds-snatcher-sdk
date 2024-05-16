@@ -22,6 +22,7 @@ abstract class IScanRepository {
   /// pass the ID of the object detected from image detector ex. p001
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id);
   Future<Either<Failure, Success>> cacheSavedItem(InventoryItemModel items);
+  Future<Either<Failure, Success>> deleteSavedItem(InventoryItemModel item);
 }
 
 class ScanRepository extends IScanRepository {
@@ -161,6 +162,25 @@ class ScanRepository extends IScanRepository {
       List<MyLogModel> logItems = localResult.fold((l) => null, (r) => r) ?? [];
       myitems.addAll(logItems);
       myitems.add(model);
+      if(myitems.length > 10){
+        logLocalDS.cacheSaveItems(myitems.reversed.toList().take(10).toList());
+      } else {
+        logLocalDS.cacheSaveItems(myitems);
+      }
+      return Right(CacheSuccess());
+    }catch(e){
+      return Left(CacheFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, Success>> deleteSavedItem(InventoryItemModel item) async {
+    try{
+      var localResult = await logLocalDS.getSavedItems();
+      List<MyLogModel> myitems = [];
+      List<MyLogModel> logItems = localResult.fold((l) => null, (r) => r) ?? [];
+      myitems.addAll(logItems);
+      myitems.removeWhere((element) => element.id == item.id);
       if(myitems.length > 10){
         logLocalDS.cacheSaveItems(myitems.reversed.toList().take(10).toList());
       } else {
