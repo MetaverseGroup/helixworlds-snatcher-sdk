@@ -248,6 +248,59 @@ class MockILogLocalDatasource extends _i1.Mock
 class MockIAuthLocalDatasource extends _i1.Mock
     implements _i13.IAuthLocalDatasource {
   @override
+  _i5.Future<_i3.Either<_i10.Failure, _i11.Success>> cacheValorAccessToken(
+          String? token) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #cacheValorAccessToken,
+          [token],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i10.Failure, _i11.Success>>.value(
+            _FakeEither_1<_i10.Failure, _i11.Success>(
+          this,
+          Invocation.method(
+            #cacheValorAccessToken,
+            [token],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i10.Failure, _i11.Success>>.value(
+                _FakeEither_1<_i10.Failure, _i11.Success>(
+          this,
+          Invocation.method(
+            #cacheValorAccessToken,
+            [token],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i10.Failure, _i11.Success>>);
+
+  @override
+  _i5.Future<_i3.Either<_i10.Failure, String>> getValorAccessToken() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getValorAccessToken,
+          [],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i10.Failure, String>>.value(
+            _FakeEither_1<_i10.Failure, String>(
+          this,
+          Invocation.method(
+            #getValorAccessToken,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i10.Failure, String>>.value(
+                _FakeEither_1<_i10.Failure, String>(
+          this,
+          Invocation.method(
+            #getValorAccessToken,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i10.Failure, String>>);
+
+  @override
   _i5.Future<_i3.Either<_i10.Failure, _i11.Success>> cacheGathererAccessToken(
           String? token) =>
       (super.noSuchMethod(

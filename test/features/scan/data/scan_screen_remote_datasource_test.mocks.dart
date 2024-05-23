@@ -17,13 +17,15 @@ import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart'
     as _i8;
 import 'package:helixworlds_snatcher_sdk/core/failure.dart' as _i13;
 import 'package:helixworlds_snatcher_sdk/core/success.dart' as _i17;
+import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart'
+    as _i16;
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart'
     as _i14;
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_local_datasource.dart'
-    as _i18;
+    as _i19;
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_remote_datasource.dart'
     as _i12;
-import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart' as _i16;
+import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart' as _i18;
 import 'package:image_picker/image_picker.dart' as _i15;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -1172,12 +1174,117 @@ class MockIScanRemoteDatasource extends _i1.Mock
           ),
         )),
       ) as _i10.Future<_i7.Either<_i13.Failure, String>>);
+
+  @override
+  _i10.Future<_i7.Either<_i13.Failure, List<_i16.MyLogModel>>> getMySavedScans(
+          String? accessToken) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMySavedScans,
+          [accessToken],
+        ),
+        returnValue:
+            _i10.Future<_i7.Either<_i13.Failure, List<_i16.MyLogModel>>>.value(
+                _FakeEither_5<_i13.Failure, List<_i16.MyLogModel>>(
+          this,
+          Invocation.method(
+            #getMySavedScans,
+            [accessToken],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i10.Future<_i7.Either<_i13.Failure, List<_i16.MyLogModel>>>.value(
+                _FakeEither_5<_i13.Failure, List<_i16.MyLogModel>>(
+          this,
+          Invocation.method(
+            #getMySavedScans,
+            [accessToken],
+          ),
+        )),
+      ) as _i10.Future<_i7.Either<_i13.Failure, List<_i16.MyLogModel>>>);
+
+  @override
+  _i10.Future<_i7.Either<_i13.Failure, _i16.MyLogModel>> newSavedScans(
+    String? token,
+    _i16.MyLogModel? model,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #newSavedScans,
+          [
+            token,
+            model,
+          ],
+        ),
+        returnValue:
+            _i10.Future<_i7.Either<_i13.Failure, _i16.MyLogModel>>.value(
+                _FakeEither_5<_i13.Failure, _i16.MyLogModel>(
+          this,
+          Invocation.method(
+            #newSavedScans,
+            [
+              token,
+              model,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i10.Future<_i7.Either<_i13.Failure, _i16.MyLogModel>>.value(
+                _FakeEither_5<_i13.Failure, _i16.MyLogModel>(
+          this,
+          Invocation.method(
+            #newSavedScans,
+            [
+              token,
+              model,
+            ],
+          ),
+        )),
+      ) as _i10.Future<_i7.Either<_i13.Failure, _i16.MyLogModel>>);
+
+  @override
+  _i10.Future<_i7.Either<_i13.Failure, _i17.Success>> deleteSavedScans(
+    String? token,
+    String? id,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteSavedScans,
+          [
+            token,
+            id,
+          ],
+        ),
+        returnValue: _i10.Future<_i7.Either<_i13.Failure, _i17.Success>>.value(
+            _FakeEither_5<_i13.Failure, _i17.Success>(
+          this,
+          Invocation.method(
+            #deleteSavedScans,
+            [
+              token,
+              id,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i10.Future<_i7.Either<_i13.Failure, _i17.Success>>.value(
+                _FakeEither_5<_i13.Failure, _i17.Success>(
+          this,
+          Invocation.method(
+            #deleteSavedScans,
+            [
+              token,
+              id,
+            ],
+          ),
+        )),
+      ) as _i10.Future<_i7.Either<_i13.Failure, _i17.Success>>);
 }
 
 /// A class which mocks [HelperUtil].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHelperUtil extends _i1.Mock implements _i16.HelperUtil {
+class MockHelperUtil extends _i1.Mock implements _i18.HelperUtil {
   @override
   _i8.InputImage getInputImageFile(_i15.XFile? photo) => (super.noSuchMethod(
         Invocation.method(
@@ -1340,7 +1447,7 @@ class MockHelperUtil extends _i1.Mock implements _i16.HelperUtil {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockIScanLocalDatasource extends _i1.Mock
-    implements _i18.IScanLocalDatasource {
+    implements _i19.IScanLocalDatasource {
   @override
   _i10.Future<_i7.Either<_i13.Failure, _i17.Success>> cacheInventoryItem(
           _i14.InventoryItemModel? items) =>

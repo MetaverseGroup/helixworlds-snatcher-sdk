@@ -70,7 +70,9 @@ void main() async {
   setBaseSDKUrl(
     isProd ? dotenv.get('GATHERER_PROD_URL', fallback: 'no gatherer url set') : dotenv.get('GATHERER_DEV_URL', fallback: 'no gatherer url set'), 
     
-    isProd ? dotenv.get('INVENTORY_PROD_URL', fallback: 'no inventory url set') : dotenv.get('INVENTORY_DEV_URL', fallback: 'no inventory url set')
+    isProd ? dotenv.get('INVENTORY_PROD_URL', fallback: 'no inventory url set') : dotenv.get('INVENTORY_DEV_URL', fallback: 'no inventory url set'),
+
+    isProd ? dotenv.get('VALOR_API_PROD_URL', fallback: 'no inventory url set') : dotenv.get('VALOR_API_DEV_URL', fallback: 'no inventory url set') 
   );
 
 

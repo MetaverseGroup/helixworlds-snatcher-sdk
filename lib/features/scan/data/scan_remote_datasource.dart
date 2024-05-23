@@ -1,6 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'package:dartz/dartz.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
+import 'package:helixworlds_snatcher_sdk/core/success.dart';
+import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:dio/dio.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
@@ -12,6 +14,10 @@ abstract class IScanRemoteDatasource {
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id);
   /// this will upload the image and the scanned service will return the inventory details of the object scanned
   Future<Either<Failure, String>> objectScanned(XFile photo, String accessToken);
+
+  Future<Either<Failure, List<MyLogModel>>> getMySavedScans(String accessToken);
+  Future<Either<Failure, MyLogModel>> newSavedScans(String token, MyLogModel model);
+  Future<Either<Failure, Success>> deleteSavedScans(String token, String id);
 }
 
 
@@ -60,7 +66,70 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
     } catch(e) {
       return Left(GetItemByIDRemoteFailure());
     }
-  } 
+  }
+  
+  @override
+  Future<Either<Failure, Success>> deleteSavedScans(String token, String id) async {
+    try{
+      final headers = {
+        'Content-Type': 'application/json',
+      };
+      dio.options.headers['Authorization'] = 'Bearer $token'; // replace <your-access-token> with your actual token
+      final options = Options(headers: headers);
+      var response = await dio.delete("$valorUrl/saved-scanns/delete/$id", 
+                                    options: options,
+      );
+      if(response.statusCode == 200){
+        return Right(DataDeletionSuccess());
+      } else {
+        return Left(DataDeletionFailure());
+      }
+    } catch(e){
+      return Left(ServiceFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, List<MyLogModel>>> getMySavedScans(String accessToken) async {
+    try{
+      final headers = {
+        'Content-Type': 'application/json',
+      };
+      dio.options.headers['Authorization'] = 'Bearer $accessToken'; // replace <your-access-token> with your actual token
+      final options = Options(headers: headers);
+      var response = await dio.get("$valorUrl/saved-scanns/list", 
+                                    options: options,
+      );
+      List<MyLogModel> savedScans = (response.data as List).map((json) => MyLogModel.fromJson(json as Map<String, dynamic>)).toList();
+      return Right(savedScans);
+    } catch(e){
+      return Left(ServiceFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, MyLogModel>> newSavedScans(String token, MyLogModel model) async {
+    try{
+      final headers = {
+        'Content-Type': 'application/json',
+      };
+      dio.options.headers['Authorization'] = 'Bearer $token'; // replace <your-access-token> with your actual token
+      final options = Options(headers: headers);
+      var response = await dio.post("$valorUrl/saved-scanns", 
+                                    options: options,
+                                    data: model.toJson()
+      );
+      if(response.statusCode == 201){
+        return Right(MyLogModel.fromJson(response.data));
+      } else {
+        return Left(ServiceFailure());
+      }
+    } catch(e){
+      return Left(ServiceFailure());
+    }
+  }
+
+
 
 
 }

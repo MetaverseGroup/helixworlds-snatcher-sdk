@@ -94,3 +94,7 @@ class HSSDKFailure extends Failure {}
 
 class AuthenticationFailure extends Failure {}
 
+class ServiceFailure extends Failure {}
+
+class DataDeletionFailure extends Failure {}
+

@@ -21,6 +21,7 @@ MyLogModel _$MyLogModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$MyLogModel {
   String? get id => throw _privateConstructorUsedError;
+  String? get productId => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get date => throw _privateConstructorUsedError;
   String? get game => throw _privateConstructorUsedError;
@@ -41,6 +42,7 @@ abstract class $MyLogModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
+      String? productId,
       String? name,
       String? date,
       String? game,
@@ -62,6 +64,7 @@ class _$MyLogModelCopyWithImpl<$Res, $Val extends MyLogModel>
   @override
   $Res call({
     Object? id = freezed,
+    Object? productId = freezed,
     Object? name = freezed,
     Object? date = freezed,
     Object? game = freezed,
@@ -72,6 +75,10 @@ class _$MyLogModelCopyWithImpl<$Res, $Val extends MyLogModel>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      productId: freezed == productId
+          ? _value.productId
+          : productId // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -107,6 +114,7 @@ abstract class _$$MyLogModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String? id,
+      String? productId,
       String? name,
       String? date,
       String? game,
@@ -126,6 +134,7 @@ class __$$MyLogModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? productId = freezed,
     Object? name = freezed,
     Object? date = freezed,
     Object? game = freezed,
@@ -136,6 +145,10 @@ class __$$MyLogModelImplCopyWithImpl<$Res>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      productId: freezed == productId
+          ? _value.productId
+          : productId // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -165,13 +178,21 @@ class __$$MyLogModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MyLogModelImpl implements _MyLogModel {
   const _$MyLogModelImpl(
-      {this.id, this.name, this.date, this.game, this.image, this.url});
+      {this.id,
+      this.productId,
+      this.name,
+      this.date,
+      this.game,
+      this.image,
+      this.url});
 
   factory _$MyLogModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$MyLogModelImplFromJson(json);
 
   @override
   final String? id;
+  @override
+  final String? productId;
   @override
   final String? name;
   @override
@@ -185,7 +206,7 @@ class _$MyLogModelImpl implements _MyLogModel {
 
   @override
   String toString() {
-    return 'MyLogModel(id: $id, name: $name, date: $date, game: $game, image: $image, url: $url)';
+    return 'MyLogModel(id: $id, productId: $productId, name: $name, date: $date, game: $game, image: $image, url: $url)';
   }
 
   @override
@@ -194,6 +215,8 @@ class _$MyLogModelImpl implements _MyLogModel {
         (other.runtimeType == runtimeType &&
             other is _$MyLogModelImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.productId, productId) ||
+                other.productId == productId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.game, game) || other.game == game) &&
@@ -204,7 +227,7 @@ class _$MyLogModelImpl implements _MyLogModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, name, date, game, image, url);
+      Object.hash(runtimeType, id, productId, name, date, game, image, url);
 
   @JsonKey(ignore: true)
   @override
@@ -223,6 +246,7 @@ class _$MyLogModelImpl implements _MyLogModel {
 abstract class _MyLogModel implements MyLogModel {
   const factory _MyLogModel(
       {final String? id,
+      final String? productId,
       final String? name,
       final String? date,
       final String? game,
@@ -234,6 +258,8 @@ abstract class _MyLogModel implements MyLogModel {
 
   @override
   String? get id;
+  @override
+  String? get productId;
   @override
   String? get name;
   @override

@@ -3,11 +3,17 @@ bool isProd = false;
 void setToProduction(){
   isProd = true;
 }
-void setBaseSDKUrl(String gathererUrl, String inventUrl){
+/// Reference
+/// vUrl -> valor URL,
+/// inventUrl -> inventory URL,
+/// gathererUrl -> gatherer URL,
+void setBaseSDKUrl(String gathererUrl, String inventUrl, String vUrl){
+  valorUrl = vUrl;
   baseUrl = gathererUrl;
   inventoryUrl = inventUrl;
 }
 String? baseUrl;
+String? valorUrl;
 String? inventoryUrl;
 
 

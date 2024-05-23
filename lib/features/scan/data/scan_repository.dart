@@ -15,14 +15,14 @@ import '../../../core/failure.dart';
 import 'model/scan_model.dart';
 
 abstract class IScanRepository {
-
   Future<Either<Failure, InventoryItemModel>> processImage(InputImage image);
   Future<Either<Failure, InventoryItemModel>> processImageLocal(InputImage image);
   Future<Either<Failure, InventoryItemModel>> processImageAR(XFile image);
   /// pass the ID of the object detected from image detector ex. p001
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id);
+  Future<Either<Failure, List<MyLogModel>>> getSavedItems();
   Future<Either<Failure, Success>> cacheSavedItem(InventoryItemModel items);
-  Future<Either<Failure, Success>> deleteSavedItem(InventoryItemModel item);
+  Future<Either<Failure, Success>> deleteSavedItem(MyLogModel item);
 }
 
 class ScanRepository extends IScanRepository {
@@ -150,9 +150,13 @@ class ScanRepository extends IScanRepository {
   @override
   Future<Either<Failure, Success>> cacheSavedItem(InventoryItemModel items) async {
     try{
+      var accessTokenResult = await _authLocalDS.getValorAccessToken();
+      var token = accessTokenResult.fold((l) => null, (r) => r) ?? "";
+
       var localResult = await logLocalDS.getSavedItems();
       final model = MyLogModel(
                 id: items.id,
+                productId: items.id,
                 name: items.title,
                 image: items.images?.first.file.downloadUrl ?? '',
                 date: _helperUtil.getDateString(),
@@ -161,9 +165,11 @@ class ScanRepository extends IScanRepository {
       List<MyLogModel> myitems = [];
       List<MyLogModel> logItems = localResult.fold((l) => null, (r) => r) ?? [];
       myitems.addAll(logItems);
-      myitems.add(model);
+      var result = await _remoteDS.newSavedScans(token, model);
+      var itemResult = result.fold((l) => null, (r) => r);
+      myitems.add(itemResult!);
       if(myitems.length > 10){
-        logLocalDS.cacheSaveItems(myitems.reversed.toList().take(10).toList());
+        logLocalDS.cacheSaveItems(myitems.reversed.toList());
       } else {
         logLocalDS.cacheSaveItems(myitems);
       }
@@ -174,21 +180,43 @@ class ScanRepository extends IScanRepository {
   }
   
   @override
-  Future<Either<Failure, Success>> deleteSavedItem(InventoryItemModel item) async {
+  Future<Either<Failure, Success>> deleteSavedItem(MyLogModel item) async {
     try{
+      var accessTokenResult = await _authLocalDS.getValorAccessToken();
+      var token = accessTokenResult.fold((l) => null, (r) => r) ?? "";
+
       var localResult = await logLocalDS.getSavedItems();
       List<MyLogModel> myitems = [];
       List<MyLogModel> logItems = localResult.fold((l) => null, (r) => r) ?? [];
       myitems.addAll(logItems);
       myitems.removeWhere((element) => element.id == item.id);
+
+      await _remoteDS.deleteSavedScans(token, item.id ?? "");
+      
       if(myitems.length > 10){
-        logLocalDS.cacheSaveItems(myitems.reversed.toList().take(10).toList());
+        logLocalDS.cacheSaveItems(myitems.reversed.toList());
       } else {
         logLocalDS.cacheSaveItems(myitems);
       }
       return Right(CacheSuccess());
     }catch(e){
       return Left(CacheFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, List<MyLogModel>>> getSavedItems() async  {
+    var accessTokenResult = await _authLocalDS.getValorAccessToken();
+    var token = accessTokenResult.fold((l) => null, (r) => r) ?? "";
+    var result = await _remoteDS.getMySavedScans(token);
+    result.fold((l) => null, (r) {
+      logLocalDS.cacheSaveItems(r);
+    });
+    if(result.isRight()){
+      return result;
+    } else {
+      var localResult = await logLocalDS.getSavedItems();
+      return localResult;
     }
   }
   

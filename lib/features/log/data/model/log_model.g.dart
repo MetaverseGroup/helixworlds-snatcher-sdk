@@ -9,6 +9,7 @@ part of 'log_model.dart';
 _$MyLogModelImpl _$$MyLogModelImplFromJson(Map<String, dynamic> json) =>
     _$MyLogModelImpl(
       id: json['id'] as String?,
+      productId: json['productId'] as String?,
       name: json['name'] as String?,
       date: json['date'] as String?,
       game: json['game'] as String?,
@@ -19,6 +20,7 @@ _$MyLogModelImpl _$$MyLogModelImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$MyLogModelImplToJson(_$MyLogModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'productId': instance.productId,
       'name': instance.name,
       'date': instance.date,
       'game': instance.game,
