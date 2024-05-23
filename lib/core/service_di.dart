@@ -264,7 +264,7 @@ ILogLocalDatasource getLogLocalDS(){
 _setupSDK({bool isLocal = true}){
   serviceLocator.registerLazySingleton(()=> ARekognitionImageDetector(_getARekognition(), myProjectARN));
 
-  serviceLocator.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil(), isLocal: isLocal));
+  serviceLocator.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil(), _getAuthLocalDS(), isLocal: isLocal));
 }
 
 ARekognitionImageDetector getARekognitionImageDetector(){

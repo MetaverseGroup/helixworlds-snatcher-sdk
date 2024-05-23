@@ -7,6 +7,7 @@ import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_repository.dart';
+import 'package:helixworlds_snatcher_sdk/features/auth/auth_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
@@ -38,16 +39,18 @@ abstract class IHelixworldsSDKService{
 
   /// auth gatherer just pass the developerId provided by metaverse group and secret key to be able to access our scanning api service features 
   Future<Either<Failure, Success>> loginMobile(String developerId, String secret);
+  Future<Either<Failure, Success>> cacheValorToken(String token);
 } 
 
 class HelixworldsSDKService extends IHelixworldsSDKService {
   final IUserDetailsRepository userDetailsRepo;
   final ScanRepository scanRepo;
   final ILogLocalDatasource logLocaDatasource;
+  final IAuthLocalDatasource _authLocalDS;
   final ImagePicker picker;
   final HelperUtil _helperUtil;
   final bool isLocal;
-  HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, {this.isLocal = true});
+  HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, this._authLocalDS, {this.isLocal = true});
 
   @override
   Future<Either<Failure, Success>> scanItems(XFile image) async {
@@ -212,6 +215,12 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   Future<Either<Failure, Success>> deleteFavoriteItem(MyLogModel model) {
     var itemResult = scanRepo.deleteSavedItem(model);
     return itemResult;
+  }
+  
+  @override
+  Future<Either<Failure, Success>> cacheValorToken(String token) async {
+    var result = await _authLocalDS.cacheValorAccessToken(token);
+    return result;
   }
 
 
