@@ -23,6 +23,7 @@ abstract class IScanRepository {
   Future<Either<Failure, List<MyLogModel>>> getSavedItems();
   Future<Either<Failure, Success>> cacheSavedItem(InventoryItemModel items);
   Future<Either<Failure, Success>> deleteSavedItem(MyLogModel item);
+  Future<Either<Failure, Success>> cacheValorToken(String token);
 }
 
 class ScanRepository extends IScanRepository {
@@ -218,6 +219,12 @@ class ScanRepository extends IScanRepository {
       var localResult = await logLocalDS.getSavedItems();
       return localResult;
     }
+  }
+  
+  @override
+  Future<Either<Failure, Success>> cacheValorToken(String token) async {
+    var result = await _authLocalDS.cacheValorAccessToken(token);
+    return result;
   }
   
 }
