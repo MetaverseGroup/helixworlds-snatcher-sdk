@@ -25,3 +25,6 @@
 
 ## 1.0.8 + 15
 * Sentry Env
+
+## 1.0.11 + 21
+* Scan Model Updates
