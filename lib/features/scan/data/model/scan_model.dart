@@ -14,6 +14,12 @@ class InventoryItemModel with _$InventoryItemModel {
         @JsonKey(name: "name") String? title,
         @JsonKey(name: 'images') List<ImageInfo>? images,
         String? description,
+        bool? isCoupon,
+        String? creator,
+        int? numberOfScans,
+        String? claimCode,
+        int? quantityRemaining,
+        int? maximumRedemptions,
       }) = _InventoryItemModel;
 
   factory InventoryItemModel.fromJson(Map<String, dynamic> json) =>

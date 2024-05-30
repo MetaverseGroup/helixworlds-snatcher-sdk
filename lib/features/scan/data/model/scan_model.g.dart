@@ -16,6 +16,12 @@ _$InventoryItemModelImpl _$$InventoryItemModelImplFromJson(
           ?.map((e) => ImageInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['description'] as String?,
+      isCoupon: json['isCoupon'] as bool?,
+      creator: json['creator'] as String?,
+      numberOfScans: json['numberOfScans'] as int?,
+      claimCode: json['claimCode'] as String?,
+      quantityRemaining: json['quantityRemaining'] as int?,
+      maximumRedemptions: json['maximumRedemptions'] as int?,
     );
 
 Map<String, dynamic> _$$InventoryItemModelImplToJson(
@@ -26,6 +32,12 @@ Map<String, dynamic> _$$InventoryItemModelImplToJson(
       'name': instance.title,
       'images': instance.images,
       'description': instance.description,
+      'isCoupon': instance.isCoupon,
+      'creator': instance.creator,
+      'numberOfScans': instance.numberOfScans,
+      'claimCode': instance.claimCode,
+      'quantityRemaining': instance.quantityRemaining,
+      'maximumRedemptions': instance.maximumRedemptions,
     };
 
 _$ImageInfoImpl _$$ImageInfoImplFromJson(Map<String, dynamic> json) =>

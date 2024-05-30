@@ -29,6 +29,12 @@ mixin _$InventoryItemModel {
   @JsonKey(name: 'images')
   List<ImageInfo>? get images => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
+  bool? get isCoupon => throw _privateConstructorUsedError;
+  String? get creator => throw _privateConstructorUsedError;
+  int? get numberOfScans => throw _privateConstructorUsedError;
+  String? get claimCode => throw _privateConstructorUsedError;
+  int? get quantityRemaining => throw _privateConstructorUsedError;
+  int? get maximumRedemptions => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +53,13 @@ abstract class $InventoryItemModelCopyWith<$Res> {
       @JsonKey(name: "redirectUrl") String? url,
       @JsonKey(name: "name") String? title,
       @JsonKey(name: 'images') List<ImageInfo>? images,
-      String? description});
+      String? description,
+      bool? isCoupon,
+      String? creator,
+      int? numberOfScans,
+      String? claimCode,
+      int? quantityRemaining,
+      int? maximumRedemptions});
 }
 
 /// @nodoc
@@ -68,6 +80,12 @@ class _$InventoryItemModelCopyWithImpl<$Res, $Val extends InventoryItemModel>
     Object? title = freezed,
     Object? images = freezed,
     Object? description = freezed,
+    Object? isCoupon = freezed,
+    Object? creator = freezed,
+    Object? numberOfScans = freezed,
+    Object? claimCode = freezed,
+    Object? quantityRemaining = freezed,
+    Object? maximumRedemptions = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -90,6 +108,30 @@ class _$InventoryItemModelCopyWithImpl<$Res, $Val extends InventoryItemModel>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      isCoupon: freezed == isCoupon
+          ? _value.isCoupon
+          : isCoupon // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      creator: freezed == creator
+          ? _value.creator
+          : creator // ignore: cast_nullable_to_non_nullable
+              as String?,
+      numberOfScans: freezed == numberOfScans
+          ? _value.numberOfScans
+          : numberOfScans // ignore: cast_nullable_to_non_nullable
+              as int?,
+      claimCode: freezed == claimCode
+          ? _value.claimCode
+          : claimCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quantityRemaining: freezed == quantityRemaining
+          ? _value.quantityRemaining
+          : quantityRemaining // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maximumRedemptions: freezed == maximumRedemptions
+          ? _value.maximumRedemptions
+          : maximumRedemptions // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -107,7 +149,13 @@ abstract class _$$InventoryItemModelImplCopyWith<$Res>
       @JsonKey(name: "redirectUrl") String? url,
       @JsonKey(name: "name") String? title,
       @JsonKey(name: 'images') List<ImageInfo>? images,
-      String? description});
+      String? description,
+      bool? isCoupon,
+      String? creator,
+      int? numberOfScans,
+      String? claimCode,
+      int? quantityRemaining,
+      int? maximumRedemptions});
 }
 
 /// @nodoc
@@ -126,6 +174,12 @@ class __$$InventoryItemModelImplCopyWithImpl<$Res>
     Object? title = freezed,
     Object? images = freezed,
     Object? description = freezed,
+    Object? isCoupon = freezed,
+    Object? creator = freezed,
+    Object? numberOfScans = freezed,
+    Object? claimCode = freezed,
+    Object? quantityRemaining = freezed,
+    Object? maximumRedemptions = freezed,
   }) {
     return _then(_$InventoryItemModelImpl(
       id: freezed == id
@@ -148,6 +202,30 @@ class __$$InventoryItemModelImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      isCoupon: freezed == isCoupon
+          ? _value.isCoupon
+          : isCoupon // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      creator: freezed == creator
+          ? _value.creator
+          : creator // ignore: cast_nullable_to_non_nullable
+              as String?,
+      numberOfScans: freezed == numberOfScans
+          ? _value.numberOfScans
+          : numberOfScans // ignore: cast_nullable_to_non_nullable
+              as int?,
+      claimCode: freezed == claimCode
+          ? _value.claimCode
+          : claimCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quantityRemaining: freezed == quantityRemaining
+          ? _value.quantityRemaining
+          : quantityRemaining // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maximumRedemptions: freezed == maximumRedemptions
+          ? _value.maximumRedemptions
+          : maximumRedemptions // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -160,7 +238,13 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
       @JsonKey(name: "redirectUrl") this.url,
       @JsonKey(name: "name") this.title,
       @JsonKey(name: 'images') final List<ImageInfo>? images,
-      this.description})
+      this.description,
+      this.isCoupon,
+      this.creator,
+      this.numberOfScans,
+      this.claimCode,
+      this.quantityRemaining,
+      this.maximumRedemptions})
       : _images = images;
 
   factory _$InventoryItemModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -188,10 +272,22 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
 
   @override
   final String? description;
+  @override
+  final bool? isCoupon;
+  @override
+  final String? creator;
+  @override
+  final int? numberOfScans;
+  @override
+  final String? claimCode;
+  @override
+  final int? quantityRemaining;
+  @override
+  final int? maximumRedemptions;
 
   @override
   String toString() {
-    return 'InventoryItemModel(id: $id, url: $url, title: $title, images: $images, description: $description)';
+    return 'InventoryItemModel(id: $id, url: $url, title: $title, images: $images, description: $description, isCoupon: $isCoupon, creator: $creator, numberOfScans: $numberOfScans, claimCode: $claimCode, quantityRemaining: $quantityRemaining, maximumRedemptions: $maximumRedemptions)';
   }
 
   @override
@@ -204,13 +300,35 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            (identical(other.isCoupon, isCoupon) ||
+                other.isCoupon == isCoupon) &&
+            (identical(other.creator, creator) || other.creator == creator) &&
+            (identical(other.numberOfScans, numberOfScans) ||
+                other.numberOfScans == numberOfScans) &&
+            (identical(other.claimCode, claimCode) ||
+                other.claimCode == claimCode) &&
+            (identical(other.quantityRemaining, quantityRemaining) ||
+                other.quantityRemaining == quantityRemaining) &&
+            (identical(other.maximumRedemptions, maximumRedemptions) ||
+                other.maximumRedemptions == maximumRedemptions));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, url, title,
-      const DeepCollectionEquality().hash(_images), description);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      url,
+      title,
+      const DeepCollectionEquality().hash(_images),
+      description,
+      isCoupon,
+      creator,
+      numberOfScans,
+      claimCode,
+      quantityRemaining,
+      maximumRedemptions);
 
   @JsonKey(ignore: true)
   @override
@@ -233,7 +351,13 @@ abstract class _InventoryItemModel implements InventoryItemModel {
       @JsonKey(name: "redirectUrl") final String? url,
       @JsonKey(name: "name") final String? title,
       @JsonKey(name: 'images') final List<ImageInfo>? images,
-      final String? description}) = _$InventoryItemModelImpl;
+      final String? description,
+      final bool? isCoupon,
+      final String? creator,
+      final int? numberOfScans,
+      final String? claimCode,
+      final int? quantityRemaining,
+      final int? maximumRedemptions}) = _$InventoryItemModelImpl;
 
   factory _InventoryItemModel.fromJson(Map<String, dynamic> json) =
       _$InventoryItemModelImpl.fromJson;
@@ -252,6 +376,18 @@ abstract class _InventoryItemModel implements InventoryItemModel {
   List<ImageInfo>? get images;
   @override
   String? get description;
+  @override
+  bool? get isCoupon;
+  @override
+  String? get creator;
+  @override
+  int? get numberOfScans;
+  @override
+  String? get claimCode;
+  @override
+  int? get quantityRemaining;
+  @override
+  int? get maximumRedemptions;
   @override
   @JsonKey(ignore: true)
   _$$InventoryItemModelImplCopyWith<_$InventoryItemModelImpl> get copyWith =>
