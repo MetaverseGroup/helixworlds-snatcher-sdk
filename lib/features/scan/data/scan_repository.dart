@@ -123,22 +123,12 @@ class ScanRepository extends IScanRepository {
   @override
   Future<Either<Failure, InventoryItemModel>> processImageAR(XFile photo) async {
     try {
-      // var result = await detector.processImage(image);
-      // var result = await _arImageDetector.detectImage(photo);
         var tokenResult = await _authLocalDS.getGathererAccessToken();
         var token = tokenResult.fold((l) => null, (r) => r);
 
-        var result = await _remoteDS.objectScanned(photo, token ?? "");
+        var result = await _remoteDS.objectScannedV2(photo, token ?? "");
         if(result.isRight()){
-          var rightResult = result.fold((l) => null, (r) => r) ?? "";
-          var inventoryResult = await _remoteDS.getInventoryItemByID(rightResult);
-          var rightInventoryResult = inventoryResult.fold((l) => null, (r) => r);
-          if(rightInventoryResult != null){
-            logModel(rightInventoryResult);
-            return Right(rightInventoryResult);
-          } else {
-            return Left(ItemNotDetectedFailure());
-          }
+          return result;
       } else {
           return Left(ItemNotDetectedFailure());
       }

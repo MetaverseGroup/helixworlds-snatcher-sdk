@@ -1,4 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
@@ -14,6 +16,7 @@ abstract class IScanRemoteDatasource {
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id);
   /// this will upload the image and the scanned service will return the inventory details of the object scanned
   Future<Either<Failure, String>> objectScanned(XFile photo, String accessToken);
+  Future<Either<Failure, InventoryItemModel>> objectScannedV2(XFile photo, String accessToken);
 
   Future<Either<Failure, List<MyLogModel>>> getMySavedScans(String accessToken);
   Future<Either<Failure, MyLogModel>> newSavedScans(String token, MyLogModel model);
@@ -126,6 +129,36 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
       }
     } catch(e){
       return Left(ServiceFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, InventoryItemModel>> objectScannedV2(XFile photo, String accessToken) async {
+    try{
+        final formData = FormData.fromMap({
+          'file': await MultipartFile.fromFile(photo.path, filename: photo.name),
+        });
+        final options = Options(headers: {
+          "Authorization": "Bearer $accessToken",
+        });
+        final response = await dio.post(
+          '$baseUrl/v2/scanner/scan_image',
+          options: options,
+          data: formData,
+        );
+        if(response.statusCode == 200) {
+          print(response.data);
+          return Right(InventoryItemModel.fromJson(jsonDecode(response.data["data"])));
+        } else {
+          return Left(GetItemByIDRemoteFailure());
+        }
+        // if (response.statusCode == 201) {
+        //   return Right(response.data["data"].toString());
+        // } else {
+          // return Left(GetItemByIDRemoteFailure());
+        // }
+    } catch(e) {
+      return Left(GetItemByIDRemoteFailure());
     }
   }
 

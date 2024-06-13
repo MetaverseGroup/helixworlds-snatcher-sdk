@@ -17,7 +17,7 @@ class InventoryItemModel with _$InventoryItemModel {
         bool? isCoupon,
         String? creator,
         int? numberOfScans,
-        String? claimCode,
+        @JsonKey(name: 'code') String? claimCode,
         int? quantityRemaining,
         int? maximumRedemptions,
       }) = _InventoryItemModel;
