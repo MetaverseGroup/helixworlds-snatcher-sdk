@@ -38,7 +38,7 @@ abstract class IHelixworldsSDKService{
   AnalyticsRepository? getAnalyticsRepoService();
 
   /// auth gatherer just pass the developerId provided by metaverse group and secret key to be able to access our scanning api service features 
-  Future<Either<Failure, Success>> loginMobile(String developerId, String secret);
+  Future<Either<Failure, Success>> loginMobile(String developerId, String secret, String uuid);
   Future<Either<Failure, Success>> cacheValorToken(String token);
 } 
 
@@ -192,9 +192,9 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   }
   
   @override
-  Future<Either<Failure, Success>> loginMobile(String developerId, String secret, {String field = "destination"}) async {
+  Future<Either<Failure, Success>> loginMobile(String developerId, String secret, String uuid, {String field = "destination"}) async {
     try{
-      var result = await getAuthRepo().mobileLogin(developerId, secret, field: field);
+      var result = await getAuthRepo().mobileLogin(developerId, secret, uuid, field: field);
       return result;
     }catch(e){
       return Left(AuthenticationFailure());
