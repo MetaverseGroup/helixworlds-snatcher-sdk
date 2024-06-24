@@ -8,7 +8,7 @@ import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 
 abstract class IAuthRemoteDatasource {
-  Future<Either<Failure, Success>> mobileLogin(String clientId, String secretKey, String field);
+  Future<Either<Failure, Success>> mobileLogin(String clientId, String secretKey, String field, String uuid);
 }
 
 class AuthRemoteDatasource extends IAuthRemoteDatasource {
@@ -17,7 +17,7 @@ class AuthRemoteDatasource extends IAuthRemoteDatasource {
   
 
   @override
-  Future<Either<Failure, Success>> mobileLogin(String clientId, String secretKey, String field) async {
+  Future<Either<Failure, Success>> mobileLogin(String clientId, String secretKey, String field, String uuid) async {
     try{
         final response = await dio.post(
           '$baseUrl/auth/login',
@@ -27,7 +27,8 @@ class AuthRemoteDatasource extends IAuthRemoteDatasource {
           data: {
             "clientId": clientId,
             "secret": secretKey,
-            "field": field
+            "field": field,
+            "uuid": uuid,
           }
         );
         if (response.statusCode == 200) {
