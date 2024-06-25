@@ -20,7 +20,7 @@ class AuthRepository extends IAuthRepository {
   @override
   Future<Either<Failure, Success>> mobileLogin(String clientId, String secretKey, String uuid, {String field = "destination"}) async {
     try {
-      var result = await _remoteDS.mobileLogin(clientId, secretKey, field);
+      var result = await _remoteDS.mobileLogin(clientId, secretKey, field, uuid);
       if(result.isRight()){
         var rightResult = result.fold((l) => null, (r) => r);
         var cacheResult = await _localDS.cacheGathererAccessToken(rightResult is AuthSuccessToken ? rightResult.accessToken : "");
