@@ -20,7 +20,7 @@ class AuthRemoteDatasource extends IAuthRemoteDatasource {
   Future<Either<Failure, Success>> mobileLogin(String clientId, String secretKey, String field, String uuid) async {
     try{
         final response = await dio.post(
-          '$baseUrl/auth/login',
+          '$baseUrl/v3/auth/login',
           options: Options(
             contentType: "application/json"
           ),

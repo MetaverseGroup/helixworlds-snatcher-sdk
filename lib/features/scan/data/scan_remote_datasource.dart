@@ -9,7 +9,6 @@ import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dar
 import 'package:dio/dio.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../../core/const.dart';
 
 abstract class IScanRemoteDatasource {
