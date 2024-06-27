@@ -1176,6 +1176,46 @@ class MockIScanRemoteDatasource extends _i1.Mock
       ) as _i10.Future<_i7.Either<_i13.Failure, String>>);
 
   @override
+  _i10.Future<
+      _i7.Either<_i13.Failure, _i14.InventoryItemModel>> objectScannedV2(
+    _i15.XFile? photo,
+    String? accessToken,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #objectScannedV2,
+          [
+            photo,
+            accessToken,
+          ],
+        ),
+        returnValue: _i10
+            .Future<_i7.Either<_i13.Failure, _i14.InventoryItemModel>>.value(
+            _FakeEither_5<_i13.Failure, _i14.InventoryItemModel>(
+          this,
+          Invocation.method(
+            #objectScannedV2,
+            [
+              photo,
+              accessToken,
+            ],
+          ),
+        )),
+        returnValueForMissingStub: _i10
+            .Future<_i7.Either<_i13.Failure, _i14.InventoryItemModel>>.value(
+            _FakeEither_5<_i13.Failure, _i14.InventoryItemModel>(
+          this,
+          Invocation.method(
+            #objectScannedV2,
+            [
+              photo,
+              accessToken,
+            ],
+          ),
+        )),
+      ) as _i10.Future<_i7.Either<_i13.Failure, _i14.InventoryItemModel>>);
+
+  @override
   _i10.Future<_i7.Either<_i13.Failure, List<_i16.MyLogModel>>> getMySavedScans(
           String? accessToken) =>
       (super.noSuchMethod(

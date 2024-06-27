@@ -146,7 +146,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
           data: formData,
         );
         if(response.statusCode == 201) {
-          return Right(InventoryItemModel.fromJson(jsonDecode(response.data)));
+          return Right(InventoryItemModel.fromJson(response.data));
         }
         else if(response.statusCode == 200) {
           return Right(InventoryItemModel.fromJson(jsonDecode(response.data["data"])));

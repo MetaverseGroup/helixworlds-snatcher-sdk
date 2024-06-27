@@ -32,7 +32,7 @@ mixin _$InventoryItemModel {
   bool? get isCoupon => throw _privateConstructorUsedError;
   String? get creator => throw _privateConstructorUsedError;
   int? get numberOfScans => throw _privateConstructorUsedError;
-  String? get claimCode => throw _privateConstructorUsedError;
+  String? get code => throw _privateConstructorUsedError;
   int? get quantityRemaining => throw _privateConstructorUsedError;
   int? get maximumRedemptions => throw _privateConstructorUsedError;
 
@@ -57,7 +57,7 @@ abstract class $InventoryItemModelCopyWith<$Res> {
       bool? isCoupon,
       String? creator,
       int? numberOfScans,
-      String? claimCode,
+      String? code,
       int? quantityRemaining,
       int? maximumRedemptions});
 }
@@ -83,7 +83,7 @@ class _$InventoryItemModelCopyWithImpl<$Res, $Val extends InventoryItemModel>
     Object? isCoupon = freezed,
     Object? creator = freezed,
     Object? numberOfScans = freezed,
-    Object? claimCode = freezed,
+    Object? code = freezed,
     Object? quantityRemaining = freezed,
     Object? maximumRedemptions = freezed,
   }) {
@@ -120,9 +120,9 @@ class _$InventoryItemModelCopyWithImpl<$Res, $Val extends InventoryItemModel>
           ? _value.numberOfScans
           : numberOfScans // ignore: cast_nullable_to_non_nullable
               as int?,
-      claimCode: freezed == claimCode
-          ? _value.claimCode
-          : claimCode // ignore: cast_nullable_to_non_nullable
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
               as String?,
       quantityRemaining: freezed == quantityRemaining
           ? _value.quantityRemaining
@@ -153,7 +153,7 @@ abstract class _$$InventoryItemModelImplCopyWith<$Res>
       bool? isCoupon,
       String? creator,
       int? numberOfScans,
-      String? claimCode,
+      String? code,
       int? quantityRemaining,
       int? maximumRedemptions});
 }
@@ -177,7 +177,7 @@ class __$$InventoryItemModelImplCopyWithImpl<$Res>
     Object? isCoupon = freezed,
     Object? creator = freezed,
     Object? numberOfScans = freezed,
-    Object? claimCode = freezed,
+    Object? code = freezed,
     Object? quantityRemaining = freezed,
     Object? maximumRedemptions = freezed,
   }) {
@@ -214,9 +214,9 @@ class __$$InventoryItemModelImplCopyWithImpl<$Res>
           ? _value.numberOfScans
           : numberOfScans // ignore: cast_nullable_to_non_nullable
               as int?,
-      claimCode: freezed == claimCode
-          ? _value.claimCode
-          : claimCode // ignore: cast_nullable_to_non_nullable
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
               as String?,
       quantityRemaining: freezed == quantityRemaining
           ? _value.quantityRemaining
@@ -242,7 +242,7 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
       this.isCoupon,
       this.creator,
       this.numberOfScans,
-      this.claimCode,
+      this.code,
       this.quantityRemaining,
       this.maximumRedemptions})
       : _images = images;
@@ -279,7 +279,7 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
   @override
   final int? numberOfScans;
   @override
-  final String? claimCode;
+  final String? code;
   @override
   final int? quantityRemaining;
   @override
@@ -287,7 +287,7 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
 
   @override
   String toString() {
-    return 'InventoryItemModel(id: $id, url: $url, title: $title, images: $images, description: $description, isCoupon: $isCoupon, creator: $creator, numberOfScans: $numberOfScans, claimCode: $claimCode, quantityRemaining: $quantityRemaining, maximumRedemptions: $maximumRedemptions)';
+    return 'InventoryItemModel(id: $id, url: $url, title: $title, images: $images, description: $description, isCoupon: $isCoupon, creator: $creator, numberOfScans: $numberOfScans, code: $code, quantityRemaining: $quantityRemaining, maximumRedemptions: $maximumRedemptions)';
   }
 
   @override
@@ -306,8 +306,7 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
             (identical(other.creator, creator) || other.creator == creator) &&
             (identical(other.numberOfScans, numberOfScans) ||
                 other.numberOfScans == numberOfScans) &&
-            (identical(other.claimCode, claimCode) ||
-                other.claimCode == claimCode) &&
+            (identical(other.code, code) || other.code == code) &&
             (identical(other.quantityRemaining, quantityRemaining) ||
                 other.quantityRemaining == quantityRemaining) &&
             (identical(other.maximumRedemptions, maximumRedemptions) ||
@@ -326,7 +325,7 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
       isCoupon,
       creator,
       numberOfScans,
-      claimCode,
+      code,
       quantityRemaining,
       maximumRedemptions);
 
@@ -355,7 +354,7 @@ abstract class _InventoryItemModel implements InventoryItemModel {
       final bool? isCoupon,
       final String? creator,
       final int? numberOfScans,
-      final String? claimCode,
+      final String? code,
       final int? quantityRemaining,
       final int? maximumRedemptions}) = _$InventoryItemModelImpl;
 
@@ -383,7 +382,7 @@ abstract class _InventoryItemModel implements InventoryItemModel {
   @override
   int? get numberOfScans;
   @override
-  String? get claimCode;
+  String? get code;
   @override
   int? get quantityRemaining;
   @override

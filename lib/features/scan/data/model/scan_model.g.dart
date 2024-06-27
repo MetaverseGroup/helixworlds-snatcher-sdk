@@ -19,7 +19,7 @@ _$InventoryItemModelImpl _$$InventoryItemModelImplFromJson(
       isCoupon: json['isCoupon'] as bool?,
       creator: json['creator'] as String?,
       numberOfScans: json['numberOfScans'] as int?,
-      claimCode: json['claimCode'] as String?,
+      code: json['code'] as String?,
       quantityRemaining: json['quantityRemaining'] as int?,
       maximumRedemptions: json['maximumRedemptions'] as int?,
     );
@@ -35,7 +35,7 @@ Map<String, dynamic> _$$InventoryItemModelImplToJson(
       'isCoupon': instance.isCoupon,
       'creator': instance.creator,
       'numberOfScans': instance.numberOfScans,
-      'claimCode': instance.claimCode,
+      'code': instance.code,
       'quantityRemaining': instance.quantityRemaining,
       'maximumRedemptions': instance.maximumRedemptions,
     };

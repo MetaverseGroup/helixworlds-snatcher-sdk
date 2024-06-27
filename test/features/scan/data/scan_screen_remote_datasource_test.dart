@@ -46,10 +46,21 @@ main(){
     });
   });
 
-
   group("testing getInventoryItemByID", (){
     test("success mock 1ee status code 200", () async {
       var jsonData = await scanSuccessResponse;
+      when(remoteDS?.getInventoryItemByID("1ee"))
+      .thenAnswer((_) async {
+          return Right(InventoryItemModel.fromJson(jsonDecode(
+            jsonData
+          )));
+        },
+      );
+      var result = await remoteDS?.getInventoryItemByID("1ee");      
+      expect(result?.isRight(), true);
+    });
+    test("success mock 1ee status code 201", () async {
+      var jsonData = await scanSuccessUGCResponse;
       when(remoteDS?.getInventoryItemByID("1ee"))
       .thenAnswer((_) async {
           return Right(InventoryItemModel.fromJson(jsonDecode(

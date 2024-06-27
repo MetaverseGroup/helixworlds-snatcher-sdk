@@ -1,0 +1,21 @@
+{
+    "inventoryId": "f2110f55-4e32-4ec8-8c7a-60979721f79e",
+    "name": "Test",
+    "description": "<p>[\"</p><p>TEST</p><p>\"]</p>",
+    "redirectUrl": "https://test.com",
+    "images": [
+      {
+        "file": {
+          "id": "51361dc1-4282-4fdf-a890-f867e9fff122",
+          "name": "e3e90f48-d1fd-43a4-8b83-dc9c5b71e0e4-3051b9ce49b872d9d6f6e1deee24e0f7.png",
+          "extension": "image/png",
+          "path": "inventories/f2110f55-4e32-4ec8-8c7a-60979721f79e/images/e3e90f48-d1fd-43a4-8b83-dc9c5b71e0e4-3051b9ce49b872d9d6f6e1deee24e0f7.png",
+          "download_url": "https://app-d-helixworlds-content.s3.amazonaws.com/inventories/f2110f55-4e32-4ec8-8c7a-60979721f79e/images/e3e90f48-d1fd-43a4-8b83-dc9c5b71e0e4-3051b9ce49b872d9d6f6e1deee24e0f7.png",
+          "size": 53163,
+          "created_at": "2024-06-12T02:51:09.338Z",
+          "updated_at": "2024-06-12T02:51:09.338Z"
+        }
+      }
+    ],
+    "code": "6047"
+  }
