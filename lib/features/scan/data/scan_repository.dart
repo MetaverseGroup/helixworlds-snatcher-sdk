@@ -1,7 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages, avoid_renaming_method_parameters
 
 import 'package:dartz/dartz.dart';
-import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/auth/auth_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/log_local_datasource.dart';
@@ -9,14 +8,11 @@ import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart'
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/scan_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
-import 'package:helixworlds_snatcher_sdk/utils/image_detector.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/failure.dart';
 import 'model/scan_model.dart';
 
 abstract class IScanRepository {
-  Future<Either<Failure, InventoryItemModel>> processImage(InputImage image);
-  Future<Either<Failure, InventoryItemModel>> processImageLocal(InputImage image);
   Future<Either<Failure, InventoryItemModel>> processImageAR(XFile image);
   /// pass the ID of the object detected from image detector ex. p001
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id);
@@ -26,8 +22,6 @@ abstract class IScanRepository {
 }
 
 class ScanRepository extends IScanRepository {
-  // final ARekognitionImageDetector _arImageDetector;
-  final ImageDetector detector;
   final ILogLocalDatasource logLocalDS;
   final IScanRemoteDatasource _remoteDS;
   final IScanLocalDatasource _localDS;
@@ -35,22 +29,7 @@ class ScanRepository extends IScanRepository {
   final IAuthLocalDatasource _authLocalDS;
 
 
-  ScanRepository(this.detector, this.logLocalDS, this._localDS, this._remoteDS, this._helperUtil, this._authLocalDS);
-  @override
-  Future<Either<Failure, InventoryItemModel>> processImage(InputImage image) async {
-    try {
-      var result = await detector.processImage(image);
-      if(result != null) {
-        // this is API Based Fetch Inventory
-        var inventoryItemResult = await getInventoryItemByID(result);
-        return inventoryItemResult;
-      } else {
-        return Left(ItemNotDetectedFailure());
-      }
-    } catch (e) {
-      return Left(ItemNotDetectedFailure());
-    }
-  }
+  ScanRepository(this.logLocalDS, this._localDS, this._remoteDS, this._helperUtil, this._authLocalDS);
 
   logModel(InventoryItemModel object) async {
     var logsResult = await logLocalDS.getLogs();
@@ -93,30 +72,6 @@ class ScanRepository extends IScanRepository {
       }
     }catch(e){
       return Left(RepositoryFailure());
-    }
-  }
-  
-  @override
-  Future<Either<Failure, InventoryItemModel>> processImageLocal(InputImage image) async {
-    try {
-      var result = await detector.processImage(image);
-      if(result != null) {
-        // this is hard coded details 
-        var model = InventoryItemModel(
-          id: _helperUtil.getId(result),
-          title: _helperUtil.getTitle(result),
-          url: _helperUtil.getUrl(result)
-          // image: _helperUtil.getImage(result),
-          // projectId: _helperUtil.getGame(result)
-        );
-        logModel(model);
-        return Right(model);
-
-      } else {
-        return Left(ItemNotDetectedFailure());
-      }
-    } catch (e) {
-      return Left(ItemNotDetectedFailure());
     }
   }
 

@@ -8,17 +8,12 @@ import 'package:example/features/scan/scan_screen.dart';
 import 'package:example/features/scan/scan_screen_bloc.dart';
 import 'package:example/features/view_product/view_product_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:helixworlds_snatcher_sdk/core/const.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:go_router/go_router.dart';
 import 'package:helixworlds_snatcher_sdk/theme/bloc/theme_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
-import 'dart:io' as io;
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 
 final appRouter = GoRouter(
   routes: [ 
@@ -49,21 +44,6 @@ final appRouter = GoRouter(
   ]
 );
 
-Future<String> _getModel(String assetPath) async {
-    // if (io.Platform.isAndroid) {
-    //   return 'flutter_assets/$assetPath';
-    // }
-    final path = '${(await getApplicationSupportDirectory()).path}/$assetPath';
-    await io.Directory(dirname(path)).create(recursive: true);
-    final file = io.File(path);
-    if (!await file.exists()) {
-      final byteData = await rootBundle.load(assetPath);
-      await file.writeAsBytes(byteData.buffer
-          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-    }
-    return file.path;
-  }
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/.env");
@@ -76,10 +56,7 @@ void main() async {
   );
 
 
-  final modelPath = await _getModel("assets/model.tflite");
-  final options = LocalLabelerOptions(modelPath: modelPath);
   setupServices(
-    options, 
     mixPanelToken: mixPanelToken ?? "",
     arAccessKey: "access key here",
     arSecretKey: "secret key here",

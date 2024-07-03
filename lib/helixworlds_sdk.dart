@@ -21,8 +21,7 @@ abstract class IHelixworldsSDKService{
   // call this method in order to set whole SDK env to production environment
   Future<Either<Failure, Success>> setForProduction();
   /// set isAR = true then it will process the image detection using amazon rekognition
-  Future<Either<Failure, Success>> scanItem({bool isAR = false});
-  Future<Either<Failure, Success>> scanItems(XFile image);  
+  Future<Either<Failure, Success>> scanItem();
   Future<Either<Failure, Success>> scanItemsByAR(XFile image);
 
   Future<Either<Failure, String>> getUserId();
@@ -51,51 +50,13 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   final HelperUtil _helperUtil;
   final bool isLocal;
   HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, this._authLocalDS, {this.isLocal = true});
-
-  @override
-  Future<Either<Failure, Success>> scanItems(XFile image) async {
-    try{
-       var imageInput = _helperUtil.getInputImageFile(image);
-       if(isLocalFetch()){
-        var result = await scanRepo.processImageLocal(imageInput);
-        var rightResult = result.fold((l) => null, (r) => r);
-        var leftResult = result.fold((l) => l, (r) => null);
-        var userResult = await getUserId();
-        var userRightValue = userResult.fold((l) => null, (r) => r);
-        if(result.isRight()){
-          return Right(ObjectDetectedSuccess(rightResult!, userResult.isRight() ? userRightValue ?? "" : ""));
-        } else {
-          return Left(leftResult!);
-        }
-      } else {
-          // using the gatherer database
-          var result = await scanRepo.processImage(imageInput);
-          var rightResult = result.fold((l) => null, (r) => r);
-          var leftResult = result.fold((l) => l, (r) => null);
-          var userResult = await getUserId();
-          var userRightValue = userResult.fold((l) => null, (r) => r);
-          if(result.isRight()){
-            return Right(ObjectDetectedSuccess(rightResult!, userResult.isRight() ? userRightValue ?? "" : ""));
-          } else {
-            return Left(leftResult!);
-          }
-      }
-    } catch(e) {
-      return Left(ItemNotDetectedFailure());
-    }
-  }
   
   @override
-  Future<Either<Failure, Success>> scanItem({bool isAR = false}) async {
+  Future<Either<Failure, Success>> scanItem() async {
     try{
       var image = await picker.pickImage(source: ImageSource.camera, imageQuality: 80);
-      if(isAR){
-        var result = await scanItemsByAR(image!);
-        return result;
-      } else {
-        var result = await scanItems(image!);
-        return result;
-      }
+      var result = await scanItemsByAR(image!);
+      return result;
     } catch(e) {
       return Left(ItemNotDetectedFailure());
     }

@@ -1,19 +1,12 @@
 // ignore_for_file: depend_on_referenced_packages
-
-import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
-import 'dart:io' as io;
 import 'package:dartz/dartz.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
 import '../core/failure.dart';
 
 
 class HelperUtil {
-  InputImage getInputImageFile(XFile photo){
-    return InputImage.fromFile(io.File(photo.path));
-  }
   Future<Either<Failure, Success>> redirectUrl(Uri url) async {
     if (!await launchUrl(url)) {
       return Left(WebRouteFailure('Could not launch ${url.path}'));
