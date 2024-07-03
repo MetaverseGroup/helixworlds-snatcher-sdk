@@ -53,7 +53,7 @@ String myProjectARN = "";
 /// rudderStackKey -> fetch this when you have access to your rudderstack, rudderPlaneUrl and rudderControlPlaneUrl
 /// isLocal -> this will be used to identify if it will  
 
-setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", String arRegion = "", String arAccessKey = "", String arSecretKey = "", String projectARN = "", String sentryDSN = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264", String rudderStackKey = "", String rudderPlaneUrl = "https://rudderstacgwyx.dataplane.rudderstack.com", bool isLocal = true, String env = "DEV"}) async {
+setupServices({String mixPanelToken = "", String arRegion = "", String arAccessKey = "", String arSecretKey = "", String projectARN = "", String sentryDSN = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264", String rudderStackKey = "", String rudderPlaneUrl = "https://rudderstacgwyx.dataplane.rudderstack.com", bool isLocal = true, String env = "DEV"}) async {
   _sharedPref = await SharedPreferences.getInstance();
   SimpleConnectionChecker checker = SimpleConnectionChecker();
   serviceLocator.registerLazySingleton(() => NetworkUtil(checker));
@@ -63,7 +63,7 @@ setupServices(LocalLabelerOptions labelerOption, {String mixPanelToken = "", Str
   serviceLocator.registerLazySingleton(() => ThemeBloc(ThemeState(
           themeType: getPrefUtils().getThemeData(),
   )));
-  _setupMLServices(labelerOption);
+  // _setupMLServices(labelerOption);
   _setupUserDetailsServices();
   _setupScanServices();
   _setupLogService();
