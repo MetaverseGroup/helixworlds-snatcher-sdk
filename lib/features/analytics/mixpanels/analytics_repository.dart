@@ -1,11 +1,15 @@
 // ignore_for_file: depend_on_referenced_packages, constant_identifier_names
 
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_googleanalytics_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_rudderstack_remote_datasource.dart';
+import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
+import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
@@ -18,6 +22,15 @@ abstract class IAnalyticsRepository {
   Future<Either<Failure, Success>> analyticsRedirectToShopEvent(String url, String userId);
   Future<Either<Failure, Success>> analyticsRedirectToShopEventItemId(String url, String userId, String itemId);
   Future<Either<Failure, Success>> analyticsSavedItems(InventoryItemModel item);
+
+  // log events remote
+  Future<Either<Failure, Success>> logGoToStore(String inventoryId);
+  Future<Either<Failure, Success>> logItemScans(String inventoryId);
+  Future<Either<Failure, Success>> logItemSaves(String inventoryId);
+  // unsure if in mobile so far this is not 
+  // Future<Either<Failure, Success>> logRobloxGameViews(String gameId);
+  // Future<Either<Failure, Success>> logClicksInRobloxGame(String gameId);
+
 }
 const String localKeyInstallation = "localKeyInstallation";
 const String analytics_installKey = "installs";
@@ -31,7 +44,9 @@ class AnalyticsRepository extends IAnalyticsRepository {
   final SharedPreferences _sharedPref;
   final IGoogleAnalyticsRemoteDatasource? googleAnalyticsRemoteDS;
   final IAnalyticsRudderStackRemoteDatasource? rudderStackRemoteDS;
-  AnalyticsRepository(this._sharedPref, {this.googleAnalyticsRemoteDS, this.rudderStackRemoteDS});
+  final IAnalyticsRemoteDatasource? remoteDS;
+  final IUserDetailsRepository userDetailsRepo;
+  AnalyticsRepository(this._sharedPref, this.userDetailsRepo, {this.googleAnalyticsRemoteDS, this.rudderStackRemoteDS, this.remoteDS});
 
   @override
   Future<Either<Failure, Success>> analyticsTrackInstalls() async {
@@ -131,5 +146,35 @@ class AnalyticsRepository extends IAnalyticsRepository {
     } catch(e) {
       return Left(RepositoryFailure());
     }
+  }
+  
+  @override
+  Future<Either<Failure, Success>> logGoToStore(String inventoryId) async {
+    var userIdResult = await userDetailsRepo.getUserID();
+    var userId = userIdResult.fold((l) => null, (r) => r) ?? "";
+    var result = await remoteDS?.trackEvent(userId, "custom_event", inventoryId, jsonEncode({
+      "parameters": {"event_id": "54aff065-0cd9-4285-973b-70d4b682e0bb"}
+    }));
+    return result ?? Left(RepositoryFailure());
+  }
+  
+  @override
+  Future<Either<Failure, Success>> logItemSaves(String inventoryId) async {
+    var userIdResult = await userDetailsRepo.getUserID();
+    var userId = userIdResult.fold((l) => null, (r) => r) ?? "";
+    var result = await remoteDS?.trackEvent(userId, "custom_event", inventoryId, jsonEncode({
+      "parameters": {"event_id": "54aff065-0cd9-4285-973b-70d4b682e0bb"}
+    }));
+    return result ?? Left(RepositoryFailure());
+  }
+  
+  @override
+  Future<Either<Failure, Success>> logItemScans(String inventoryId) async {
+    var userIdResult = await userDetailsRepo.getUserID();
+    var userId = userIdResult.fold((l) => null, (r) => r) ?? "";
+    var result = await remoteDS?.trackEvent(userId, "custom_event", inventoryId, jsonEncode({
+      "parameters": {"event_id": "54aff065-0cd9-4285-973b-70d4b682e0bb"}
+    }));
+    return result ?? Left(RepositoryFailure());
   }
 }

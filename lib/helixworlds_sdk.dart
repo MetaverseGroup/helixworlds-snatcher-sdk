@@ -29,12 +29,13 @@ abstract class IHelixworldsSDKService{
   Future<Either<Failure, Success>> deleteFavoriteItem(MyLogModel model);
   Future<Either<Failure, List<MyLogModel>>> fetchFavoritesItems();
   Future<Either<Failure, List<MyLogModel>>> fetchScannedItems();
-  Future<Either<Failure, Success>> redirectToUrl(String murl); 
+  Future<Either<Failure, Success>> redirectToUrl(String murl, String inventoryID); 
   bool isLocalFetch();
   String getDefaultUserId();
 
   /// analytics mixpanel tracking event
   AnalyticsRepository? getAnalyticsRepoService();
+
 
   /// auth gatherer just pass the developerId provided by metaverse group and secret key to be able to access our scanning api service features 
   Future<Either<Failure, Success>> loginMobile(String developerId, String secret, String uuid);
@@ -49,7 +50,8 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   final ImagePicker picker;
   final HelperUtil _helperUtil;
   final bool isLocal;
-  HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, this._authLocalDS, {this.isLocal = true});
+  final IAnalyticsRepository analyticsRepo;
+  HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, this._authLocalDS, this.analyticsRepo, {this.isLocal = true});
   
   @override
   Future<Either<Failure, Success>> scanItem() async {
@@ -95,7 +97,8 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   }
   
   @override
-  Future<Either<Failure, Success>> cacheFavoritesItem(InventoryItemModel model) {
+  Future<Either<Failure, Success>> cacheFavoritesItem(InventoryItemModel model) async {
+    await analyticsRepo.logItemSaves(model.id ?? "");
     var itemResult = scanRepo.cacheSavedItem(model);
     return itemResult;
   }
@@ -113,7 +116,7 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   }
   
   @override
-  Future<Either<Failure, Success>> redirectToUrl(String murl) async {
+  Future<Either<Failure, Success>> redirectToUrl(String murl, String inventoryID) async {
     final userParam =
         (userId?.isNotEmpty ?? false) ? '?userId=$userId' : '';
     final Uri url =
@@ -137,6 +140,7 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
     
     var rightResult = result.fold((l) => null, (r) => r);
     if(result.isRight()){
+      await analyticsRepo.logItemScans(rightResult?.id ?? "");
       return Right(ObjectDetectedSuccess(rightResult!, getDefaultUserId()));
     } else {
       return Left(ItemNotDetectedFailure());

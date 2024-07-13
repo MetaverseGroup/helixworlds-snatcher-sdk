@@ -23,8 +23,8 @@ class ScanScreenTakePictureEvent extends ScanScreenEvent {
 }
 
 class ScanScreenRedirectToUrlEvent extends ScanScreenEvent {
-  final String url;
-  ScanScreenRedirectToUrlEvent(this.url);
+  final InventoryItemModel item;
+  ScanScreenRedirectToUrlEvent(this.item);
   @override
   List<Object?> get props => []; 
 
@@ -128,8 +128,8 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
       emit(ScanScreenInitialState());
     });
     on<ScanScreenRedirectToUrlEvent>((event, emit){
-      _redirectUrlObjectFromLogs(event.url);
-      _helixworldSDK.getAnalyticsRepoService()?.analyticsRedirectToShopEvent(event.url, _helixworldSDK.getDefaultUserId());
+      _redirectUrlObjectFromLogs(event.item.url ?? "", event.item.id ?? "");
+      _helixworldSDK.getAnalyticsRepoService()?.analyticsRedirectToShopEvent(event.item.url ?? "", _helixworldSDK.getDefaultUserId());
     });
     on<ScanScreenLaunchToUrlEvent>((event, emit){
       _redirectUrlObject(event.model);
@@ -179,8 +179,8 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     });
   }
 
-  _redirectUrl(String murl) async{
-    var result = await _helixworldSDK.redirectToUrl(murl);
+  _redirectUrl(String murl, String inventoryID) async{
+    var result = await _helixworldSDK.redirectToUrl(murl, inventoryID);
     result.fold((l) {
       emit(ScanScreenFailure(l.getErrorMessage()));
     }, (r) {
@@ -189,15 +189,15 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
 
   }
 
-  _redirectUrlObjectFromLogs(String url){
-    _redirectUrl(url);
+  _redirectUrlObjectFromLogs(String url, String inventoryID){
+    _redirectUrl(url, inventoryID);
     Future.delayed(const Duration(seconds: 1), (){
       _fetchLogs();
     });    
   }
 
   _redirectUrlObject(InventoryItemModel model) async {
-    await _redirectUrl(model.url ?? "");
+    await _redirectUrl(model.url ?? "", model.id ?? "");
     Future.delayed(const Duration(seconds: 1), (){
       // ignore: invalid_use_of_visible_for_testing_member
       emit(ScanScreenShowScannedObjectState(model, userId));

@@ -2,6 +2,7 @@
 import 'package:example/features/scan/scan_screen_bloc.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart';
+import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/widgets/custom_image_view.dart';
 import 'package:helixworlds_snatcher_sdk/theme/app_decoration.dart';
 import 'package:helixworlds_snatcher_sdk/theme/custom_text_style.dart';
@@ -95,7 +96,7 @@ class HistoryItemWidget extends StatelessWidget {
             ]),
 
             InkWell(onTap:(){
-              context.read<ScanScreenPageBloc>().add(ScanScreenRedirectToUrlEvent(historyItemModelObj.url ?? ""));
+              context.read<ScanScreenPageBloc>().add(ScanScreenRedirectToUrlEvent(InventoryItemModel(id: historyItemModelObj.id, url: historyItemModelObj.url)));
             }, child: Icon(Icons.arrow_forward_ios_rounded, size: 30.v, color: Colors.white))
         ],
       ),

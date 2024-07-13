@@ -29,3 +29,6 @@
 ## 1.0.11 + 21
 * Scan Model Updates
 * UGC Scanning Supported
+
+## 1.0.12 + 22
+* Analytics Tracking Events for Users

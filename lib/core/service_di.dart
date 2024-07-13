@@ -5,6 +5,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_googleanalytics_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_mixpanels_rudderstack_remote_datasource.dart';
+import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_repository.dart';
 import 'package:helixworlds_snatcher_sdk/features/auth/auth_local_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/auth/auth_remote_datasource.dart';
@@ -71,6 +72,7 @@ _setupAnalytics(String token) async{
 
   try{
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    serviceLocator.registerLazySingleton(() => AnalyticsRemoteDatasource(_getDio()));
     serviceLocator.registerLazySingleton(() => analytics);
     serviceLocator.registerLazySingleton(() => FirebaseAnalyticsObserver(analytics: analytics));
     serviceLocator.registerLazySingleton(() => GoogleAnalyticsRemoteDatasource(analytics, getFBAnalyticsObserver()));
@@ -78,7 +80,11 @@ _setupAnalytics(String token) async{
     // print("Error setting up google analytics");
   }
 
-  serviceLocator.registerLazySingleton(() => AnalyticsRepository(_getSharedPref(), googleAnalyticsRemoteDS: getGoogleAnalyticsRemoteDS(), rudderStackRemoteDS: rudderAnalyticsRemoteDS()));
+  serviceLocator.registerLazySingleton(() => AnalyticsRepository(_getSharedPref(), getUserDetailsRepo(), googleAnalyticsRemoteDS: getGoogleAnalyticsRemoteDS(), rudderStackRemoteDS: rudderAnalyticsRemoteDS(), remoteDS: getAnalyticsRemoteDS()));
+}
+
+IAnalyticsRemoteDatasource getAnalyticsRemoteDS(){
+  return serviceLocator<AnalyticsRemoteDatasource>();
 }
 FirebaseAnalytics getFBAnalytics(){
   return serviceLocator<FirebaseAnalytics>();
@@ -213,7 +219,7 @@ ILogLocalDatasource getLogLocalDS(){
 }
 
 _setupSDK({bool isLocal = true}){
-  serviceLocator.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil(), _getAuthLocalDS(), isLocal: isLocal));
+  serviceLocator.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil(), _getAuthLocalDS(), getAnalyticsRepo(), isLocal: isLocal));
 }
 
 IHelixworldsSDKService getSDK(){
