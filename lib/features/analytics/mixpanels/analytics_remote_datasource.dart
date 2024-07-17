@@ -9,7 +9,7 @@ import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 
 abstract class IAnalyticsRemoteDatasource {
-  Future<Either<Failure, Success>> trackEvent(final String userId, String name, String inventoryId, String parameters);
+  Future<Either<Failure, Success>> trackEvent(String userId, String name, String inventoryId, String actions);
 }
 
 
@@ -18,7 +18,7 @@ class AnalyticsRemoteDatasource extends IAnalyticsRemoteDatasource {
   AnalyticsRemoteDatasource(this._dio);
 
   @override
-  Future<Either<Failure, Success>> trackEvent(String userId, String name, String inventoryId, String parameters) async {
+  Future<Either<Failure, Success>> trackEvent(String userId, String name, String inventoryId, String actions) async {
     try{
         final response = await _dio.post(
           '$baseUrl/v3/user/$userId/track/mobile',
@@ -28,7 +28,7 @@ class AnalyticsRemoteDatasource extends IAnalyticsRemoteDatasource {
           data: {
             name: name,
             inventoryId: inventoryId,
-            parameters: parameters
+            actions: actions,
           }
         );
         if(response.statusCode == 201 || response.statusCode == 200) {

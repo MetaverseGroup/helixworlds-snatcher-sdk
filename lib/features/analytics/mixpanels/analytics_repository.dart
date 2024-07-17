@@ -10,6 +10,7 @@ import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_
 import 'package:helixworlds_snatcher_sdk/features/analytics/mixpanels/analytics_remote_datasource.dart';
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:helixworlds_snatcher_sdk/features/user_details/user_details_repository.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
@@ -24,6 +25,7 @@ abstract class IAnalyticsRepository {
   Future<Either<Failure, Success>> analyticsSavedItems(InventoryItemModel item);
 
   // log events remote
+  /// item ID for Go To Store 
   Future<Either<Failure, Success>> logGoToStore(String inventoryId);
   Future<Either<Failure, Success>> logItemScans(String inventoryId);
   Future<Either<Failure, Success>> logItemSaves(String inventoryId);
@@ -153,7 +155,7 @@ class AnalyticsRepository extends IAnalyticsRepository {
     var userIdResult = await userDetailsRepo.getUserID();
     var userId = userIdResult.fold((l) => null, (r) => r) ?? "";
     var result = await remoteDS?.trackEvent(userId, "custom_event", inventoryId, jsonEncode({
-      "parameters": {"event_id": "54aff065-0cd9-4285-973b-70d4b682e0bb"}
+      "parameters": {"event_id": "mobile_go_to_store"}
     }));
     return result ?? Left(RepositoryFailure());
   }
@@ -163,7 +165,7 @@ class AnalyticsRepository extends IAnalyticsRepository {
     var userIdResult = await userDetailsRepo.getUserID();
     var userId = userIdResult.fold((l) => null, (r) => r) ?? "";
     var result = await remoteDS?.trackEvent(userId, "custom_event", inventoryId, jsonEncode({
-      "parameters": {"event_id": "54aff065-0cd9-4285-973b-70d4b682e0bb"}
+      "parameters": {"event_id": "mobile_log_item_saves"}
     }));
     return result ?? Left(RepositoryFailure());
   }
@@ -173,7 +175,7 @@ class AnalyticsRepository extends IAnalyticsRepository {
     var userIdResult = await userDetailsRepo.getUserID();
     var userId = userIdResult.fold((l) => null, (r) => r) ?? "";
     var result = await remoteDS?.trackEvent(userId, "custom_event", inventoryId, jsonEncode({
-      "parameters": {"event_id": "54aff065-0cd9-4285-973b-70d4b682e0bb"}
+      "parameters": {"event_id": "mobile_log_item_scans"}
     }));
     return result ?? Left(RepositoryFailure());
   }
