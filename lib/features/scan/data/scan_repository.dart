@@ -17,7 +17,7 @@ abstract class IScanRepository {
   /// pass the ID of the object detected from image detector ex. p001
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id);
   Future<Either<Failure, List<MyLogModel>>> getSavedItems();
-  Future<Either<Failure, Success>> cacheSavedItem(InventoryItemModel items);
+  Future<Either<Failure, Success>> cacheSavedItem(ScanResponseModel items);
   Future<Either<Failure, Success>> deleteSavedItem(MyLogModel item);
 }
 
@@ -93,19 +93,19 @@ class ScanRepository extends IScanRepository {
   }
   
   @override
-  Future<Either<Failure, Success>> cacheSavedItem(InventoryItemModel items) async {
+  Future<Either<Failure, Success>> cacheSavedItem(ScanResponseModel items) async {
     try{
       var accessTokenResult = await _authLocalDS.getValorAccessToken();
       var token = accessTokenResult.fold((l) => null, (r) => r) ?? "";
 
       var localResult = await logLocalDS.getSavedItems();
       final model = MyLogModel(
-                id: items.id,
-                productId: items.id,
-                name: items.title,
-                image: items.images?.first.file.downloadUrl ?? '',
+                id: items.virtualItem?.id ?? "",
+                productId: items.inventory?.id ?? "",
+                name: items.inventory?.title,
+                image: items.inventory?.images?.file?.downloadUrl ?? '',
                 date: _helperUtil.getDateString(),
-                url: items.url ?? ""
+                url: items.inventory?.productUrl ?? ""
       );
       List<MyLogModel> myitems = [];
       List<MyLogModel> logItems = localResult.fold((l) => null, (r) => r) ?? [];

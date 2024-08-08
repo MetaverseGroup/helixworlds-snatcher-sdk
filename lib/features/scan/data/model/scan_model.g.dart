@@ -104,7 +104,7 @@ _$ScanResponseModelImpl _$$ScanResponseModelImplFromJson(
               json['virtualItem'] as Map<String, dynamic>),
       inventory: json['inventory'] == null
           ? null
-          : InventoryItemV4ImageModel.fromJson(
+          : InventoryItemV4Model.fromJson(
               json['inventory'] as Map<String, dynamic>),
       code: json['code'] as String?,
     );

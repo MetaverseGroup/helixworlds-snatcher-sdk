@@ -74,7 +74,7 @@ class ScanResponseModel with _$ScanResponseModel {
   const factory ScanResponseModel(
       {        
         ScanVirtualItemModel? virtualItem,
-        InventoryItemV4ImageModel? inventory,
+        InventoryItemV4Model? inventory,
         String? code,
 
       }) = _ScanResponseModel;

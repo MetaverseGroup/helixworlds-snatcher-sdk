@@ -25,7 +25,7 @@ abstract class IHelixworldsSDKService{
   Future<Either<Failure, Success>> scanItemsByAR(XFile image);
 
   Future<Either<Failure, String>> getUserId();
-  Future<Either<Failure, Success>> cacheFavoritesItem(InventoryItemModel model);
+  Future<Either<Failure, Success>> cacheFavoritesItem(ScanResponseModel model);
   Future<Either<Failure, Success>> deleteFavoriteItem(MyLogModel model);
   Future<Either<Failure, List<MyLogModel>>> fetchFavoritesItems();
   Future<Either<Failure, List<MyLogModel>>> fetchScannedItems();
@@ -95,7 +95,7 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   }
   
   @override
-  Future<Either<Failure, Success>> cacheFavoritesItem(InventoryItemModel model) {
+  Future<Either<Failure, Success>> cacheFavoritesItem(ScanResponseModel model) {
     var itemResult = scanRepo.cacheSavedItem(model);
     return itemResult;
   }

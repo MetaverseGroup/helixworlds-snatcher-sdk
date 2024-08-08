@@ -999,8 +999,7 @@ ScanResponseModel _$ScanResponseModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ScanResponseModel {
   ScanVirtualItemModel? get virtualItem => throw _privateConstructorUsedError;
-  InventoryItemV4ImageModel? get inventory =>
-      throw _privateConstructorUsedError;
+  InventoryItemV4Model? get inventory => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1017,11 +1016,11 @@ abstract class $ScanResponseModelCopyWith<$Res> {
   @useResult
   $Res call(
       {ScanVirtualItemModel? virtualItem,
-      InventoryItemV4ImageModel? inventory,
+      InventoryItemV4Model? inventory,
       String? code});
 
   $ScanVirtualItemModelCopyWith<$Res>? get virtualItem;
-  $InventoryItemV4ImageModelCopyWith<$Res>? get inventory;
+  $InventoryItemV4ModelCopyWith<$Res>? get inventory;
 }
 
 /// @nodoc
@@ -1049,7 +1048,7 @@ class _$ScanResponseModelCopyWithImpl<$Res, $Val extends ScanResponseModel>
       inventory: freezed == inventory
           ? _value.inventory
           : inventory // ignore: cast_nullable_to_non_nullable
-              as InventoryItemV4ImageModel?,
+              as InventoryItemV4Model?,
       code: freezed == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -1071,12 +1070,12 @@ class _$ScanResponseModelCopyWithImpl<$Res, $Val extends ScanResponseModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $InventoryItemV4ImageModelCopyWith<$Res>? get inventory {
+  $InventoryItemV4ModelCopyWith<$Res>? get inventory {
     if (_value.inventory == null) {
       return null;
     }
 
-    return $InventoryItemV4ImageModelCopyWith<$Res>(_value.inventory!, (value) {
+    return $InventoryItemV4ModelCopyWith<$Res>(_value.inventory!, (value) {
       return _then(_value.copyWith(inventory: value) as $Val);
     });
   }
@@ -1092,13 +1091,13 @@ abstract class _$$ScanResponseModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {ScanVirtualItemModel? virtualItem,
-      InventoryItemV4ImageModel? inventory,
+      InventoryItemV4Model? inventory,
       String? code});
 
   @override
   $ScanVirtualItemModelCopyWith<$Res>? get virtualItem;
   @override
-  $InventoryItemV4ImageModelCopyWith<$Res>? get inventory;
+  $InventoryItemV4ModelCopyWith<$Res>? get inventory;
 }
 
 /// @nodoc
@@ -1124,7 +1123,7 @@ class __$$ScanResponseModelImplCopyWithImpl<$Res>
       inventory: freezed == inventory
           ? _value.inventory
           : inventory // ignore: cast_nullable_to_non_nullable
-              as InventoryItemV4ImageModel?,
+              as InventoryItemV4Model?,
       code: freezed == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -1144,7 +1143,7 @@ class _$ScanResponseModelImpl implements _ScanResponseModel {
   @override
   final ScanVirtualItemModel? virtualItem;
   @override
-  final InventoryItemV4ImageModel? inventory;
+  final InventoryItemV4Model? inventory;
   @override
   final String? code;
 
@@ -1187,7 +1186,7 @@ class _$ScanResponseModelImpl implements _ScanResponseModel {
 abstract class _ScanResponseModel implements ScanResponseModel {
   const factory _ScanResponseModel(
       {final ScanVirtualItemModel? virtualItem,
-      final InventoryItemV4ImageModel? inventory,
+      final InventoryItemV4Model? inventory,
       final String? code}) = _$ScanResponseModelImpl;
 
   factory _ScanResponseModel.fromJson(Map<String, dynamic> json) =
@@ -1196,7 +1195,7 @@ abstract class _ScanResponseModel implements ScanResponseModel {
   @override
   ScanVirtualItemModel? get virtualItem;
   @override
-  InventoryItemV4ImageModel? get inventory;
+  InventoryItemV4Model? get inventory;
   @override
   String? get code;
   @override
