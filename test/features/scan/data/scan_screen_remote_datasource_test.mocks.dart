@@ -1206,8 +1206,7 @@ class MockIScanRemoteDatasource extends _i1.Mock
       ) as _i9.Future<_i7.Either<_i12.Failure, _i13.InventoryItemModel>>);
 
   @override
-  _i9.Future<
-      _i7.Either<_i12.Failure, _i13.ScanVirtualItemModel>> objectScannedV4(
+  _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>> objectScannedV4(
     _i14.XFile? photo,
     String? accessToken,
   ) =>
@@ -1219,9 +1218,9 @@ class MockIScanRemoteDatasource extends _i1.Mock
             accessToken,
           ],
         ),
-        returnValue: _i9
-            .Future<_i7.Either<_i12.Failure, _i13.ScanVirtualItemModel>>.value(
-            _FakeEither_5<_i12.Failure, _i13.ScanVirtualItemModel>(
+        returnValue:
+            _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>>.value(
+                _FakeEither_5<_i12.Failure, _i13.ScanResponseModel>(
           this,
           Invocation.method(
             #objectScannedV4,
@@ -1231,9 +1230,9 @@ class MockIScanRemoteDatasource extends _i1.Mock
             ],
           ),
         )),
-        returnValueForMissingStub: _i9
-            .Future<_i7.Either<_i12.Failure, _i13.ScanVirtualItemModel>>.value(
-            _FakeEither_5<_i12.Failure, _i13.ScanVirtualItemModel>(
+        returnValueForMissingStub:
+            _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>>.value(
+                _FakeEither_5<_i12.Failure, _i13.ScanResponseModel>(
           this,
           Invocation.method(
             #objectScannedV4,
@@ -1243,7 +1242,7 @@ class MockIScanRemoteDatasource extends _i1.Mock
             ],
           ),
         )),
-      ) as _i9.Future<_i7.Either<_i12.Failure, _i13.ScanVirtualItemModel>>);
+      ) as _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>>);
 
   @override
   _i9.Future<_i7.Either<_i12.Failure, List<_i15.MyLogModel>>> getMySavedScans(

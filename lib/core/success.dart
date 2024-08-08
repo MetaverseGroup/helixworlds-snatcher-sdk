@@ -23,7 +23,7 @@ class ObjectDetectedSuccess extends Success {
 }
 
 class ObjectDetectedV4Success extends Success {
-  final ScanVirtualItemModel item;
+  final ScanResponseModel item;
   final String userId;
   ObjectDetectedV4Success(this.item, this.userId);
 }
