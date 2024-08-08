@@ -16,7 +16,7 @@ abstract class IScanRemoteDatasource {
   /// this will upload the image and the scanned service will return the inventory details of the object scanned
   Future<Either<Failure, String>> objectScanned(XFile photo, String accessToken);
   Future<Either<Failure, InventoryItemModel>> objectScannedV2(XFile photo, String accessToken);
-  Future<Either<Failure, InventoryItemModel>> objectScannedV4(XFile photo, String accessToken);
+  Future<Either<Failure, ScanVirtualItemModel>> objectScannedV4(XFile photo, String accessToken);
 
   Future<Either<Failure, List<MyLogModel>>> getMySavedScans(String accessToken);
   Future<Either<Failure, MyLogModel>> newSavedScans(String token, MyLogModel model);
@@ -165,7 +165,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
   }
   
   @override
-  Future<Either<Failure, InventoryItemModel>> objectScannedV4(XFile photo, String accessToken) async {
+  Future<Either<Failure, ScanVirtualItemModel>> objectScannedV4(XFile photo, String accessToken) async {
     try{
         final formData = FormData.fromMap({
           'file': await MultipartFile.fromFile(photo.path, filename: photo.name),
@@ -179,10 +179,10 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
           data: formData,
         );
         if(response.statusCode == 201) {
-          return Right(InventoryItemModel.fromJson(response.data));
+          return Right(ScanVirtualItemModel.fromJson(response.data));
         }
         else if(response.statusCode == 200) {
-          return Right(InventoryItemModel.fromJson(jsonDecode(response.data["data"])));
+          return Right(ScanVirtualItemModel.fromJson(jsonDecode(response.data["data"])));
         } else {
           return Left(GetItemByIDRemoteFailure());
         }

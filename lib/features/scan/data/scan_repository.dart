@@ -13,7 +13,7 @@ import '../../../core/failure.dart';
 import 'model/scan_model.dart';
 
 abstract class IScanRepository {
-  Future<Either<Failure, InventoryItemModel>> processImageAR(XFile image);
+  Future<Either<Failure, ScanVirtualItemModel>> processImageAR(XFile image);
   /// pass the ID of the object detected from image detector ex. p001
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id);
   Future<Either<Failure, List<MyLogModel>>> getSavedItems();
@@ -76,7 +76,7 @@ class ScanRepository extends IScanRepository {
   }
 
   @override
-  Future<Either<Failure, InventoryItemModel>> processImageAR(XFile photo) async {
+  Future<Either<Failure, ScanVirtualItemModel>> processImageAR(XFile photo) async {
     try {
         var tokenResult = await _authLocalDS.getGathererAccessToken();
         var token = tokenResult.fold((l) => null, (r) => r);

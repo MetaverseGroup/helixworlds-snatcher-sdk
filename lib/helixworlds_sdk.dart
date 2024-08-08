@@ -137,7 +137,7 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
     
     var rightResult = result.fold((l) => null, (r) => r);
     if(result.isRight()){
-      return Right(ObjectDetectedSuccess(rightResult!, getDefaultUserId()));
+      return Right(ObjectDetectedV4Success(rightResult!, getDefaultUserId()));
     } else {
       return Left(ItemNotDetectedFailure());
     }
