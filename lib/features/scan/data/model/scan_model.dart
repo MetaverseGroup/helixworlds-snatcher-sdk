@@ -26,6 +26,63 @@ class InventoryItemModel with _$InventoryItemModel {
       _$InventoryItemModelFromJson(json);
 }
 
+@Freezed()
+class InventoryItemV4Model with _$InventoryItemV4Model {
+  const factory InventoryItemV4Model(
+      {        
+        String? id,
+        String? title,
+        String? description,
+        String? storeUrl,
+        String? productUrl,
+        List<InventoryItemV4ImageModel>? images
+
+      }) = _InventoryItemV4Model;
+
+  factory InventoryItemV4Model.fromJson(Map<String, dynamic> json) =>
+      _$InventoryItemV4ModelFromJson(json);
+}
+
+@Freezed()
+class InventoryItemV4ImageModel with _$InventoryItemV4ImageModel {
+  const factory InventoryItemV4ImageModel(
+      {        
+        FileInfo? file,
+
+      }) = _InventoryItemV4ImageModel;
+
+  factory InventoryItemV4ImageModel.fromJson(Map<String, dynamic> json) =>
+      _$InventoryItemV4ImageModelFromJson(json);
+}
+
+@Freezed()
+class ScanVirtualItemModel with _$ScanVirtualItemModel {
+  const factory ScanVirtualItemModel(
+      {        
+        String? id,
+        String? title,
+        String? description,
+      }) = _ScanVirtualItemModel;
+
+  factory ScanVirtualItemModel.fromJson(Map<String, dynamic> json) =>
+      _$ScanVirtualItemModelFromJson(json);
+}
+
+
+@Freezed()
+class ScanResponseModel with _$ScanResponseModel {
+  const factory ScanResponseModel(
+      {        
+        ScanVirtualItemModel? virtualItem,
+        InventoryItemV4Model? inventory,
+        String? code,
+
+      }) = _ScanResponseModel;
+
+  factory ScanResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$ScanResponseModelFromJson(json);
+}
+
 @freezed
 abstract class ImageInfo with _$ImageInfo {
   const factory ImageInfo({

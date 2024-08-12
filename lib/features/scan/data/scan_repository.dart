@@ -81,9 +81,25 @@ class ScanRepository extends IScanRepository {
         var tokenResult = await _authLocalDS.getGathererAccessToken();
         var token = tokenResult.fold((l) => null, (r) => r);
 
-        var result = await _remoteDS.objectScannedV2(photo, token ?? "");
-        if(result.isRight()){
-          return result;
+        var result = await _remoteDS.objectScannedV4(photo, token ?? "");
+        if(result.isRight()) {
+          var rightResult = result.fold((l) => null, (r) => r);
+
+          return Right(InventoryItemModel(
+            id: rightResult?.virtualItem?.id ?? "",
+            title: rightResult?.virtualItem?.title ?? "",
+            images: [
+              ImageInfo(
+                file: rightResult?.inventory?.images?.first.file ?? const FileInfo(downloadUrl: "")
+              )
+            ],
+            url: rightResult?.inventory?.productUrl ?? "",
+            description: rightResult?.virtualItem?.description ?? "",
+            isCoupon: rightResult?.code?.isEmpty ?? true ? false : true,
+            code: rightResult?.code ?? "",
+            quantityRemaining: 0,
+            maximumRedemptions: 0,
+          ));
       } else {
           return Left(ItemNotDetectedFailure());
       }
