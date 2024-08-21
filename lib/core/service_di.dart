@@ -31,7 +31,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:simple_connection_checker/simple_connection_checker.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
-final GetIt serviceLocator = GetIt.instance;
+final GetIt serviceLocator = GetIt.instance();
 
 SharedPreferences? _sharedPref;
 
