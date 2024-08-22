@@ -34,10 +34,9 @@ import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 GetIt? serviceLocator;
 setupServiceLocator(){
   try{
-    serviceLocator = GetIt.instance();
+    serviceLocator = GetIt.instance;
   }catch(e){
     serviceLocator = GetIt.instance;
-    print(e);
   }
 }
 
