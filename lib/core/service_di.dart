@@ -19,6 +19,7 @@ import 'package:helixworlds_snatcher_sdk/theme/theme_helper.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/network_util.dart';
 import 'package:helixworlds_snatcher_sdk/utils/pref_utils.dart';
+import 'package:helixworlds_snatcher_sdk/utils/sentry_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,6 +54,8 @@ String myProjectARN = "";
 /// isLocal -> this will be used to identify if it will  
 
 setupServices({String mixPanelToken = "", String arRegion = "", String arAccessKey = "", String arSecretKey = "", String projectARN = "", String sentryDSN = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264", String rudderStackKey = "", String rudderPlaneUrl = "https://rudderstacgwyx.dataplane.rudderstack.com", bool isLocal = true, String env = "DEV"}) async {
+  serviceLocator?.registerLazySingleton(()=> SentryUtil());
+
   _sharedPref = await SharedPreferences.getInstance();
   SimpleConnectionChecker checker = SimpleConnectionChecker();
   serviceLocator?.registerLazySingleton(() => NetworkUtil(checker));
@@ -70,8 +73,7 @@ setupServices({String mixPanelToken = "", String arRegion = "", String arAccessK
   myProjectARN = projectARN;
   _setupSDK(isLocal: isLocal);
   _setupRudderStack(rudderStackKey, rudderPlaneUrl: rudderPlaneUrl);
-  _setupAnalytics(mixPanelToken);
-  
+  _setupAnalytics(mixPanelToken); 
 }
 
 _setupAnalytics(String token) async{
@@ -184,7 +186,7 @@ _setupScanServices(){
   serviceLocator?.registerLazySingleton(() => AuthLocalDatasource(_getSharedPref()));
   serviceLocator?.registerLazySingleton(() => AuthRepository(_getAuthLocalDS(), _getAuthRemoteDS()));
   
-  serviceLocator?.registerLazySingleton(() => ScanRemoteDatasource(_getDio(), getHelperUtil()));
+  serviceLocator?.registerLazySingleton(() => ScanRemoteDatasource(_getDio(), getHelperUtil(), getSentryUtil()));
   serviceLocator?.registerLazySingleton(() => ScanLocalDatasource(_getSharedPref()));
   serviceLocator?.registerLazySingleton(() => ScanRepository(getLogLocalDS(), _getScanLocalDS(), _getScanRemoteDS(), getHelperUtil(), _getAuthLocalDS()));
 
@@ -238,6 +240,10 @@ _setupRudderStack(String rudderStackKey, {String rudderPlaneUrl = "https://rudde
 }
 AnalyticsRudderStackRemoteDatasource rudderAnalyticsRemoteDS(){
   return serviceLocator!<AnalyticsRudderStackRemoteDatasource>();
+}
+
+SentryUtil getSentryUtil(){
+  return serviceLocator!<SentryUtil>();
 }
 
 

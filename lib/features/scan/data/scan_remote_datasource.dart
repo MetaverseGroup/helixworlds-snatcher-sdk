@@ -8,6 +8,7 @@ import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart'
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:dio/dio.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
+import 'package:helixworlds_snatcher_sdk/utils/sentry_util.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/const.dart';
 
@@ -26,7 +27,8 @@ abstract class IScanRemoteDatasource {
 class ScanRemoteDatasource extends IScanRemoteDatasource {
   final Dio dio;
   final HelperUtil _helperUtil;
-  ScanRemoteDatasource(this.dio, this._helperUtil);
+  final SentryUtil _sentryUtil;
+  ScanRemoteDatasource(this.dio, this._helperUtil, this._sentryUtil);
   @override
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id) async {
     try{
@@ -42,6 +44,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
         return Left(leftValue!);
       }
     } catch(e){
+      _sentryUtil.captureException(e);
       return Left(GetItemByIDRemoteFailure());
     }
   }
@@ -66,6 +69,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
           return Left(GetItemByIDRemoteFailure());
         }
     } catch(e) {
+      _sentryUtil.captureException(e);
       return Left(GetItemByIDRemoteFailure());
     }
   }
@@ -87,6 +91,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
         return Left(DataDeletionFailure());
       }
     } catch(e){
+      _sentryUtil.captureException(e);
       return Left(ServiceFailure());
     }
   }
@@ -105,6 +110,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
       List<MyLogModel> savedScans = (response.data as List).map((json) => MyLogModel.fromJson(json as Map<String, dynamic>)).toList();
       return Right(savedScans);
     } catch(e){
+      _sentryUtil.captureException(e);
       return Left(ServiceFailure());
     }
   }
@@ -127,6 +133,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
         return Left(ServiceFailure());
       }
     } catch(e){
+      _sentryUtil.captureException(e);
       return Left(ServiceFailure());
     }
   }
@@ -159,6 +166,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
           // return Left(GetItemByIDRemoteFailure());
         // }
     } catch(e) {
+      _sentryUtil.captureException(e);
       return Left(GetItemByIDRemoteFailure());
     }
   }
