@@ -31,4 +31,4 @@
 * UGC Scanning Supported
 
 ## 1.0.12 + 22
-* V4 Scanning Model
+* V4 Scanning Model Support
