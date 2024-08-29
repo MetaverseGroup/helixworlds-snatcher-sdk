@@ -190,7 +190,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
           return Right(ScanResponseModel.fromJson(response.data));
         }
         else if(response.statusCode == 200) {
-          return Right(ScanResponseModel.fromJson(jsonDecode(response.data["data"])));
+          return Right(ScanResponseModel.fromJson(jsonDecode(response.data)));
         } else {
           return Left(GetItemByIDRemoteFailure());
         }

@@ -85,21 +85,31 @@ class ScanRepository extends IScanRepository {
         if(result.isRight()) {
           var rightResult = result.fold((l) => null, (r) => r);
 
-          return Right(InventoryItemModel(
+          List<ImageInfo> images = [];
+          if(rightResult?.inventory?.images?.isNotEmpty ?? false) {
+            for(var item in rightResult!.inventory!.images!){
+              images.add(ImageInfo(
+                file: item.file ?? const FileInfo(downloadUrl: "")
+              ));
+            }
+          }
+
+          var rightValue = InventoryItemModel(
             id: rightResult?.virtualItem?.id ?? "",
             title: rightResult?.virtualItem?.title ?? "",
-            images: [
-              ImageInfo(
-                file: rightResult?.inventory?.images?.first.file ?? const FileInfo(downloadUrl: "")
-              )
-            ],
+            images: images,
             url: rightResult?.inventory?.productUrl ?? "",
             description: rightResult?.virtualItem?.description ?? "",
             isCoupon: rightResult?.code?.isEmpty ?? true ? false : true,
             code: rightResult?.code ?? "",
             quantityRemaining: 0,
             maximumRedemptions: 0,
-          ));
+          );
+
+
+
+          return Right(rightValue);
+
       } else {
           return Left(ItemNotDetectedFailure());
       }
