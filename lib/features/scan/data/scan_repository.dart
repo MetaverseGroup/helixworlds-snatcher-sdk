@@ -81,7 +81,7 @@ class ScanRepository extends IScanRepository {
         var tokenResult = await _authLocalDS.getGathererAccessToken();
         var token = tokenResult.fold((l) => null, (r) => r);
 
-        var result = await _remoteDS.objectScannedV4(photo, token ?? "");
+        var result = await _remoteDS.objectScannedV5(photo, token ?? "");
         if(result.isRight()) {
           var rightResult = result.fold((l) => null, (r) => r);
 

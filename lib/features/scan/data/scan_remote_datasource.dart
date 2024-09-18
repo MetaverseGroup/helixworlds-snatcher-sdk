@@ -18,6 +18,7 @@ abstract class IScanRemoteDatasource {
   Future<Either<Failure, String>> objectScanned(XFile photo, String accessToken);
   Future<Either<Failure, InventoryItemModel>> objectScannedV2(XFile photo, String accessToken);
   Future<Either<Failure, ScanResponseModel>> objectScannedV4(XFile photo, String accessToken);
+  Future<Either<Failure, ScanResponseModel>> objectScannedV5(XFile photo, String accessToken);
 
   Future<Either<Failure, List<MyLogModel>>> getMySavedScans(String accessToken);
   Future<Either<Failure, MyLogModel>> newSavedScans(String token, MyLogModel model);
@@ -194,11 +195,33 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
         } else {
           return Left(GetItemByIDRemoteFailure());
         }
-        // if (response.statusCode == 201) {
-        //   return Right(response.data["data"].toString());
-        // } else {
-          // return Left(GetItemByIDRemoteFailure());
-        // }
+    } catch(e) {
+      return Left(GetItemByIDRemoteFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, ScanResponseModel>> objectScannedV5(XFile photo, String accessToken) async {
+    try{
+        final formData = FormData.fromMap({
+          'file': await MultipartFile.fromFile(photo.path, filename: photo.name),
+        });
+        final options = Options(headers: {
+          "Authorization": "Bearer $accessToken",
+        });
+        final response = await dio.post(
+          '$baseUrl/v5/scanner/scan_image',
+          options: options,
+          data: formData,
+        );
+        if(response.statusCode == 201) {
+          return Right(ScanResponseModel.fromJson(response.data));
+        }
+        else if(response.statusCode == 200) {
+          return Right(ScanResponseModel.fromJson(jsonDecode(response.data)));
+        } else {
+          return Left(GetItemByIDRemoteFailure());
+        }
     } catch(e) {
       return Left(GetItemByIDRemoteFailure());
     }
