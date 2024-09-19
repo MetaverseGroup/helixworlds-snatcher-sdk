@@ -25,8 +25,6 @@ class AuthRepository extends IAuthRepository {
         var rightResult = result.fold((l) => null, (r) => r);
         var token = rightResult is AuthSuccessToken ? rightResult.accessToken : "";
         var cacheResult = await _localDS.cacheGathererAccessToken(token);
-        print("Access token");
-        print(token);
         return cacheResult;
       } else {
         return Left(CacheFailure());
