@@ -19,7 +19,13 @@ class GoogleAnalyticsRemoteDatasource extends IGoogleAnalyticsRemoteDatasource {
   @override
   Future<Either<Failure, Success>> sendAnalytics(String event, Map<String, dynamic> value) async {
     try {
-      analytics.logEvent(name: event, parameters: value);
+      Map<String, Object> objectMap = value.map((key, value) {
+      if (value == null) {
+        throw ArgumentError('Null value found for key: $key');
+      }
+      return MapEntry(key, value as Object);
+    });
+      analytics.logEvent(name: event, parameters: objectMap);
       return Right(AnalyticsLogsSuccess());
     } catch(e) {
       return Left(AnalyticsLogsFailure());

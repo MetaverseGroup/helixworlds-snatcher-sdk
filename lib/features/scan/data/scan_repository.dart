@@ -19,6 +19,8 @@ abstract class IScanRepository {
   Future<Either<Failure, List<MyLogModel>>> getSavedItems();
   Future<Either<Failure, Success>> cacheSavedItem(InventoryItemModel items);
   Future<Either<Failure, Success>> deleteSavedItem(MyLogModel item);
+
+  Future<Either<Failure, String>> getGathererAccessToken();
 }
 
 class ScanRepository extends IScanRepository {
@@ -81,9 +83,35 @@ class ScanRepository extends IScanRepository {
         var tokenResult = await _authLocalDS.getGathererAccessToken();
         var token = tokenResult.fold((l) => null, (r) => r);
 
-        var result = await _remoteDS.objectScannedV2(photo, token ?? "");
-        if(result.isRight()){
-          return result;
+        var result = await _remoteDS.objectScannedV5(photo, token ?? "");
+        if(result.isRight()) {
+          var rightResult = result.fold((l) => null, (r) => r);
+
+          List<ImageInfo> images = [];
+          if(rightResult?.inventory?.images?.isNotEmpty ?? false) {
+            for(var item in rightResult!.inventory!.images!){
+              images.add(ImageInfo(
+                file: item.file ?? const FileInfo(downloadUrl: "")
+              ));
+            }
+          }
+
+          var rightValue = InventoryItemModel(
+            id: rightResult?.virtualItem?.id ?? "",
+            title: rightResult?.virtualItem?.title ?? "",
+            images: images,
+            url: rightResult?.inventory?.productUrl ?? "",
+            description: rightResult?.virtualItem?.description ?? "",
+            isCoupon: rightResult?.code?.isEmpty ?? true ? false : true,
+            code: rightResult?.code ?? "",
+            quantityRemaining: 0,
+            maximumRedemptions: 0,
+          );
+
+
+
+          return Right(rightValue);
+
       } else {
           return Left(ItemNotDetectedFailure());
       }
@@ -162,6 +190,17 @@ class ScanRepository extends IScanRepository {
     } else {
       var localResult = await logLocalDS.getSavedItems();
       return localResult;
+    }
+  }
+  
+  @override
+  Future<Either<Failure, String>> getGathererAccessToken() async {
+    try {
+      var accessTokenResult = await _authLocalDS.getValorAccessToken();
+      var token = accessTokenResult.fold((l) => null, (r) => r) ?? "";
+      return Right(token);
+    } catch(e) {
+      return Left(RepositoryFailure());
     }
   }
 }

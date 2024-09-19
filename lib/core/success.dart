@@ -22,6 +22,12 @@ class ObjectDetectedSuccess extends Success {
   ObjectDetectedSuccess(this.item, this.userId);
 }
 
+class ObjectDetectedV4Success extends Success {
+  final ScanResponseModel item;
+  final String userId;
+  ObjectDetectedV4Success(this.item, this.userId);
+}
+
 class AnalyticsLogsSuccess extends Success {}
 
 class AuthSuccessToken extends Success {

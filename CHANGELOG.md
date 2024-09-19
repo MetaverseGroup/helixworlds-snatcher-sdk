@@ -29,3 +29,9 @@
 ## 1.0.11 + 21
 * Scan Model Updates
 * UGC Scanning Supported
+
+## 1.0.12 + 22
+* V4 Scanning Model Support
+
+## 1.0.14 + 24
+* V5 Scanning Model Support

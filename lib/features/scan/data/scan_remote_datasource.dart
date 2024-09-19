@@ -8,6 +8,7 @@ import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart'
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:dio/dio.dart';
 import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
+import 'package:helixworlds_snatcher_sdk/utils/sentry_util.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/const.dart';
 
@@ -16,6 +17,8 @@ abstract class IScanRemoteDatasource {
   /// this will upload the image and the scanned service will return the inventory details of the object scanned
   Future<Either<Failure, String>> objectScanned(XFile photo, String accessToken);
   Future<Either<Failure, InventoryItemModel>> objectScannedV2(XFile photo, String accessToken);
+  Future<Either<Failure, ScanResponseModel>> objectScannedV4(XFile photo, String accessToken);
+  Future<Either<Failure, ScanResponseModel>> objectScannedV5(XFile photo, String accessToken);
 
   Future<Either<Failure, List<MyLogModel>>> getMySavedScans(String accessToken);
   Future<Either<Failure, MyLogModel>> newSavedScans(String token, MyLogModel model);
@@ -26,7 +29,8 @@ abstract class IScanRemoteDatasource {
 class ScanRemoteDatasource extends IScanRemoteDatasource {
   final Dio dio;
   final HelperUtil _helperUtil;
-  ScanRemoteDatasource(this.dio, this._helperUtil);
+  final SentryUtil _sentryUtil;
+  ScanRemoteDatasource(this.dio, this._helperUtil, this._sentryUtil);
   @override
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id) async {
     try{
@@ -42,6 +46,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
         return Left(leftValue!);
       }
     } catch(e){
+      _sentryUtil.captureException(e);
       return Left(GetItemByIDRemoteFailure());
     }
   }
@@ -66,6 +71,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
           return Left(GetItemByIDRemoteFailure());
         }
     } catch(e) {
+      _sentryUtil.captureException(e);
       return Left(GetItemByIDRemoteFailure());
     }
   }
@@ -87,6 +93,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
         return Left(DataDeletionFailure());
       }
     } catch(e){
+      _sentryUtil.captureException(e);
       return Left(ServiceFailure());
     }
   }
@@ -105,6 +112,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
       List<MyLogModel> savedScans = (response.data as List).map((json) => MyLogModel.fromJson(json as Map<String, dynamic>)).toList();
       return Right(savedScans);
     } catch(e){
+      _sentryUtil.captureException(e);
       return Left(ServiceFailure());
     }
   }
@@ -127,6 +135,7 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
         return Left(ServiceFailure());
       }
     } catch(e){
+      _sentryUtil.captureException(e);
       return Left(ServiceFailure());
     }
   }
@@ -158,6 +167,61 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
         // } else {
           // return Left(GetItemByIDRemoteFailure());
         // }
+    } catch(e) {
+      _sentryUtil.captureException(e);
+      return Left(GetItemByIDRemoteFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, ScanResponseModel>> objectScannedV4(XFile photo, String accessToken) async {
+    try{
+        final formData = FormData.fromMap({
+          'file': await MultipartFile.fromFile(photo.path, filename: photo.name),
+        });
+        final options = Options(headers: {
+          "Authorization": "Bearer $accessToken",
+        });
+        final response = await dio.post(
+          '$baseUrl/v4/scanner/scan_image',
+          options: options,
+          data: formData,
+        );
+        if(response.statusCode == 201) {
+          return Right(ScanResponseModel.fromJson(response.data));
+        }
+        else if(response.statusCode == 200) {
+          return Right(ScanResponseModel.fromJson(jsonDecode(response.data)));
+        } else {
+          return Left(GetItemByIDRemoteFailure());
+        }
+    } catch(e) {
+      return Left(GetItemByIDRemoteFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, ScanResponseModel>> objectScannedV5(XFile photo, String accessToken) async {
+    try{
+        final formData = FormData.fromMap({
+          'file': await MultipartFile.fromFile(photo.path, filename: photo.name),
+        });
+        final options = Options(headers: {
+          "Authorization": "Bearer $accessToken",
+        });
+        final response = await dio.post(
+          '$baseUrl/v5/scanner/scan_image',
+          options: options,
+          data: formData,
+        );
+        if(response.statusCode == 201) {
+          return Right(ScanResponseModel.fromJson(response.data));
+        }
+        else if(response.statusCode == 200) {
+          return Right(ScanResponseModel.fromJson(jsonDecode(response.data)));
+        } else {
+          return Left(GetItemByIDRemoteFailure());
+        }
     } catch(e) {
       return Left(GetItemByIDRemoteFailure());
     }

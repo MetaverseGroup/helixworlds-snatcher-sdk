@@ -23,7 +23,8 @@ class AuthRepository extends IAuthRepository {
       var result = await _remoteDS.mobileLogin(clientId, secretKey, field, uuid);
       if(result.isRight()){
         var rightResult = result.fold((l) => null, (r) => r);
-        var cacheResult = await _localDS.cacheGathererAccessToken(rightResult is AuthSuccessToken ? rightResult.accessToken : "");
+        var token = rightResult is AuthSuccessToken ? rightResult.accessToken : "";
+        var cacheResult = await _localDS.cacheGathererAccessToken(token);
         return cacheResult;
       } else {
         return Left(CacheFailure());

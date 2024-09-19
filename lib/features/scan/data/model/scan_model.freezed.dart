@@ -393,6 +393,810 @@ abstract class _InventoryItemModel implements InventoryItemModel {
       throw _privateConstructorUsedError;
 }
 
+InventoryItemV4Model _$InventoryItemV4ModelFromJson(Map<String, dynamic> json) {
+  return _InventoryItemV4Model.fromJson(json);
+}
+
+/// @nodoc
+mixin _$InventoryItemV4Model {
+  String? get id => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get storeUrl => throw _privateConstructorUsedError;
+  String? get productUrl => throw _privateConstructorUsedError;
+  List<InventoryItemV4ImageModel>? get images =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $InventoryItemV4ModelCopyWith<InventoryItemV4Model> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $InventoryItemV4ModelCopyWith<$Res> {
+  factory $InventoryItemV4ModelCopyWith(InventoryItemV4Model value,
+          $Res Function(InventoryItemV4Model) then) =
+      _$InventoryItemV4ModelCopyWithImpl<$Res, InventoryItemV4Model>;
+  @useResult
+  $Res call(
+      {String? id,
+      String? title,
+      String? description,
+      String? storeUrl,
+      String? productUrl,
+      List<InventoryItemV4ImageModel>? images});
+}
+
+/// @nodoc
+class _$InventoryItemV4ModelCopyWithImpl<$Res,
+        $Val extends InventoryItemV4Model>
+    implements $InventoryItemV4ModelCopyWith<$Res> {
+  _$InventoryItemV4ModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? storeUrl = freezed,
+    Object? productUrl = freezed,
+    Object? images = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      storeUrl: freezed == storeUrl
+          ? _value.storeUrl
+          : storeUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      productUrl: freezed == productUrl
+          ? _value.productUrl
+          : productUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      images: freezed == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<InventoryItemV4ImageModel>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$InventoryItemV4ModelImplCopyWith<$Res>
+    implements $InventoryItemV4ModelCopyWith<$Res> {
+  factory _$$InventoryItemV4ModelImplCopyWith(_$InventoryItemV4ModelImpl value,
+          $Res Function(_$InventoryItemV4ModelImpl) then) =
+      __$$InventoryItemV4ModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String? id,
+      String? title,
+      String? description,
+      String? storeUrl,
+      String? productUrl,
+      List<InventoryItemV4ImageModel>? images});
+}
+
+/// @nodoc
+class __$$InventoryItemV4ModelImplCopyWithImpl<$Res>
+    extends _$InventoryItemV4ModelCopyWithImpl<$Res, _$InventoryItemV4ModelImpl>
+    implements _$$InventoryItemV4ModelImplCopyWith<$Res> {
+  __$$InventoryItemV4ModelImplCopyWithImpl(_$InventoryItemV4ModelImpl _value,
+      $Res Function(_$InventoryItemV4ModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? storeUrl = freezed,
+    Object? productUrl = freezed,
+    Object? images = freezed,
+  }) {
+    return _then(_$InventoryItemV4ModelImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      storeUrl: freezed == storeUrl
+          ? _value.storeUrl
+          : storeUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      productUrl: freezed == productUrl
+          ? _value.productUrl
+          : productUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      images: freezed == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<InventoryItemV4ImageModel>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$InventoryItemV4ModelImpl implements _InventoryItemV4Model {
+  const _$InventoryItemV4ModelImpl(
+      {this.id,
+      this.title,
+      this.description,
+      this.storeUrl,
+      this.productUrl,
+      final List<InventoryItemV4ImageModel>? images})
+      : _images = images;
+
+  factory _$InventoryItemV4ModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InventoryItemV4ModelImplFromJson(json);
+
+  @override
+  final String? id;
+  @override
+  final String? title;
+  @override
+  final String? description;
+  @override
+  final String? storeUrl;
+  @override
+  final String? productUrl;
+  final List<InventoryItemV4ImageModel>? _images;
+  @override
+  List<InventoryItemV4ImageModel>? get images {
+    final value = _images;
+    if (value == null) return null;
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'InventoryItemV4Model(id: $id, title: $title, description: $description, storeUrl: $storeUrl, productUrl: $productUrl, images: $images)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$InventoryItemV4ModelImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.storeUrl, storeUrl) ||
+                other.storeUrl == storeUrl) &&
+            (identical(other.productUrl, productUrl) ||
+                other.productUrl == productUrl) &&
+            const DeepCollectionEquality().equals(other._images, _images));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title, description, storeUrl,
+      productUrl, const DeepCollectionEquality().hash(_images));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InventoryItemV4ModelImplCopyWith<_$InventoryItemV4ModelImpl>
+      get copyWith =>
+          __$$InventoryItemV4ModelImplCopyWithImpl<_$InventoryItemV4ModelImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$InventoryItemV4ModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _InventoryItemV4Model implements InventoryItemV4Model {
+  const factory _InventoryItemV4Model(
+          {final String? id,
+          final String? title,
+          final String? description,
+          final String? storeUrl,
+          final String? productUrl,
+          final List<InventoryItemV4ImageModel>? images}) =
+      _$InventoryItemV4ModelImpl;
+
+  factory _InventoryItemV4Model.fromJson(Map<String, dynamic> json) =
+      _$InventoryItemV4ModelImpl.fromJson;
+
+  @override
+  String? get id;
+  @override
+  String? get title;
+  @override
+  String? get description;
+  @override
+  String? get storeUrl;
+  @override
+  String? get productUrl;
+  @override
+  List<InventoryItemV4ImageModel>? get images;
+  @override
+  @JsonKey(ignore: true)
+  _$$InventoryItemV4ModelImplCopyWith<_$InventoryItemV4ModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+InventoryItemV4ImageModel _$InventoryItemV4ImageModelFromJson(
+    Map<String, dynamic> json) {
+  return _InventoryItemV4ImageModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$InventoryItemV4ImageModel {
+  FileInfo? get file => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $InventoryItemV4ImageModelCopyWith<InventoryItemV4ImageModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $InventoryItemV4ImageModelCopyWith<$Res> {
+  factory $InventoryItemV4ImageModelCopyWith(InventoryItemV4ImageModel value,
+          $Res Function(InventoryItemV4ImageModel) then) =
+      _$InventoryItemV4ImageModelCopyWithImpl<$Res, InventoryItemV4ImageModel>;
+  @useResult
+  $Res call({FileInfo? file});
+
+  $FileInfoCopyWith<$Res>? get file;
+}
+
+/// @nodoc
+class _$InventoryItemV4ImageModelCopyWithImpl<$Res,
+        $Val extends InventoryItemV4ImageModel>
+    implements $InventoryItemV4ImageModelCopyWith<$Res> {
+  _$InventoryItemV4ImageModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? file = freezed,
+  }) {
+    return _then(_value.copyWith(
+      file: freezed == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as FileInfo?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FileInfoCopyWith<$Res>? get file {
+    if (_value.file == null) {
+      return null;
+    }
+
+    return $FileInfoCopyWith<$Res>(_value.file!, (value) {
+      return _then(_value.copyWith(file: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$InventoryItemV4ImageModelImplCopyWith<$Res>
+    implements $InventoryItemV4ImageModelCopyWith<$Res> {
+  factory _$$InventoryItemV4ImageModelImplCopyWith(
+          _$InventoryItemV4ImageModelImpl value,
+          $Res Function(_$InventoryItemV4ImageModelImpl) then) =
+      __$$InventoryItemV4ImageModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({FileInfo? file});
+
+  @override
+  $FileInfoCopyWith<$Res>? get file;
+}
+
+/// @nodoc
+class __$$InventoryItemV4ImageModelImplCopyWithImpl<$Res>
+    extends _$InventoryItemV4ImageModelCopyWithImpl<$Res,
+        _$InventoryItemV4ImageModelImpl>
+    implements _$$InventoryItemV4ImageModelImplCopyWith<$Res> {
+  __$$InventoryItemV4ImageModelImplCopyWithImpl(
+      _$InventoryItemV4ImageModelImpl _value,
+      $Res Function(_$InventoryItemV4ImageModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? file = freezed,
+  }) {
+    return _then(_$InventoryItemV4ImageModelImpl(
+      file: freezed == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as FileInfo?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$InventoryItemV4ImageModelImpl implements _InventoryItemV4ImageModel {
+  const _$InventoryItemV4ImageModelImpl({this.file});
+
+  factory _$InventoryItemV4ImageModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InventoryItemV4ImageModelImplFromJson(json);
+
+  @override
+  final FileInfo? file;
+
+  @override
+  String toString() {
+    return 'InventoryItemV4ImageModel(file: $file)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$InventoryItemV4ImageModelImpl &&
+            (identical(other.file, file) || other.file == file));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, file);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InventoryItemV4ImageModelImplCopyWith<_$InventoryItemV4ImageModelImpl>
+      get copyWith => __$$InventoryItemV4ImageModelImplCopyWithImpl<
+          _$InventoryItemV4ImageModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$InventoryItemV4ImageModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _InventoryItemV4ImageModel implements InventoryItemV4ImageModel {
+  const factory _InventoryItemV4ImageModel({final FileInfo? file}) =
+      _$InventoryItemV4ImageModelImpl;
+
+  factory _InventoryItemV4ImageModel.fromJson(Map<String, dynamic> json) =
+      _$InventoryItemV4ImageModelImpl.fromJson;
+
+  @override
+  FileInfo? get file;
+  @override
+  @JsonKey(ignore: true)
+  _$$InventoryItemV4ImageModelImplCopyWith<_$InventoryItemV4ImageModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ScanVirtualItemModel _$ScanVirtualItemModelFromJson(Map<String, dynamic> json) {
+  return _ScanVirtualItemModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ScanVirtualItemModel {
+  String? get id => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ScanVirtualItemModelCopyWith<ScanVirtualItemModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ScanVirtualItemModelCopyWith<$Res> {
+  factory $ScanVirtualItemModelCopyWith(ScanVirtualItemModel value,
+          $Res Function(ScanVirtualItemModel) then) =
+      _$ScanVirtualItemModelCopyWithImpl<$Res, ScanVirtualItemModel>;
+  @useResult
+  $Res call({String? id, String? title, String? description});
+}
+
+/// @nodoc
+class _$ScanVirtualItemModelCopyWithImpl<$Res,
+        $Val extends ScanVirtualItemModel>
+    implements $ScanVirtualItemModelCopyWith<$Res> {
+  _$ScanVirtualItemModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? description = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ScanVirtualItemModelImplCopyWith<$Res>
+    implements $ScanVirtualItemModelCopyWith<$Res> {
+  factory _$$ScanVirtualItemModelImplCopyWith(_$ScanVirtualItemModelImpl value,
+          $Res Function(_$ScanVirtualItemModelImpl) then) =
+      __$$ScanVirtualItemModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? id, String? title, String? description});
+}
+
+/// @nodoc
+class __$$ScanVirtualItemModelImplCopyWithImpl<$Res>
+    extends _$ScanVirtualItemModelCopyWithImpl<$Res, _$ScanVirtualItemModelImpl>
+    implements _$$ScanVirtualItemModelImplCopyWith<$Res> {
+  __$$ScanVirtualItemModelImplCopyWithImpl(_$ScanVirtualItemModelImpl _value,
+      $Res Function(_$ScanVirtualItemModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? description = freezed,
+  }) {
+    return _then(_$ScanVirtualItemModelImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ScanVirtualItemModelImpl implements _ScanVirtualItemModel {
+  const _$ScanVirtualItemModelImpl({this.id, this.title, this.description});
+
+  factory _$ScanVirtualItemModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ScanVirtualItemModelImplFromJson(json);
+
+  @override
+  final String? id;
+  @override
+  final String? title;
+  @override
+  final String? description;
+
+  @override
+  String toString() {
+    return 'ScanVirtualItemModel(id: $id, title: $title, description: $description)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ScanVirtualItemModelImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.description, description) ||
+                other.description == description));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title, description);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ScanVirtualItemModelImplCopyWith<_$ScanVirtualItemModelImpl>
+      get copyWith =>
+          __$$ScanVirtualItemModelImplCopyWithImpl<_$ScanVirtualItemModelImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ScanVirtualItemModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ScanVirtualItemModel implements ScanVirtualItemModel {
+  const factory _ScanVirtualItemModel(
+      {final String? id,
+      final String? title,
+      final String? description}) = _$ScanVirtualItemModelImpl;
+
+  factory _ScanVirtualItemModel.fromJson(Map<String, dynamic> json) =
+      _$ScanVirtualItemModelImpl.fromJson;
+
+  @override
+  String? get id;
+  @override
+  String? get title;
+  @override
+  String? get description;
+  @override
+  @JsonKey(ignore: true)
+  _$$ScanVirtualItemModelImplCopyWith<_$ScanVirtualItemModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ScanResponseModel _$ScanResponseModelFromJson(Map<String, dynamic> json) {
+  return _ScanResponseModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ScanResponseModel {
+  ScanVirtualItemModel? get virtualItem => throw _privateConstructorUsedError;
+  InventoryItemV4Model? get inventory => throw _privateConstructorUsedError;
+  String? get code => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ScanResponseModelCopyWith<ScanResponseModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ScanResponseModelCopyWith<$Res> {
+  factory $ScanResponseModelCopyWith(
+          ScanResponseModel value, $Res Function(ScanResponseModel) then) =
+      _$ScanResponseModelCopyWithImpl<$Res, ScanResponseModel>;
+  @useResult
+  $Res call(
+      {ScanVirtualItemModel? virtualItem,
+      InventoryItemV4Model? inventory,
+      String? code});
+
+  $ScanVirtualItemModelCopyWith<$Res>? get virtualItem;
+  $InventoryItemV4ModelCopyWith<$Res>? get inventory;
+}
+
+/// @nodoc
+class _$ScanResponseModelCopyWithImpl<$Res, $Val extends ScanResponseModel>
+    implements $ScanResponseModelCopyWith<$Res> {
+  _$ScanResponseModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? virtualItem = freezed,
+    Object? inventory = freezed,
+    Object? code = freezed,
+  }) {
+    return _then(_value.copyWith(
+      virtualItem: freezed == virtualItem
+          ? _value.virtualItem
+          : virtualItem // ignore: cast_nullable_to_non_nullable
+              as ScanVirtualItemModel?,
+      inventory: freezed == inventory
+          ? _value.inventory
+          : inventory // ignore: cast_nullable_to_non_nullable
+              as InventoryItemV4Model?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ScanVirtualItemModelCopyWith<$Res>? get virtualItem {
+    if (_value.virtualItem == null) {
+      return null;
+    }
+
+    return $ScanVirtualItemModelCopyWith<$Res>(_value.virtualItem!, (value) {
+      return _then(_value.copyWith(virtualItem: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $InventoryItemV4ModelCopyWith<$Res>? get inventory {
+    if (_value.inventory == null) {
+      return null;
+    }
+
+    return $InventoryItemV4ModelCopyWith<$Res>(_value.inventory!, (value) {
+      return _then(_value.copyWith(inventory: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ScanResponseModelImplCopyWith<$Res>
+    implements $ScanResponseModelCopyWith<$Res> {
+  factory _$$ScanResponseModelImplCopyWith(_$ScanResponseModelImpl value,
+          $Res Function(_$ScanResponseModelImpl) then) =
+      __$$ScanResponseModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ScanVirtualItemModel? virtualItem,
+      InventoryItemV4Model? inventory,
+      String? code});
+
+  @override
+  $ScanVirtualItemModelCopyWith<$Res>? get virtualItem;
+  @override
+  $InventoryItemV4ModelCopyWith<$Res>? get inventory;
+}
+
+/// @nodoc
+class __$$ScanResponseModelImplCopyWithImpl<$Res>
+    extends _$ScanResponseModelCopyWithImpl<$Res, _$ScanResponseModelImpl>
+    implements _$$ScanResponseModelImplCopyWith<$Res> {
+  __$$ScanResponseModelImplCopyWithImpl(_$ScanResponseModelImpl _value,
+      $Res Function(_$ScanResponseModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? virtualItem = freezed,
+    Object? inventory = freezed,
+    Object? code = freezed,
+  }) {
+    return _then(_$ScanResponseModelImpl(
+      virtualItem: freezed == virtualItem
+          ? _value.virtualItem
+          : virtualItem // ignore: cast_nullable_to_non_nullable
+              as ScanVirtualItemModel?,
+      inventory: freezed == inventory
+          ? _value.inventory
+          : inventory // ignore: cast_nullable_to_non_nullable
+              as InventoryItemV4Model?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ScanResponseModelImpl implements _ScanResponseModel {
+  const _$ScanResponseModelImpl({this.virtualItem, this.inventory, this.code});
+
+  factory _$ScanResponseModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ScanResponseModelImplFromJson(json);
+
+  @override
+  final ScanVirtualItemModel? virtualItem;
+  @override
+  final InventoryItemV4Model? inventory;
+  @override
+  final String? code;
+
+  @override
+  String toString() {
+    return 'ScanResponseModel(virtualItem: $virtualItem, inventory: $inventory, code: $code)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ScanResponseModelImpl &&
+            (identical(other.virtualItem, virtualItem) ||
+                other.virtualItem == virtualItem) &&
+            (identical(other.inventory, inventory) ||
+                other.inventory == inventory) &&
+            (identical(other.code, code) || other.code == code));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, virtualItem, inventory, code);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ScanResponseModelImplCopyWith<_$ScanResponseModelImpl> get copyWith =>
+      __$$ScanResponseModelImplCopyWithImpl<_$ScanResponseModelImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ScanResponseModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ScanResponseModel implements ScanResponseModel {
+  const factory _ScanResponseModel(
+      {final ScanVirtualItemModel? virtualItem,
+      final InventoryItemV4Model? inventory,
+      final String? code}) = _$ScanResponseModelImpl;
+
+  factory _ScanResponseModel.fromJson(Map<String, dynamic> json) =
+      _$ScanResponseModelImpl.fromJson;
+
+  @override
+  ScanVirtualItemModel? get virtualItem;
+  @override
+  InventoryItemV4Model? get inventory;
+  @override
+  String? get code;
+  @override
+  @JsonKey(ignore: true)
+  _$$ScanResponseModelImplCopyWith<_$ScanResponseModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 ImageInfo _$ImageInfoFromJson(Map<String, dynamic> json) {
   return _ImageInfo.fromJson(json);
 }

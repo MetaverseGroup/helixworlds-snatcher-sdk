@@ -55,7 +55,7 @@ void main() async {
     isProd ? dotenv.get('VALOR_API_PROD_URL', fallback: 'no inventory url set') : dotenv.get('VALOR_API_DEV_URL', fallback: 'no inventory url set') 
   );
 
-
+  setupServiceLocator();
   setupServices(
     mixPanelToken: mixPanelToken ?? "",
     arAccessKey: "access key here",
