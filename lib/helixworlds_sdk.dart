@@ -188,7 +188,7 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   
   @override
   Future<Either<Failure, String>> getAccessToken() async {
-    var result = await scanRepo.getGathererAccessToken();
+    var result = await _authLocalDS.getGathererAccessToken();
     return result;
   }
 }
