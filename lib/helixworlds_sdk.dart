@@ -39,6 +39,8 @@ abstract class IHelixworldsSDKService{
   /// auth gatherer just pass the developerId provided by metaverse group and secret key to be able to access our scanning api service features 
   Future<Either<Failure, Success>> loginMobile(String developerId, String secret, String uuid);
   Future<Either<Failure, Success>> cacheValorToken(String token);
+
+  Future<Either<Failure, String>> getAccessToken();
 } 
 
 class HelixworldsSDKService extends IHelixworldsSDKService {
@@ -183,6 +185,10 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
     var result = await _authLocalDS.cacheValorAccessToken(token);
     return result;
   }
-
-
+  
+  @override
+  Future<Either<Failure, String>> getAccessToken() async {
+    var result = await scanRepo.getGathererAccessToken();
+    return result;
+  }
 }

@@ -19,6 +19,8 @@ abstract class IScanRepository {
   Future<Either<Failure, List<MyLogModel>>> getSavedItems();
   Future<Either<Failure, Success>> cacheSavedItem(InventoryItemModel items);
   Future<Either<Failure, Success>> deleteSavedItem(MyLogModel item);
+
+  Future<Either<Failure, String>> getGathererAccessToken();
 }
 
 class ScanRepository extends IScanRepository {
@@ -188,6 +190,17 @@ class ScanRepository extends IScanRepository {
     } else {
       var localResult = await logLocalDS.getSavedItems();
       return localResult;
+    }
+  }
+  
+  @override
+  Future<Either<Failure, String>> getGathererAccessToken() async {
+    try {
+      var accessTokenResult = await _authLocalDS.getValorAccessToken();
+      var token = accessTokenResult.fold((l) => null, (r) => r) ?? "";
+      return Right(token);
+    } catch(e) {
+      return Left(RepositoryFailure());
     }
   }
 }
