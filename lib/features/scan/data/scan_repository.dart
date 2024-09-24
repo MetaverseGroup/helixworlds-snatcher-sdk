@@ -1,5 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, avoid_renaming_method_parameters
 
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/auth/auth_local_datasource.dart';
@@ -82,8 +84,12 @@ class ScanRepository extends IScanRepository {
     try {
         var tokenResult = await _authLocalDS.getGathererAccessToken();
         var token = tokenResult.fold((l) => null, (r) => r);
-
-        var result = await _remoteDS.objectScannedV5(photo, token ?? "");
+        Either<Failure, ScanResponseModel> result;
+        if(Platform.isAndroid){
+          result = await _remoteDS.objectScannedV5(photo, token ?? "");
+        } else {
+          result = await _remoteDS.objectScannedV4(photo, token ?? "");
+        }
         if(result.isRight()) {
           var rightResult = result.fold((l) => null, (r) => r);
 
