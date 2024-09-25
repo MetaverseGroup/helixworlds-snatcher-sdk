@@ -9,6 +9,7 @@ import '../../../core/failure.dart';
 
 abstract class IUserDetailsRemoteDatasource {
   Future<Either<Failure, String>> getUserId();
+  Future<Either<Failure, String>> getUserEmail();
   Future<Either<Failure, Success>> login(String clientId, String secretKey);
   Future<Either<Failure, Success>> createUser();
 }
@@ -16,6 +17,20 @@ abstract class IUserDetailsRemoteDatasource {
 class UserDetailsRemoteDatasource extends IUserDetailsRemoteDatasource {
   final Dio dio;
   UserDetailsRemoteDatasource(this.dio);
+
+  @override
+  Future<Either<Failure, String>> getUserId() async {
+    try {
+      final headers = {
+        'Content-Type': 'application/json',
+      };
+      final options = Options(headers: headers);
+      var response = await dio.get("$baseUrl/user/find", options: options);
+      return Right(response.data["extId"] ?? "");
+    } catch (e) {
+      return Left(GetUserIDFailure());
+    }
+  }
 
   @override
   Future<Either<Failure, String>> getUserId() async {

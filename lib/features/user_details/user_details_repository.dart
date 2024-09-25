@@ -7,6 +7,7 @@ import 'package:helixworlds_snatcher_sdk/features/user_details/data/user_details
 
 abstract class IUserDetailsRepository {
   Future<Either<Failure, String>> getUserID();
+  Future<Either<Failure, String>> getUserInfo();
 }
 
 class UserDetailsRepository extends IUserDetailsRepository {
@@ -18,6 +19,17 @@ class UserDetailsRepository extends IUserDetailsRepository {
   @override
   Future<Either<Failure, String>> getUserID() async {
     try {
+      var result = await remoteDS.getUserId();
+      return result;
+    } catch (e) {
+      return Left(RepositoryFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> getUserInfo() async {
+    try {
+      // TODO
       var result = await remoteDS.getUserId();
       return result;
     } catch (e) {

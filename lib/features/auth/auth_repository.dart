@@ -6,7 +6,7 @@ import 'package:helixworlds_snatcher_sdk/features/auth/auth_remote_datasource.da
 
 abstract class IAuthRepository {
   Future<Either<Failure, Success>> mobileLogin(
-      String clientId, String secretKey, String uuid,
+      String clientId, String secretKey, String uuid, String email,
       {String field = "destination"});
   Future<Either<Failure, String>> getGathererAccessToken();
 }
@@ -18,11 +18,11 @@ class AuthRepository extends IAuthRepository {
 
   @override
   Future<Either<Failure, Success>> mobileLogin(
-      String clientId, String secretKey, String uuid,
+      String clientId, String secretKey, String uuid, String email,
       {String field = "destination"}) async {
     try {
       var result =
-          await _remoteDS.mobileLogin(clientId, secretKey, field, uuid);
+          await _remoteDS.mobileLogin(clientId, secretKey, field, uuid, email);
       if (result.isRight()) {
         var rightResult = result.fold((l) => null, (r) => r);
         var token =
