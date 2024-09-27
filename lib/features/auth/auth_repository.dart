@@ -1,6 +1,3 @@
-
-
-
 import 'package:dartz/dartz.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
@@ -8,8 +5,10 @@ import 'package:helixworlds_snatcher_sdk/features/auth/auth_local_datasource.dar
 import 'package:helixworlds_snatcher_sdk/features/auth/auth_remote_datasource.dart';
 
 abstract class IAuthRepository {
-    Future<Either<Failure, Success>> mobileLogin(String clientId, String secretKey, String uuid, {String field = "destination"});
-    Future<Either<Failure, String>> getGathererAccessToken();
+  Future<Either<Failure, Success>> mobileLogin(
+      String clientId, String secretKey, String uuid,
+      {String field = "destination"});
+  Future<Either<Failure, String>> getGathererAccessToken();
 }
 
 class AuthRepository extends IAuthRepository {
@@ -18,31 +17,33 @@ class AuthRepository extends IAuthRepository {
   AuthRepository(this._localDS, this._remoteDS);
 
   @override
-  Future<Either<Failure, Success>> mobileLogin(String clientId, String secretKey, String uuid, {String field = "destination"}) async {
+  Future<Either<Failure, Success>> mobileLogin(
+      String clientId, String secretKey, String uuid,
+      {String field = "destination"}) async {
     try {
-      var result = await _remoteDS.mobileLogin(clientId, secretKey, field, uuid);
-      if(result.isRight()){
+      var result =
+          await _remoteDS.mobileLogin(clientId, secretKey, field, uuid);
+      if (result.isRight()) {
         var rightResult = result.fold((l) => null, (r) => r);
-        var token = rightResult is AuthSuccessToken ? rightResult.accessToken : "";
+        var token =
+            rightResult is AuthSuccessToken ? rightResult.accessToken : "";
         var cacheResult = await _localDS.cacheGathererAccessToken(token);
         return cacheResult;
       } else {
         return Left(CacheFailure());
       }
-    } catch(e) {
+    } catch (e) {
       return Left(AuthenticationFailure());
     }
   }
-  
+
   @override
   Future<Either<Failure, String>> getGathererAccessToken() async {
-    try{
+    try {
       var result = await _localDS.getGathererAccessToken();
       return result;
-    }catch(e){
+    } catch (e) {
       return Left(RepositoryFailure());
     }
   }
-
-
 }

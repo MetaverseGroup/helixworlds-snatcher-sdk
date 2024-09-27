@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:helixworlds_snatcher_sdk/features/widgets/custom_image_view.dart';
 import 'package:helixworlds_snatcher_sdk/utils/size_utils.dart';
 
-
 // ignore: must_be_immutable
 class AppbarImage extends StatelessWidget {
   AppbarImage({

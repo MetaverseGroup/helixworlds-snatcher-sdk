@@ -33,28 +33,40 @@ import 'package:simple_connection_checker/simple_connection_checker.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 GetIt? serviceLocator;
-setupServiceLocator(){
-  try{
+setupServiceLocator() {
+  try {
     serviceLocator = GetIt.instance;
-  }catch(e){
+  } catch (e) {
     serviceLocator = GetIt.instance;
   }
 }
 
 SharedPreferences? _sharedPref;
 
-NetworkUtil getNetworkUtil(){
+NetworkUtil getNetworkUtil() {
   return serviceLocator!<NetworkUtil>();
 }
 
 String myProjectARN = "";
+
 /// mixPanelToken -> used for analytics tracking purposes
 /// arRegion, arAccessKey, arSecretKey, projectARN -> this data is fetched if you setup amazon rekognition and utilized the cloud image labeling
 /// rudderStackKey -> fetch this when you have access to your rudderstack, rudderPlaneUrl and rudderControlPlaneUrl
-/// isLocal -> this will be used to identify if it will  
+/// isLocal -> this will be used to identify if it will
 
-setupServices({String mixPanelToken = "", String arRegion = "", String arAccessKey = "", String arSecretKey = "", String projectARN = "", String sentryDSN = "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264", String rudderStackKey = "", String rudderPlaneUrl = "https://rudderstacgwyx.dataplane.rudderstack.com", bool isLocal = true, String env = "DEV"}) async {
-  serviceLocator?.registerLazySingleton(()=> SentryUtil());
+setupServices(
+    {String mixPanelToken = "",
+    String arRegion = "",
+    String arAccessKey = "",
+    String arSecretKey = "",
+    String projectARN = "",
+    String sentryDSN =
+        "https://891ca197d27341cbd2c2a92fc2990d18@o4506103178723328.ingest.sentry.io/4506103180427264",
+    String rudderStackKey = "",
+    String rudderPlaneUrl = "https://rudderstacgwyx.dataplane.rudderstack.com",
+    bool isLocal = true,
+    String env = "DEV"}) async {
+  serviceLocator?.registerLazySingleton(() => SentryUtil());
 
   _sharedPref = await SharedPreferences.getInstance();
   SimpleConnectionChecker checker = SimpleConnectionChecker();
@@ -63,8 +75,8 @@ setupServices({String mixPanelToken = "", String arRegion = "", String arAccessK
   _setupImagePicker();
   serviceLocator?.registerLazySingleton(() => PrefUtils(_getSharedPref()));
   serviceLocator?.registerLazySingleton(() => ThemeBloc(ThemeState(
-          themeType: getPrefUtils().getThemeData(),
-  )));
+        themeType: getPrefUtils().getThemeData(),
+      )));
   _setupUserDetailsServices();
   _setupScanServices();
   _setupLogService();
@@ -73,183 +85,208 @@ setupServices({String mixPanelToken = "", String arRegion = "", String arAccessK
   myProjectARN = projectARN;
   _setupSDK(isLocal: isLocal);
   _setupRudderStack(rudderStackKey, rudderPlaneUrl: rudderPlaneUrl);
-  _setupAnalytics(mixPanelToken); 
+  _setupAnalytics(mixPanelToken);
 }
 
-_setupAnalytics(String token) async{
-
-  try{
+_setupAnalytics(String token) async {
+  try {
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     serviceLocator?.registerLazySingleton(() => analytics);
-    serviceLocator?.registerLazySingleton(() => FirebaseAnalyticsObserver(analytics: analytics));
-    serviceLocator?.registerLazySingleton(() => GoogleAnalyticsRemoteDatasource(analytics, getFBAnalyticsObserver()));
-  }catch(e){
+    serviceLocator?.registerLazySingleton(
+        () => FirebaseAnalyticsObserver(analytics: analytics));
+    serviceLocator?.registerLazySingleton(() =>
+        GoogleAnalyticsRemoteDatasource(analytics, getFBAnalyticsObserver()));
+  } catch (e) {
     // print("Error setting up google analytics");
   }
 
-  serviceLocator?.registerLazySingleton(() => AnalyticsRepository(_getSharedPref(), googleAnalyticsRemoteDS: getGoogleAnalyticsRemoteDS(), rudderStackRemoteDS: rudderAnalyticsRemoteDS()));
+  serviceLocator?.registerLazySingleton(() => AnalyticsRepository(
+      _getSharedPref(),
+      googleAnalyticsRemoteDS: getGoogleAnalyticsRemoteDS(),
+      rudderStackRemoteDS: rudderAnalyticsRemoteDS()));
 }
-FirebaseAnalytics getFBAnalytics(){
+
+FirebaseAnalytics getFBAnalytics() {
   return serviceLocator!<FirebaseAnalytics>();
 }
-FirebaseAnalyticsObserver getFBAnalyticsObserver(){
+
+FirebaseAnalyticsObserver getFBAnalyticsObserver() {
   return serviceLocator!<FirebaseAnalyticsObserver>();
 }
-GoogleAnalyticsRemoteDatasource? getGoogleAnalyticsRemoteDS(){
-  try{
+
+GoogleAnalyticsRemoteDatasource? getGoogleAnalyticsRemoteDS() {
+  try {
     return serviceLocator!<GoogleAnalyticsRemoteDatasource>();
-  }catch(e){
+  } catch (e) {
     return null;
   }
 }
 
-AnalyticsRepository getAnalyticsRepo(){
+AnalyticsRepository getAnalyticsRepo() {
   return serviceLocator!<AnalyticsRepository>();
 }
 
-ThemeBloc getThemeBloc(){
+ThemeBloc getThemeBloc() {
   return serviceLocator!<ThemeBloc>();
 }
 
-PrefUtils getPrefUtils(){
+PrefUtils getPrefUtils() {
   return serviceLocator!<PrefUtils>();
 }
 
 PrimaryColors get appTheme => ThemeHelper(getPrefUtils()).themeColor();
 ThemeData get theme => ThemeHelper(getPrefUtils()).themeData();
 
-
-
-/// call this in main 
-/// 
+/// call this in main
+///
 /// MaterialApp(
 ///  navigatorObservers: [
 ///    SentryNavigatorObserver(),
 ///  ],
 ///)
 
-_setupImagePicker(){
+_setupImagePicker() {
   serviceLocator?.registerLazySingleton(() => ImagePicker());
   serviceLocator?.registerLazySingleton(() => HelperUtil());
 }
 
-ImagePicker getImagePicker(){
+ImagePicker getImagePicker() {
   return serviceLocator!<ImagePicker>();
 }
-HelperUtil getHelperUtil(){
+
+HelperUtil getHelperUtil() {
   return serviceLocator!<HelperUtil>();
 }
 
-
-
-SharedPreferences _getSharedPref(){
+SharedPreferences _getSharedPref() {
   return _sharedPref!;
 }
 
-Dio _getDio(){
+Dio _getDio() {
   return getNetworkUtil().getDio(isDebug: true);
 }
 
-
 String assetPicker(String path) {
   String? modelPath = "";
-  _getApplicationPath(path).then((s){
+  _getApplicationPath(path).then((s) {
     modelPath = s;
   });
   return modelPath ?? "";
 }
-
 
 Future<String> _getApplicationPath(String path) async {
   var result = await getApplicationSupportDirectory();
   return "${result.path}/$path";
 }
 
-_setupUserDetailsServices(){
-  serviceLocator?.registerLazySingleton(() => UserDetailsLocalDatasource(_getSharedPref()));  
-  serviceLocator?.registerLazySingleton(() => UserDetailsRemoteDatasource(_getDio()));
-  serviceLocator?.registerLazySingleton(() => UserDetailsRepository(_getUserDetailsLocal(), _getUserDetailsRemote()));
+_setupUserDetailsServices() {
+  serviceLocator?.registerLazySingleton(
+      () => UserDetailsLocalDatasource(_getSharedPref()));
+  serviceLocator
+      ?.registerLazySingleton(() => UserDetailsRemoteDatasource(_getDio()));
+  serviceLocator?.registerLazySingleton(() =>
+      UserDetailsRepository(_getUserDetailsLocal(), _getUserDetailsRemote()));
 }
 
-IUserDetailsLocalDatasource _getUserDetailsLocal(){
+IUserDetailsLocalDatasource _getUserDetailsLocal() {
   return serviceLocator!<UserDetailsLocalDatasource>();
 }
-IUserDetailsRemoteDatasource _getUserDetailsRemote(){
+
+IUserDetailsRemoteDatasource _getUserDetailsRemote() {
   return serviceLocator!<UserDetailsRemoteDatasource>();
 }
-IUserDetailsRepository getUserDetailsRepo(){
+
+IUserDetailsRepository getUserDetailsRepo() {
   return serviceLocator!<UserDetailsRepository>();
 }
 
-_setupScanServices(){
+_setupScanServices() {
   serviceLocator?.registerLazySingleton(() => AuthRemoteDatasource(_getDio()));
-  serviceLocator?.registerLazySingleton(() => AuthLocalDatasource(_getSharedPref()));
-  serviceLocator?.registerLazySingleton(() => AuthRepository(_getAuthLocalDS(), _getAuthRemoteDS()));
-  
-  serviceLocator?.registerLazySingleton(() => ScanRemoteDatasource(_getDio(), getHelperUtil(), getSentryUtil()));
-  serviceLocator?.registerLazySingleton(() => ScanLocalDatasource(_getSharedPref()));
-  serviceLocator?.registerLazySingleton(() => ScanRepository(getLogLocalDS(), _getScanLocalDS(), _getScanRemoteDS(), getHelperUtil(), _getAuthLocalDS()));
+  serviceLocator
+      ?.registerLazySingleton(() => AuthLocalDatasource(_getSharedPref()));
+  serviceLocator?.registerLazySingleton(
+      () => AuthRepository(_getAuthLocalDS(), _getAuthRemoteDS()));
 
+  serviceLocator?.registerLazySingleton(
+      () => ScanRemoteDatasource(_getDio(), getHelperUtil(), getSentryUtil()));
+  serviceLocator
+      ?.registerLazySingleton(() => ScanLocalDatasource(_getSharedPref()));
+  serviceLocator?.registerLazySingleton(() => ScanRepository(
+      getLogLocalDS(),
+      _getScanLocalDS(),
+      _getScanRemoteDS(),
+      getHelperUtil(),
+      _getAuthLocalDS()));
 }
 
-AuthRemoteDatasource _getAuthRemoteDS(){
+AuthRemoteDatasource _getAuthRemoteDS() {
   return serviceLocator!<AuthRemoteDatasource>();
 }
-AuthLocalDatasource _getAuthLocalDS(){
+
+AuthLocalDatasource _getAuthLocalDS() {
   return serviceLocator!<AuthLocalDatasource>();
 }
-AuthRepository getAuthRepo(){
+
+AuthRepository getAuthRepo() {
   return serviceLocator!<AuthRepository>();
 }
 
-IScanRemoteDatasource _getScanRemoteDS(){
+IScanRemoteDatasource _getScanRemoteDS() {
   return serviceLocator!<ScanRemoteDatasource>();
 }
-IScanLocalDatasource _getScanLocalDS(){
+
+IScanLocalDatasource _getScanLocalDS() {
   return serviceLocator!<ScanLocalDatasource>();
 }
 
-ScanRepository scanRepository(){
+ScanRepository scanRepository() {
   return serviceLocator!<ScanRepository>();
 }
 
-_setupLogService(){
-  serviceLocator?.registerLazySingleton(() => LogLocalDatasource(_getSharedPref()));
+_setupLogService() {
+  serviceLocator
+      ?.registerLazySingleton(() => LogLocalDatasource(_getSharedPref()));
 }
 
-ILogLocalDatasource getLogLocalDS(){
+ILogLocalDatasource getLogLocalDS() {
   return serviceLocator!<LogLocalDatasource>();
 }
 
-_setupSDK({bool isLocal = true}){
-  serviceLocator?.registerLazySingleton(() => HelixworldsSDKService(getUserDetailsRepo(), scanRepository(), getLogLocalDS(), getImagePicker(), getHelperUtil(), _getAuthLocalDS(), isLocal: isLocal));
+_setupSDK({bool isLocal = true}) {
+  serviceLocator?.registerLazySingleton(() => HelixworldsSDKService(
+      getUserDetailsRepo(),
+      scanRepository(),
+      getLogLocalDS(),
+      getImagePicker(),
+      getHelperUtil(),
+      _getAuthLocalDS(),
+      isLocal: isLocal));
 }
 
-IHelixworldsSDKService getSDK(){
+IHelixworldsSDKService getSDK() {
   return serviceLocator!<HelixworldsSDKService>();
 }
 
 // analytics service
-_setupRudderStack(String rudderStackKey, {String rudderPlaneUrl = "https://rudderstacgwyx.dataplane.rudderstack.com"}){
+_setupRudderStack(String rudderStackKey,
+    {String rudderPlaneUrl =
+        "https://rudderstacgwyx.dataplane.rudderstack.com"}) {
   final RudderController rudderClient = RudderController.instance;
   RudderConfigBuilder builder = RudderConfigBuilder();
   builder.withDataPlaneUrl(rudderPlaneUrl);
   rudderClient.initialize(rudderStackKey, config: builder.build());
   serviceLocator?.registerLazySingleton(() => rudderClient);
-  serviceLocator?.registerLazySingleton(() => AnalyticsRudderStackRemoteDatasource(rudderClient));
+  serviceLocator?.registerLazySingleton(
+      () => AnalyticsRudderStackRemoteDatasource(rudderClient));
 }
-AnalyticsRudderStackRemoteDatasource rudderAnalyticsRemoteDS(){
+
+AnalyticsRudderStackRemoteDatasource rudderAnalyticsRemoteDS() {
   return serviceLocator!<AnalyticsRudderStackRemoteDatasource>();
 }
 
-SentryUtil getSentryUtil(){
+SentryUtil getSentryUtil() {
   return serviceLocator!<SentryUtil>();
 }
 
-
-
-
 /// bloc DI
-_setupBloc(){
-  
-}
+_setupBloc() {}

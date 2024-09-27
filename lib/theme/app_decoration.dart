@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/utils/size_utils.dart';
 
-
 class AppDecoration {
   // Fill decorations
   static BoxDecoration get fillBlack => BoxDecoration(

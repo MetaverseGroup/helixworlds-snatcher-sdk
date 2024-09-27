@@ -1,6 +1,3 @@
-
-
-
 // ignore_for_file: depend_on_referenced_packages
 import 'package:helixworlds_snatcher_sdk/core/const.dart';
 import 'package:helixworlds_snatcher_sdk/core/failure.dart';
@@ -17,9 +14,10 @@ import 'package:helixworlds_snatcher_sdk/utils/helper_util.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dartz/dartz.dart';
 
-abstract class IHelixworldsSDKService{
+abstract class IHelixworldsSDKService {
   // call this method in order to set whole SDK env to production environment
   Future<Either<Failure, Success>> setForProduction();
+
   /// set isAR = true then it will process the image detection using amazon rekognition
   Future<Either<Failure, Success>> scanItem();
   Future<Either<Failure, Success>> scanItemsByAR(XFile image);
@@ -29,19 +27,20 @@ abstract class IHelixworldsSDKService{
   Future<Either<Failure, Success>> deleteFavoriteItem(MyLogModel model);
   Future<Either<Failure, List<MyLogModel>>> fetchFavoritesItems();
   Future<Either<Failure, List<MyLogModel>>> fetchScannedItems();
-  Future<Either<Failure, Success>> redirectToUrl(String murl); 
+  Future<Either<Failure, Success>> redirectToUrl(String murl);
   bool isLocalFetch();
   String getDefaultUserId();
 
   /// analytics mixpanel tracking event
   AnalyticsRepository? getAnalyticsRepoService();
 
-  /// auth gatherer just pass the developerId provided by metaverse group and secret key to be able to access our scanning api service features 
-  Future<Either<Failure, Success>> loginMobile(String developerId, String secret, String uuid);
+  /// auth gatherer just pass the developerId provided by metaverse group and secret key to be able to access our scanning api service features
+  Future<Either<Failure, Success>> loginMobile(
+      String developerId, String secret, String uuid);
   Future<Either<Failure, Success>> cacheValorToken(String token);
 
   Future<Either<Failure, String>> getAccessToken();
-} 
+}
 
 class HelixworldsSDKService extends IHelixworldsSDKService {
   final IUserDetailsRepository userDetailsRepo;
@@ -51,15 +50,18 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   final ImagePicker picker;
   final HelperUtil _helperUtil;
   final bool isLocal;
-  HelixworldsSDKService(this.userDetailsRepo, this.scanRepo, this.logLocaDatasource, this.picker, this._helperUtil, this._authLocalDS, {this.isLocal = true});
-  
+  HelixworldsSDKService(this.userDetailsRepo, this.scanRepo,
+      this.logLocaDatasource, this.picker, this._helperUtil, this._authLocalDS,
+      {this.isLocal = true});
+
   @override
   Future<Either<Failure, Success>> scanItem() async {
-    try{
-      var image = await picker.pickImage(source: ImageSource.camera, imageQuality: 80);
+    try {
+      var image =
+          await picker.pickImage(source: ImageSource.camera, imageQuality: 80);
       var result = await scanItemsByAR(image!);
       return result;
-    } catch(e) {
+    } catch (e) {
       return Left(ItemNotDetectedFailure());
     }
   }
@@ -67,13 +69,13 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   String? userId = "";
   @override
   Future<Either<Failure, String>> getUserId() async {
-    try{
-      if(userId?.isEmpty ?? false){
+    try {
+      if (userId?.isEmpty ?? false) {
         var result = await userDetailsRepo.getUserID();
         result.fold((l) => null, (r) {
           userId = r;
         });
-        if(result.isRight()){
+        if (result.isRight()) {
           var rightResult = result.fold((l) => null, (r) => r);
           return Right(rightResult ?? "");
         } else {
@@ -82,110 +84,112 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
       } else {
         return Right(userId!);
       }
-    }catch(e){
+    } catch (e) {
       return Left(GetUserIDFailure());
     }
   }
-  
+
   @override
   String getDefaultUserId() {
-    if(userId?.isNotEmpty  ?? false){
+    if (userId?.isNotEmpty ?? false) {
       return userId ?? "";
     } else {
       return "";
     }
   }
-  
+
   @override
-  Future<Either<Failure, Success>> cacheFavoritesItem(InventoryItemModel model) {
+  Future<Either<Failure, Success>> cacheFavoritesItem(
+      InventoryItemModel model) {
     var itemResult = scanRepo.cacheSavedItem(model);
     return itemResult;
   }
-  
+
   @override
   Future<Either<Failure, List<MyLogModel>>> fetchFavoritesItems() async {
     var result = await logLocaDatasource.getSavedItems();
     return result;
   }
-  
+
   @override
   Future<Either<Failure, List<MyLogModel>>> fetchScannedItems() async {
     var result = await logLocaDatasource.getLogs();
     return result;
   }
-  
+
   @override
   Future<Either<Failure, Success>> redirectToUrl(String murl) async {
-    final userParam =
-        (userId?.isNotEmpty ?? false) ? '?userId=$userId' : '';
-    final Uri url =
-        Uri.parse(murl + userParam);
+    final userParam = (userId?.isNotEmpty ?? false) ? '?userId=$userId' : '';
+    final Uri url = Uri.parse(murl + userParam);
     var result = await _helperUtil.redirectUrl(url);
-    if(result.isRight()){
+    if (result.isRight()) {
       return Right(RedirectWebSuccess());
     } else {
       return const Left(WebRouteFailure(""));
     }
   }
-  
+
   @override
   bool isLocalFetch() {
     return isLocal;
   }
-  
+
   @override
   Future<Either<Failure, Success>> scanItemsByAR(XFile image) async {
     var result = await scanRepo.processImageAR(image);
-    
+
     var rightResult = result.fold((l) => null, (r) => r);
-    if(result.isRight()){
+    if (result.isRight()) {
       return Right(ObjectDetectedSuccess(rightResult!, getDefaultUserId()));
     } else {
       return Left(ItemNotDetectedFailure());
     }
   }
-  
+
   @override
   AnalyticsRepository? getAnalyticsRepoService() {
     try {
       return getAnalyticsRepo();
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
-  
+
   @override
-  Future<Either<Failure, Success>> loginMobile(String developerId, String secret, String uuid, {String field = "destination"}) async {
-    try{
-      var result = await getAuthRepo().mobileLogin(developerId, secret, uuid, field: field);
+  Future<Either<Failure, Success>> loginMobile(
+      String developerId, String secret, String uuid,
+      {String field = "destination"}) async {
+    try {
+      var result = await getAuthRepo()
+          .mobileLogin(developerId, secret, uuid, field: field);
       return result;
-    }catch(e){
+    } catch (e) {
       return Left(AuthenticationFailure());
     }
   }
-  
+
   @override
   Future<Either<Failure, Success>> setForProduction() async {
-    try{
+    try {
       setToProduction();
       return Right(HSSSuccess());
-    }catch(e){
+    } catch (e) {
       return Left(HSSDKFailure());
     }
   }
-  
+
   @override
   Future<Either<Failure, Success>> deleteFavoriteItem(MyLogModel model) {
     var itemResult = scanRepo.deleteSavedItem(model);
     return itemResult;
   }
-  
+
   @override
   Future<Either<Failure, Success>> cacheValorToken(String token) async {
     var result = await _authLocalDS.cacheValorAccessToken(token);
     return result;
   }
-  
+
   @override
   Future<Either<Failure, String>> getAccessToken() async {
     var result = await _authLocalDS.getGathererAccessToken();

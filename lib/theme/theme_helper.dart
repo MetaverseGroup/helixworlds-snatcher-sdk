@@ -6,7 +6,7 @@ import 'package:helixworlds_snatcher_sdk/utils/size_utils.dart';
 /// Helper class for managing themes and colors.
 class ThemeHelper {
   String? _appTheme;
-  ThemeHelper(PrefUtils prefUtil){
+  ThemeHelper(PrefUtils prefUtil) {
     _appTheme = prefUtil.getThemeData();
   }
 
@@ -141,4 +141,3 @@ class PrimaryColors {
   // Yellow
   Color get yellowA700 => const Color(0XFFFFD60A);
 }
-

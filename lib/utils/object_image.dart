@@ -20,7 +20,7 @@ class ObjectImage {
       return 's_polysleep.svg';
     } else if (item.contains('p009')) {
       return 's_polysleep.svg';
-    } else if(item.contains('p010')){
+    } else if (item.contains('p010')) {
       return 's_circle_k.svg';
     } else {
       return '';

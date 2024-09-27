@@ -8,8 +8,4 @@ class UserDetailsLocalDatasource extends IUserDetailsLocalDatasource {
   // ignore: unused_field
   final SharedPreferences _sharedPref;
   UserDetailsLocalDatasource(this._sharedPref);
-  
-
-
 }
-

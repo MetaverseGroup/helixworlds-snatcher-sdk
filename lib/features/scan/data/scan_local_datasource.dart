@@ -1,6 +1,3 @@
-
-
-
 // ignore_for_file: depend_on_referenced_packages, constant_identifier_names
 
 import 'dart:convert';
@@ -23,52 +20,58 @@ class ScanLocalDatasource extends IScanLocalDatasource {
   ScanLocalDatasource(this._sharedPref);
 
   @override
-  Future<Either<Failure, Success>> cacheInventoryItem(InventoryItemModel items) async {
-    try{
+  Future<Either<Failure, Success>> cacheInventoryItem(
+      InventoryItemModel items) async {
+    try {
       var result = await getInventoryItems();
-      
-      if(result.isRight()){
+
+      if (result.isRight()) {
         var inventory = result.fold((l) => null, (r) => r) ?? [];
-        if(!inventory.contains(items)){
+        if (!inventory.contains(items)) {
           // does not contain the store it locally
           inventory.add(items);
 
-          final String jsonString = jsonEncode(inventory.map((obj) => obj.toJson()).toList());
+          final String jsonString =
+              jsonEncode(inventory.map((obj) => obj.toJson()).toList());
           _sharedPref.setString(local_key_inventory, jsonString);
           return Right(CacheSuccess());
-        } else{
+        } else {
           // else do nothing
           return Right(CacheSuccess());
         }
       } else {
         return Left(CacheFailure());
       }
-    }catch(e){
+    } catch (e) {
       return Left(CacheFailure());
     }
   }
 
   @override
   Future<Either<Failure, List<InventoryItemModel>>> getInventoryItems() async {
-    try{
-      var jsonResult = jsonDecode(_sharedPref.getString(local_key_inventory) ?? "");
+    try {
+      var jsonResult =
+          jsonDecode(_sharedPref.getString(local_key_inventory) ?? "");
 
       final List<dynamic> jsonList = jsonDecode(jsonResult);
-      final List<InventoryItemModel> objects = jsonList.map((json) => InventoryItemModel.fromJson(json)).toList();
+      final List<InventoryItemModel> objects =
+          jsonList.map((json) => InventoryItemModel.fromJson(json)).toList();
       return Right(objects);
-    }catch(e){
+    } catch (e) {
       return const Right([]);
     }
   }
-  
+
   @override
-  Future<Either<Failure, InventoryItemModel>> fetchInventoryItemByID(String id) async {
-    try{
+  Future<Either<Failure, InventoryItemModel>> fetchInventoryItemByID(
+      String id) async {
+    try {
       var result = await getInventoryItems();
-      if(result.isRight()){
+      if (result.isRight()) {
         var inventoryItems = result.fold((l) => null, (r) => r) ?? [];
-        var inventoryItem = inventoryItems.where((element) => element.id == id).toList();
-        if(inventoryItem.isNotEmpty){
+        var inventoryItem =
+            inventoryItems.where((element) => element.id == id).toList();
+        if (inventoryItem.isNotEmpty) {
           return Right(inventoryItem.first);
         } else {
           return Left(NoDataFoundFailure());
@@ -76,9 +79,8 @@ class ScanLocalDatasource extends IScanLocalDatasource {
       } else {
         return Left(NoDataFoundFailure());
       }
-    }catch(e){
+    } catch (e) {
       return Left(CacheFailure());
     }
   }
-
 }

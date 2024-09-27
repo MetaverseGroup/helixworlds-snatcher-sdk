@@ -1,6 +1,3 @@
-
-
-
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:dartz/dartz.dart';
@@ -10,22 +7,25 @@ import 'package:rudder_sdk_flutter/RudderController.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 abstract class IAnalyticsRudderStackRemoteDatasource {
-  Future<Either<Failure, Success>> trackEvent(String name, RudderProperty value);
+  Future<Either<Failure, Success>> trackEvent(
+      String name, RudderProperty value);
 }
-class AnalyticsRudderStackRemoteDatasource extends IAnalyticsRudderStackRemoteDatasource {
+
+class AnalyticsRudderStackRemoteDatasource
+    extends IAnalyticsRudderStackRemoteDatasource {
   final RudderController rudderController;
   AnalyticsRudderStackRemoteDatasource(this.rudderController);
   @override
-  Future<Either<Failure, Success>> trackEvent(String name, RudderProperty value) async {
+  Future<Either<Failure, Success>> trackEvent(
+      String name, RudderProperty value) async {
     try {
       rudderController.track(name, properties: value);
       return Right(AnalyticsLogsSuccess());
-    } catch(e) {
+    } catch (e) {
       RudderProperty properties = RudderProperty();
       properties.put("error_message", e.toString());
       rudderController.track("error_event", properties: properties);
       return Left(AnalyticsLogsFailure());
     }
   }
-
 }

@@ -33,7 +33,7 @@ class CustomImageView extends StatelessWidget {
   ///a [CustomImageView] it can be used for showing any type of images
   /// it will shows the placeholder image if image is not found on network image
   CustomImageView({
-    Key? key, 
+    Key? key,
     this.url,
     this.imagePath,
     this.svgPath,
@@ -48,7 +48,7 @@ class CustomImageView extends StatelessWidget {
     this.margin,
     this.border,
     this.placeHolder = 'assets/images/image_not_found.png',
-  }):super(key:key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

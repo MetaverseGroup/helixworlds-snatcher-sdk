@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 
-
 // ignore: must_be_immutable
 class AppbarTitle extends StatelessWidget {
   AppbarTitle({

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/utils/size_utils.dart';
 
-
 class CustomIconButton extends StatelessWidget {
   const CustomIconButton({
     Key? key,
@@ -16,7 +15,7 @@ class CustomIconButton extends StatelessWidget {
     this.onTap,
   }) : super(
           key: key,
-  );
+        );
 
   final Alignment? alignment;
 

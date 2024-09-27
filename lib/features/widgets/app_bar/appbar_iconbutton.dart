@@ -5,7 +5,6 @@ import 'package:helixworlds_snatcher_sdk/features/widgets/custom_icon_button.dar
 import 'package:helixworlds_snatcher_sdk/features/widgets/custom_image_view.dart';
 import 'package:helixworlds_snatcher_sdk/utils/size_utils.dart';
 
-
 class AppbarIconbutton extends StatelessWidget {
   AppbarIconbutton({
     Key? key,

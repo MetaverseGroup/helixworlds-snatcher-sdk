@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/utils/size_utils.dart';
 
-
 /// A collection of pre-defined text styles for customizing text appearance,
 /// categorized by different font families and weights.
 /// Additionally, this class includes extensions on [TextStyle] to easily apply specific font families to text.
@@ -14,10 +13,8 @@ class CustomTextStyles {
   static get bodyLarge19 => theme.textTheme.bodyLarge!.copyWith(
         fontSize: 19.fSize,
       );
-  static get errorLarge => theme.textTheme.bodyLarge!.copyWith(
-        fontSize: 19.fSize,
-        color: Colors.red
-  );
+  static get errorLarge => theme.textTheme.bodyLarge!
+      .copyWith(fontSize: 19.fSize, color: Colors.red);
   static get bodyLargeLimeA200 => theme.textTheme.bodyLarge!.copyWith(
         color: appTheme.limeA200,
         fontSize: 18.fSize,
