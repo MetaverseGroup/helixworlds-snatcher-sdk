@@ -19,8 +19,8 @@ abstract class IHelixworldsSDKService {
   Future<Either<Failure, Success>> setForProduction();
 
   /// set isAR = true then it will process the image detection using amazon rekognition
-  Future<Either<Failure, Success>> scanItem();
-  Future<Either<Failure, Success>> scanItemsByAR(XFile image);
+  Future<Either<Failure, Success>> scanItem({String? email});
+  Future<Either<Failure, Success>> scanItemsByAR(XFile image, {String? email});
 
   Future<Either<Failure, String>> getUserId();
   Future<Either<Failure, Success>> cacheFavoritesItem(InventoryItemModel model);
@@ -58,11 +58,11 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
       {this.isLocal = true});
 
   @override
-  Future<Either<Failure, Success>> scanItem() async {
+  Future<Either<Failure, Success>> scanItem({String? email}) async {
     try {
       var image =
           await picker.pickImage(source: ImageSource.camera, imageQuality: 80);
-      var result = await scanItemsByAR(image!);
+      var result = await scanItemsByAR(image!, email: email);
       return result;
     } catch (e) {
       return Left(ItemNotDetectedFailure());
@@ -138,8 +138,9 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   }
 
   @override
-  Future<Either<Failure, Success>> scanItemsByAR(XFile image) async {
-    var result = await scanRepo.processImageAR(image);
+  Future<Either<Failure, Success>> scanItemsByAR(XFile image,
+      {String? email}) async {
+    var result = await scanRepo.processImageAR(image, email: email);
 
     var rightResult = result.fold((l) => null, (r) => r);
     if (result.isRight()) {

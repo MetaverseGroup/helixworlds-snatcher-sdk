@@ -15,7 +15,8 @@ import '../../../core/failure.dart';
 import 'model/scan_model.dart';
 
 abstract class IScanRepository {
-  Future<Either<Failure, InventoryItemModel>> processImageAR(XFile image);
+  Future<Either<Failure, InventoryItemModel>> processImageAR(XFile image,
+      {String? email});
 
   /// pass the ID of the object detected from image detector ex. p001
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id);
@@ -81,14 +82,15 @@ class ScanRepository extends IScanRepository {
   }
 
   @override
-  Future<Either<Failure, InventoryItemModel>> processImageAR(
-      XFile photo) async {
+  Future<Either<Failure, InventoryItemModel>> processImageAR(XFile photo,
+      {String? email}) async {
     try {
       var tokenResult = await _authLocalDS.getGathererAccessToken();
       var token = tokenResult.fold((l) => null, (r) => r);
       Either<Failure, ScanResponseModel> result;
       if (Platform.isAndroid) {
-        result = await _remoteDS.objectScannedV5(photo, token ?? "");
+        result =
+            await _remoteDS.objectScannedV5(photo, token ?? "", email: email);
       } else {
         result = await _remoteDS.objectScannedV4(photo, token ?? "");
       }
