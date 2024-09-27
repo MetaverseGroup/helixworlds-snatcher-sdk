@@ -92,7 +92,8 @@ class ScanRepository extends IScanRepository {
         result =
             await _remoteDS.objectScannedV5(photo, token ?? "", email: email);
       } else {
-        result = await _remoteDS.objectScannedV4(photo, token ?? "");
+        result =
+            await _remoteDS.objectScannedV4(photo, token ?? "", email: email);
       }
       if (result.isRight()) {
         var rightResult = result.fold((l) => null, (r) => r);

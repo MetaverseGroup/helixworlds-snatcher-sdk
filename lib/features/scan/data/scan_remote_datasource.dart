@@ -21,7 +21,8 @@ abstract class IScanRemoteDatasource {
   Future<Either<Failure, InventoryItemModel>> objectScannedV2(
       XFile photo, String accessToken);
   Future<Either<Failure, ScanResponseModel>> objectScannedV4(
-      XFile photo, String accessToken);
+      XFile photo, String accessToken,
+      {String? email});
   Future<Either<Failure, ScanResponseModel>> objectScannedV5(
       XFile photo, String accessToken,
       {String? email});
@@ -193,13 +194,15 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
 
   @override
   Future<Either<Failure, ScanResponseModel>> objectScannedV4(
-      XFile photo, String accessToken) async {
+      XFile photo, String accessToken,
+      {String? email}) async {
     try {
       final formData = FormData.fromMap({
         'file': await MultipartFile.fromFile(photo.path, filename: photo.name),
       });
       final options = Options(headers: {
         "Authorization": "Bearer $accessToken",
+        "X-GATHERER-USER-EMAIL": email ?? ""
       });
       final response = await dio.post(
         '$baseUrl/v4/scanner/scan_image',
