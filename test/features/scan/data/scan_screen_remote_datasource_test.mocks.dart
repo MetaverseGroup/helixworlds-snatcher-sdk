@@ -1207,9 +1207,8 @@ class MockIScanRemoteDatasource extends _i1.Mock
 
   @override
   _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>> objectScannedV4(
-    _i14.XFile? photo,
-    String? accessToken,
-  ) =>
+          _i14.XFile? photo, String? accessToken,
+          {String? email}) =>
       (super.noSuchMethod(
         Invocation.method(
           #objectScannedV4,
