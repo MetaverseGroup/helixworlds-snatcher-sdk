@@ -37,4 +37,7 @@
 * V5 Scanning Model Support
 
 ## 1.0.15 + 25
-* V5 Scanning Model Support and iOS 
+* V5 Scanning Model Support and iOS
+
+## 1.0.16 + 26
+* user details added email on params 
