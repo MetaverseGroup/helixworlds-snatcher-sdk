@@ -18,7 +18,9 @@ class AuthRemoteDatasource extends IAuthRemoteDatasource {
       String clientId, String secretKey, String field, String uuid) async {
     try {
       final response = await dio.post('$baseUrl/v3/auth/login',
-          options: Options(contentType: "application/json"),
+          options: Options(
+            contentType: "application/json",
+          ),
           data: {
             "clientId": clientId,
             "secret": secretKey,

@@ -8,8 +8,8 @@ import 'package:helixworlds_snatcher_sdk/features/log/data/model/log_model.dart'
 import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:helixworlds_snatcher_sdk/helixworlds_sdk.dart';
 
+abstract class ScanScreenState extends Equatable {}
 
-abstract class ScanScreenState extends Equatable  {}
 abstract class ScanScreenEvent extends Equatable {}
 
 class ScanScreenGetStartedEvent extends ScanScreenEvent {
@@ -26,15 +26,14 @@ class ScanScreenRedirectToUrlEvent extends ScanScreenEvent {
   final String url;
   ScanScreenRedirectToUrlEvent(this.url);
   @override
-  List<Object?> get props => []; 
-
+  List<Object?> get props => [];
 }
 
 class ScanScreenLaunchToUrlEvent extends ScanScreenEvent {
   final InventoryItemModel model;
   ScanScreenLaunchToUrlEvent(this.model);
   @override
-  List<Object?> get props => []; 
+  List<Object?> get props => [];
 }
 
 class ScanScreenViewLogsEvent extends ScanScreenEvent {
@@ -47,8 +46,7 @@ class ScanScreenViewGuideEvent extends ScanScreenEvent {
   List<Object?> get props => [];
 }
 
-
-class ScanScreenGettingStartedState extends ScanScreenState { 
+class ScanScreenGettingStartedState extends ScanScreenState {
   @override
   List<Object?> get props => [];
 }
@@ -70,19 +68,17 @@ class ScanScreenLogAnalyticsInstallEvent extends ScanScreenEvent {
   List<Object?> get props => [];
 }
 
-class ScanScreenLoadingState extends ScanScreenState { 
+class ScanScreenLoadingState extends ScanScreenState {
   @override
   List<Object> get props => [];
 }
 
-class ScanScreenFailure extends ScanScreenState { 
+class ScanScreenFailure extends ScanScreenState {
   final String message;
   ScanScreenFailure(this.message);
   @override
   List<Object> get props => [message];
 }
-
-
 
 class ScanScreenShowScannedObjectState extends ScanScreenState {
   final InventoryItemModel? object;
@@ -91,7 +87,6 @@ class ScanScreenShowScannedObjectState extends ScanScreenState {
   @override
   List<Object> get props => [object!, userId];
 }
-
 
 class ScanScreenViewLogsState extends ScanScreenState {
   final List<MyLogModel> logs;
@@ -113,10 +108,11 @@ class ScanScreenShowGuideState extends ScanScreenState {
   List<Object?> get props => [];
 }
 
-class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
+class ScanScreenPageBloc extends Bloc<ScanScreenEvent, ScanScreenState> {
   final IHelixworldsSDKService _helixworldSDK;
 
-  ScanScreenPageBloc(this._helixworldSDK):super(ScanScreenGettingStartedState()){
+  ScanScreenPageBloc(this._helixworldSDK)
+      : super(ScanScreenGettingStartedState()) {
     fetchUserID();
     // please fill this with your client ID and secret key from MVG Team
     _helixworldSDK.loginMobile(developerKey ?? "", secretKey ?? "", "");
@@ -124,44 +120,51 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
       // invoke track install
       _helixworldSDK.getAnalyticsRepoService()?.analyticsTrackInstalls();
     });
-    on<ScanScreenGetStartedEvent>((event, emit){
+    on<ScanScreenGetStartedEvent>((event, emit) {
       emit(ScanScreenInitialState());
     });
-    on<ScanScreenRedirectToUrlEvent>((event, emit){
+    on<ScanScreenRedirectToUrlEvent>((event, emit) {
       _redirectUrlObjectFromLogs(event.url);
-      _helixworldSDK.getAnalyticsRepoService()?.analyticsRedirectToShopEvent(event.url, _helixworldSDK.getDefaultUserId());
+      _helixworldSDK.getAnalyticsRepoService()?.analyticsRedirectToShopEvent(
+          event.url, _helixworldSDK.getDefaultUserId());
     });
-    on<ScanScreenLaunchToUrlEvent>((event, emit){
+    on<ScanScreenLaunchToUrlEvent>((event, emit) {
       _redirectUrlObject(event.model);
-      _helixworldSDK.getAnalyticsRepoService()?.analyticsRedirectToShopEventItemId(event.model.url ?? "", _helixworldSDK.getDefaultUserId(), event.model.id ?? "");
+      _helixworldSDK
+          .getAnalyticsRepoService()
+          ?.analyticsRedirectToShopEventItemId(event.model.url ?? "",
+              _helixworldSDK.getDefaultUserId(), event.model.id ?? "");
     });
-    on<ScanScreenTakePictureEvent>((event, emit) async{
+    on<ScanScreenTakePictureEvent>((event, emit) async {
       emit(ScanScreenLoadingState());
       // using local based model scan
       // var result = await _helixworldSDK.scanItem();
       // using the cloud based model scan
       var result = await _helixworldSDK.scanItem();
-      if(result.isRight()){
+      if (result.isRight()) {
         var rightResult = result.fold((l) => null, (r) => r);
-        if(rightResult is ObjectDetectedSuccess){
-          _helixworldSDK.getAnalyticsRepoService()?.analyticsScannedItems(rightResult.item);
-          emit(ScanScreenShowScannedObjectState(rightResult.item, rightResult.userId));
+        if (rightResult is ObjectDetectedSuccess) {
+          _helixworldSDK
+              .getAnalyticsRepoService()
+              ?.analyticsScannedItems(rightResult.item);
+          emit(ScanScreenShowScannedObjectState(
+              rightResult.item, rightResult.userId));
         }
       } else {
-          var leftValue = result.fold((l) => l, (r) => null);
-          emit(ScanScreenFailure(leftValue?.getErrorMessage() ?? ""));
+        var leftValue = result.fold((l) => l, (r) => null);
+        emit(ScanScreenFailure(leftValue?.getErrorMessage() ?? ""));
       }
     });
     on<ScanScreenViewLogsEvent>((event, emit) {
       _fetchLogs();
     });
-    on<ScanScreenBackEvent>((event, emit){
-      if(event.subRoute == "/"){
+    on<ScanScreenBackEvent>((event, emit) {
+      if (event.subRoute == "/") {
         emit(ScanScreenInitialState());
       }
     });
 
-    on<ScanScreenViewGuideEvent>((event, emit){
+    on<ScanScreenViewGuideEvent>((event, emit) {
       emit(ScanScreenShowGuideState());
     });
   }
@@ -179,26 +182,25 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     });
   }
 
-  _redirectUrl(String murl) async{
+  _redirectUrl(String murl) async {
     var result = await _helixworldSDK.redirectToUrl(murl);
     result.fold((l) {
       emit(ScanScreenFailure(l.getErrorMessage()));
     }, (r) {
       emit(ScanScreenSuccessRedirectState(""));
     });
-
   }
 
-  _redirectUrlObjectFromLogs(String url){
+  _redirectUrlObjectFromLogs(String url) {
     _redirectUrl(url);
-    Future.delayed(const Duration(seconds: 1), (){
+    Future.delayed(const Duration(seconds: 1), () {
       _fetchLogs();
-    });    
+    });
   }
 
   _redirectUrlObject(InventoryItemModel model) async {
     await _redirectUrl(model.url ?? "");
-    Future.delayed(const Duration(seconds: 1), (){
+    Future.delayed(const Duration(seconds: 1), () {
       // ignore: invalid_use_of_visible_for_testing_member
       emit(ScanScreenShowScannedObjectState(model, userId));
     });
@@ -209,22 +211,22 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent,ScanScreenState>{
     var result = await _helixworldSDK.getUserId();
     result.fold((l) => null, (r) {
       userId = r;
-    });    
+    });
   }
 
-  String getUserID(){
+  String getUserID() {
     var result = _helixworldSDK.getDefaultUserId();
     return result;
   }
 
-  _toLoadingState(){
-    if(state is! ScanScreenLoadingState){
+  _toLoadingState() {
+    if (state is! ScanScreenLoadingState) {
       // ignore: invalid_use_of_visible_for_testing_member
       emit(ScanScreenLoadingState());
     }
   }
 
-  bool isLocalItemDetailsFetch(){
+  bool isLocalItemDetailsFetch() {
     return _helixworldSDK.isLocalFetch();
   }
 }

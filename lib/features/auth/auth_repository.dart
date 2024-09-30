@@ -21,8 +21,12 @@ class AuthRepository extends IAuthRepository {
       String clientId, String secretKey, String uuid,
       {String field = "destination"}) async {
     try {
-      var result =
-          await _remoteDS.mobileLogin(clientId, secretKey, field, uuid);
+      var result = await _remoteDS.mobileLogin(
+        clientId,
+        secretKey,
+        field,
+        uuid,
+      );
       if (result.isRight()) {
         var rightResult = result.fold((l) => null, (r) => r);
         var token =
