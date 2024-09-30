@@ -3,9 +3,8 @@ import 'package:helixworlds_snatcher_sdk/features/widgets/base_button.dart';
 import 'package:helixworlds_snatcher_sdk/theme/custom_text_style.dart';
 import 'package:helixworlds_snatcher_sdk/utils/size_utils.dart';
 
-
 class CustomElevatedButton extends BaseButton {
-  const CustomElevatedButton({ 
+  const CustomElevatedButton({
     Key? key,
     this.decoration,
     this.leftIcon,
@@ -20,7 +19,7 @@ class CustomElevatedButton extends BaseButton {
     double? width,
     required String text,
   }) : super(
-          key:key,
+          key: key,
           text: text,
           onTap: onTap,
           buttonStyle: buttonStyle,
@@ -30,7 +29,7 @@ class CustomElevatedButton extends BaseButton {
           width: width,
           alignment: alignment,
           margin: margin,
-  );
+        );
 
   final BoxDecoration? decoration;
 

@@ -38,6 +38,16 @@ Helixworld . Mobile App for the Helixworld.
 * flutter run 
 
 
+## Setting up Pre Commit
+```
+python -m pip install --upgrade pip
+
+pip install pre-commit
+
+pre-commit install
+```
+
+
 ## Running
 > sample app inside the SDK for testing the SDK
 * dart run build_runner build (add this command if you are experiencing problems with model not generated after pulling)

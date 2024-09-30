@@ -16,6 +16,7 @@ import 'model/scan_model.dart';
 
 abstract class IScanRepository {
   Future<Either<Failure, InventoryItemModel>> processImageAR(XFile image);
+
   /// pass the ID of the object detected from image detector ex. p001
   Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id);
   Future<Either<Failure, List<MyLogModel>>> getSavedItems();
@@ -32,8 +33,8 @@ class ScanRepository extends IScanRepository {
   final HelperUtil _helperUtil;
   final IAuthLocalDatasource _authLocalDS;
 
-
-  ScanRepository(this.logLocalDS, this._localDS, this._remoteDS, this._helperUtil, this._authLocalDS);
+  ScanRepository(this.logLocalDS, this._localDS, this._remoteDS,
+      this._helperUtil, this._authLocalDS);
 
   logModel(InventoryItemModel object) async {
     var logsResult = await logLocalDS.getLogs();
@@ -41,32 +42,32 @@ class ScanRepository extends IScanRepository {
     List<MyLogModel> logs = logsResult.fold((l) => null, (r) => r) ?? [];
     newLogs.addAll(logs);
     final model = MyLogModel(
-              id: object.id,
-              name: object.title,
-              image: object.images?.first.file.downloadUrl,
-              date: _helperUtil.getDateString(),
-              // game: object.projectId,
-              url: object.url ?? ""
-    );
+        id: object.id,
+        name: object.title,
+        image: object.images?.first.file.downloadUrl,
+        date: _helperUtil.getDateString(),
+        // game: object.projectId,
+        url: object.url ?? "");
     newLogs.add(model);
-    // cache the first 10 items 
-    if(newLogs.length > 10){
+    // cache the first 10 items
+    if (newLogs.length > 10) {
       logLocalDS.cacheLogs(newLogs.reversed.toList().take(10).toList());
     } else {
       logLocalDS.cacheLogs(newLogs);
     }
   }
-  
+
   @override
-  Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(String id) async {
-    try{
+  Future<Either<Failure, InventoryItemModel>> getInventoryItemByID(
+      String id) async {
+    try {
       var localDataSearchResult = await _localDS.fetchInventoryItemByID(id);
-      if(localDataSearchResult.isRight()){
+      if (localDataSearchResult.isRight()) {
         var item = localDataSearchResult.fold((l) => null, (r) => r);
         return Right(item!);
       } else {
         var remoteDataSearchResult = await _remoteDS.getInventoryItemByID(id);
-        if(remoteDataSearchResult.isRight()){
+        if (remoteDataSearchResult.isRight()) {
           var item = remoteDataSearchResult.fold((l) => null, (r) => r);
           _localDS.cacheInventoryItem(item!);
           return remoteDataSearchResult;
@@ -74,93 +75,90 @@ class ScanRepository extends IScanRepository {
           return remoteDataSearchResult;
         }
       }
-    }catch(e){
+    } catch (e) {
       return Left(RepositoryFailure());
     }
   }
 
   @override
-  Future<Either<Failure, InventoryItemModel>> processImageAR(XFile photo) async {
+  Future<Either<Failure, InventoryItemModel>> processImageAR(
+      XFile photo) async {
     try {
-        var tokenResult = await _authLocalDS.getGathererAccessToken();
-        var token = tokenResult.fold((l) => null, (r) => r);
-        Either<Failure, ScanResponseModel> result;
-        if(Platform.isAndroid){
-          result = await _remoteDS.objectScannedV5(photo, token ?? "");
-        } else {
-          result = await _remoteDS.objectScannedV4(photo, token ?? "");
-        }
-        if(result.isRight()) {
-          var rightResult = result.fold((l) => null, (r) => r);
-
-          List<ImageInfo> images = [];
-          if(rightResult?.inventory?.images?.isNotEmpty ?? false) {
-            for(var item in rightResult!.inventory!.images!){
-              images.add(ImageInfo(
-                file: item.file ?? const FileInfo(downloadUrl: "")
-              ));
-            }
-          }
-
-          var rightValue = InventoryItemModel(
-            id: rightResult?.virtualItem?.id ?? "",
-            title: rightResult?.virtualItem?.title ?? "",
-            images: images,
-            url: rightResult?.inventory?.productUrl ?? "",
-            description: rightResult?.virtualItem?.description ?? "",
-            isCoupon: rightResult?.code?.isEmpty ?? true ? false : true,
-            code: rightResult?.code ?? "",
-            quantityRemaining: 0,
-            maximumRedemptions: 0,
-          );
-
-
-
-          return Right(rightValue);
-
+      var tokenResult = await _authLocalDS.getGathererAccessToken();
+      var token = tokenResult.fold((l) => null, (r) => r);
+      Either<Failure, ScanResponseModel> result;
+      if (Platform.isAndroid) {
+        result = await _remoteDS.objectScannedV5(photo, token ?? "");
       } else {
-          return Left(ItemNotDetectedFailure());
+        result = await _remoteDS.objectScannedV4(photo, token ?? "");
+      }
+      if (result.isRight()) {
+        var rightResult = result.fold((l) => null, (r) => r);
+
+        List<ImageInfo> images = [];
+        if (rightResult?.inventory?.images?.isNotEmpty ?? false) {
+          for (var item in rightResult!.inventory!.images!) {
+            images.add(
+                ImageInfo(file: item.file ?? const FileInfo(downloadUrl: "")));
+          }
+        }
+
+        var rightValue = InventoryItemModel(
+          id: rightResult?.virtualItem?.id ?? "",
+          title: rightResult?.virtualItem?.title ?? "",
+          images: images,
+          url: rightResult?.inventory?.productUrl ?? "",
+          description: rightResult?.virtualItem?.description ?? "",
+          isCoupon: rightResult?.code?.isEmpty ?? true ? false : true,
+          code: rightResult?.code ?? "",
+          quantityRemaining: 0,
+          maximumRedemptions: 0,
+        );
+
+        return Right(rightValue);
+      } else {
+        return Left(ItemNotDetectedFailure());
       }
     } catch (e) {
       return Left(ItemNotDetectedFailure());
     }
   }
-  
+
   @override
-  Future<Either<Failure, Success>> cacheSavedItem(InventoryItemModel items) async {
-    try{
+  Future<Either<Failure, Success>> cacheSavedItem(
+      InventoryItemModel items) async {
+    try {
       var accessTokenResult = await _authLocalDS.getValorAccessToken();
       var token = accessTokenResult.fold((l) => null, (r) => r) ?? "";
 
       var localResult = await logLocalDS.getSavedItems();
       final model = MyLogModel(
-                id: items.id,
-                productId: items.id,
-                name: items.title,
-                image: items.images?.first.file.downloadUrl ?? '',
-                date: _helperUtil.getDateString(),
-                url: items.url ?? ""
-      );
+          id: items.id,
+          productId: items.id,
+          name: items.title,
+          image: items.images?.first.file.downloadUrl ?? '',
+          date: _helperUtil.getDateString(),
+          url: items.url ?? "");
       List<MyLogModel> myitems = [];
       List<MyLogModel> logItems = localResult.fold((l) => null, (r) => r) ?? [];
       myitems.addAll(logItems);
       var result = await _remoteDS.newSavedScans(token, model);
       var itemResult = result.fold((l) => null, (r) => r);
       myitems.add(itemResult!);
-      if(myitems.length > 10){
+      if (myitems.length > 10) {
         logLocalDS.cacheSaveItems(myitems.reversed.toList());
       } else {
         logLocalDS.cacheSaveItems(myitems);
       }
       return Right(CacheSuccess());
-    }catch(e){
+    } catch (e) {
       return Left(CacheFailure());
     }
   }
-  
+
   @override
   Future<Either<Failure, Success>> deleteSavedItem(MyLogModel item) async {
-    try{
+    try {
       var accessTokenResult = await _authLocalDS.getValorAccessToken();
       var token = accessTokenResult.fold((l) => null, (r) => r) ?? "";
 
@@ -171,41 +169,41 @@ class ScanRepository extends IScanRepository {
       myitems.removeWhere((element) => element.id == item.id);
 
       await _remoteDS.deleteSavedScans(token, item.id ?? "");
-      
-      if(myitems.length > 10){
+
+      if (myitems.length > 10) {
         logLocalDS.cacheSaveItems(myitems.reversed.toList());
       } else {
         logLocalDS.cacheSaveItems(myitems);
       }
       return Right(CacheSuccess());
-    }catch(e){
+    } catch (e) {
       return Left(CacheFailure());
     }
   }
-  
+
   @override
-  Future<Either<Failure, List<MyLogModel>>> getSavedItems() async  {
+  Future<Either<Failure, List<MyLogModel>>> getSavedItems() async {
     var accessTokenResult = await _authLocalDS.getValorAccessToken();
     var token = accessTokenResult.fold((l) => null, (r) => r) ?? "";
     var result = await _remoteDS.getMySavedScans(token);
     result.fold((l) => null, (r) {
       logLocalDS.cacheSaveItems(r);
     });
-    if(result.isRight()){
+    if (result.isRight()) {
       return result;
     } else {
       var localResult = await logLocalDS.getSavedItems();
       return localResult;
     }
   }
-  
+
   @override
   Future<Either<Failure, String>> getGathererAccessToken() async {
     try {
       var accessTokenResult = await _authLocalDS.getValorAccessToken();
       var token = accessTokenResult.fold((l) => null, (r) => r) ?? "";
       return Right(token);
-    } catch(e) {
+    } catch (e) {
       return Left(RepositoryFailure());
     }
   }

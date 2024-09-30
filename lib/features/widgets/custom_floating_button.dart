@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/utils/size_utils.dart';
 
-
 class CustomFloatingButton extends StatelessWidget {
   const CustomFloatingButton({
     Key? key,
@@ -16,7 +15,7 @@ class CustomFloatingButton extends StatelessWidget {
     this.child,
   }) : super(
           key: key,
-  );
+        );
 
   final Alignment? alignment;
 

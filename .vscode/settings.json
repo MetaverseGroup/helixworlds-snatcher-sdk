@@ -1,0 +1,27 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Dart-Code.dart-code",
+    "[dart]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "Dart-Code.dart-code",
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true,
+      "editor.detectIndentation": false
+    },
+    "dart.lineLength": 80,
+    "dart.analysisExcludedFolders": [
+      "**/*.g.dart"
+    ],
+    "dart.previewFlutterUiGuides": true,
+    "dart.previewFlutterUiGuidesCustomTracking": true,
+    "dart.showLintNames": true,
+    "dart.completeFunctionCalls": true,
+    "dart.enableSdkFormatter": true,
+    "dart.runPubGetOnPubspecChanges": "always",
+    "dart.suggestFromUnimportedLibraries": true,
+    "dart.showTodos": true,
+    "dart.showErrors": true,
+    "dart.showWarnings": true,
+    "dart.showInfos": true,
+    "dart.showHints": true
+  }
