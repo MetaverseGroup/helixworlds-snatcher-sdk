@@ -118,6 +118,8 @@ class ScanRepository extends IScanRepository {
           maximumRedemptions: 0,
         );
 
+        await logModel(rightValue);
+
         return Right(rightValue);
       } else {
         return Left(ItemNotDetectedFailure());
