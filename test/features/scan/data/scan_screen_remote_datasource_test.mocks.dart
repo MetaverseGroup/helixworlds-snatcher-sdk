@@ -1207,8 +1207,10 @@ class MockIScanRemoteDatasource extends _i1.Mock
 
   @override
   _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>> objectScannedV4(
-          _i14.XFile? photo, String? accessToken,
-          {String? email}) =>
+    _i14.XFile? photo,
+    String? accessToken, {
+    String? email,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #objectScannedV4,
@@ -1216,6 +1218,7 @@ class MockIScanRemoteDatasource extends _i1.Mock
             photo,
             accessToken,
           ],
+          {#email: email},
         ),
         returnValue:
             _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>>.value(
@@ -1227,6 +1230,7 @@ class MockIScanRemoteDatasource extends _i1.Mock
               photo,
               accessToken,
             ],
+            {#email: email},
           ),
         )),
         returnValueForMissingStub:
@@ -1239,6 +1243,50 @@ class MockIScanRemoteDatasource extends _i1.Mock
               photo,
               accessToken,
             ],
+            {#email: email},
+          ),
+        )),
+      ) as _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>>);
+
+  @override
+  _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>> objectScannedV5(
+    _i14.XFile? photo,
+    String? accessToken, {
+    String? email,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #objectScannedV5,
+          [
+            photo,
+            accessToken,
+          ],
+          {#email: email},
+        ),
+        returnValue:
+            _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>>.value(
+                _FakeEither_5<_i12.Failure, _i13.ScanResponseModel>(
+          this,
+          Invocation.method(
+            #objectScannedV5,
+            [
+              photo,
+              accessToken,
+            ],
+            {#email: email},
+          ),
+        )),
+        returnValueForMissingStub:
+            _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>>.value(
+                _FakeEither_5<_i12.Failure, _i13.ScanResponseModel>(
+          this,
+          Invocation.method(
+            #objectScannedV5,
+            [
+              photo,
+              accessToken,
+            ],
+            {#email: email},
           ),
         )),
       ) as _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>>);

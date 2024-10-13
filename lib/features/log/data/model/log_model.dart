@@ -9,6 +9,7 @@ class MyLogModel with _$MyLogModel {
   const factory MyLogModel(
       {String? id,
       String? productId,
+      String? description,
       String? name,
       String? date,
       String? game,
