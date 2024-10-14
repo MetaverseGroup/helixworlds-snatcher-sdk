@@ -18,10 +18,10 @@ _$InventoryItemModelImpl _$$InventoryItemModelImplFromJson(
       description: json['description'] as String?,
       isCoupon: json['isCoupon'] as bool?,
       creator: json['creator'] as String?,
-      numberOfScans: json['numberOfScans'] as int?,
+      numberOfScans: (json['numberOfScans'] as num?)?.toInt(),
       code: json['code'] as String?,
-      quantityRemaining: json['quantityRemaining'] as int?,
-      maximumRedemptions: json['maximumRedemptions'] as int?,
+      quantityRemaining: (json['quantityRemaining'] as num?)?.toInt(),
+      maximumRedemptions: (json['maximumRedemptions'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$InventoryItemModelImplToJson(

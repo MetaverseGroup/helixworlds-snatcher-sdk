@@ -12,7 +12,7 @@ part of 'log_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 MyLogModel _$MyLogModelFromJson(Map<String, dynamic> json) {
   return _MyLogModel.fromJson(json);
@@ -22,6 +22,7 @@ MyLogModel _$MyLogModelFromJson(Map<String, dynamic> json) {
 mixin _$MyLogModel {
   String? get id => throw _privateConstructorUsedError;
   String? get productId => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get date => throw _privateConstructorUsedError;
   String? get game => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $MyLogModelCopyWith<$Res> {
   $Res call(
       {String? id,
       String? productId,
+      String? description,
       String? name,
       String? date,
       String? game,
@@ -65,6 +67,7 @@ class _$MyLogModelCopyWithImpl<$Res, $Val extends MyLogModel>
   $Res call({
     Object? id = freezed,
     Object? productId = freezed,
+    Object? description = freezed,
     Object? name = freezed,
     Object? date = freezed,
     Object? game = freezed,
@@ -79,6 +82,10 @@ class _$MyLogModelCopyWithImpl<$Res, $Val extends MyLogModel>
       productId: freezed == productId
           ? _value.productId
           : productId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -115,6 +122,7 @@ abstract class _$$MyLogModelImplCopyWith<$Res>
   $Res call(
       {String? id,
       String? productId,
+      String? description,
       String? name,
       String? date,
       String? game,
@@ -135,6 +143,7 @@ class __$$MyLogModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? productId = freezed,
+    Object? description = freezed,
     Object? name = freezed,
     Object? date = freezed,
     Object? game = freezed,
@@ -149,6 +158,10 @@ class __$$MyLogModelImplCopyWithImpl<$Res>
       productId: freezed == productId
           ? _value.productId
           : productId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -180,6 +193,7 @@ class _$MyLogModelImpl implements _MyLogModel {
   const _$MyLogModelImpl(
       {this.id,
       this.productId,
+      this.description,
       this.name,
       this.date,
       this.game,
@@ -194,6 +208,8 @@ class _$MyLogModelImpl implements _MyLogModel {
   @override
   final String? productId;
   @override
+  final String? description;
+  @override
   final String? name;
   @override
   final String? date;
@@ -206,17 +222,19 @@ class _$MyLogModelImpl implements _MyLogModel {
 
   @override
   String toString() {
-    return 'MyLogModel(id: $id, productId: $productId, name: $name, date: $date, game: $game, image: $image, url: $url)';
+    return 'MyLogModel(id: $id, productId: $productId, description: $description, name: $name, date: $date, game: $game, image: $image, url: $url)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MyLogModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.productId, productId) ||
                 other.productId == productId) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.game, game) || other.game == game) &&
@@ -226,8 +244,8 @@ class _$MyLogModelImpl implements _MyLogModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, productId, name, date, game, image, url);
+  int get hashCode => Object.hash(
+      runtimeType, id, productId, description, name, date, game, image, url);
 
   @JsonKey(ignore: true)
   @override
@@ -247,6 +265,7 @@ abstract class _MyLogModel implements MyLogModel {
   const factory _MyLogModel(
       {final String? id,
       final String? productId,
+      final String? description,
       final String? name,
       final String? date,
       final String? game,
@@ -260,6 +279,8 @@ abstract class _MyLogModel implements MyLogModel {
   String? get id;
   @override
   String? get productId;
+  @override
+  String? get description;
   @override
   String? get name;
   @override

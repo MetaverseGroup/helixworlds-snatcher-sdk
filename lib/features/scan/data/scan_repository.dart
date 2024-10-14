@@ -45,7 +45,8 @@ class ScanRepository extends IScanRepository {
     final model = MyLogModel(
         id: object.id,
         name: object.title,
-        image: object.images?.first.file.downloadUrl,
+        description: object.description ?? "",
+        image: object.images?.first.file.downloadUrl ?? "",
         date: _helperUtil.getDateString(),
         // game: object.projectId,
         url: object.url ?? "");
@@ -117,6 +118,8 @@ class ScanRepository extends IScanRepository {
           quantityRemaining: 0,
           maximumRedemptions: 0,
         );
+
+        await logModel(rightValue);
 
         return Right(rightValue);
       } else {
