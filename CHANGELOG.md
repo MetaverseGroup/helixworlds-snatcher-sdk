@@ -40,4 +40,7 @@
 * V5 Scanning Model Support and iOS
 
 ## 1.0.16 + 26
-* user details added email on params 
+* user details added email on params
+
+## 1.0.17 + 27
+* bugfix scan history
