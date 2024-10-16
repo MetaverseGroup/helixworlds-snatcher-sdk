@@ -4,17 +4,60 @@ import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
 import '../core/failure.dart';
+import 'package:http/http.dart' as http;
 
 class HelperUtil {
   Future<Either<Failure, Success>> redirectUrl(Uri url,
       {String accessToken = ""}) async {
-    if (!await launchUrl(url,
-        mode: LaunchMode.externalApplication,
-        webViewConfiguration: WebViewConfiguration(
-            headers: {"Authorization": "Bearer " + accessToken}))) {
-      return Left(WebRouteFailure('Could not launch ${url.path}'));
-    } else {
+    try {
+      launchUrlWithHeaders(url.toString(), accessToken);
       return Right(WebRouteSuccess());
+    } catch (e) {
+      return Left(WebRouteFailure(url.toString()));
+    }
+    // if (!await launchUrl(url,
+    //     mode: LaunchMode.externalApplication,
+    //     webViewConfiguration: WebViewConfiguration(
+    //         headers: {"Authorization": "Bearer " + accessToken}))) {
+    //   return Left(WebRouteFailure('Could not launch ${url.path}'));
+    // } else {
+    //   return Right(WebRouteSuccess());
+    // }
+  }
+
+  Future<void> launchUrlWithHeaders(String url, String accessToken) async {
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {"Authorization": "Bearer $accessToken"},
+    );
+
+    if (response.statusCode == 302) {
+      final redirectUrl = response.headers['location'];
+      if (redirectUrl != null) {
+        final Uri uri = Uri.parse(redirectUrl);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(
+            uri,
+            mode: LaunchMode.externalApplication,
+          );
+        } else {
+          throw 'Could not launch $redirectUrl';
+        }
+      } else {
+        throw 'Redirect URL not found';
+      }
+    } else if (response.statusCode == 200) {
+      final Uri uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+      } else {
+        throw 'Could not launch $url';
+      }
+    } else {
+      throw 'Request failed with status: ${response.statusCode}';
     }
   }
 
