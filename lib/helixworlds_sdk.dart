@@ -122,9 +122,12 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
 
   @override
   Future<Either<Failure, Success>> redirectToUrl(String murl) async {
+    var accessTokenResult = await getAccessToken();
+    var accessToken = accessTokenResult.fold((l) => null, (r) => r) ?? "";
+
     final userParam = (userId?.isNotEmpty ?? false) ? '?userId=$userId' : '';
     final Uri url = Uri.parse(murl + userParam);
-    var result = await _helperUtil.redirectUrl(url);
+    var result = await _helperUtil.redirectUrl(url, accessToken: accessToken);
     if (result.isRight()) {
       return Right(RedirectWebSuccess());
     } else {

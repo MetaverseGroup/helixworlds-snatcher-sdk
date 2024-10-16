@@ -6,8 +6,12 @@ import 'package:dio/dio.dart';
 import '../core/failure.dart';
 
 class HelperUtil {
-  Future<Either<Failure, Success>> redirectUrl(Uri url) async {
-    if (!await launchUrl(url)) {
+  Future<Either<Failure, Success>> redirectUrl(Uri url,
+      {String accessToken = ""}) async {
+    if (!await launchUrl(url,
+        mode: LaunchMode.externalApplication,
+        webViewConfiguration: WebViewConfiguration(
+            headers: {"Authorization": "Bearer " + accessToken}))) {
       return Left(WebRouteFailure('Could not launch ${url.path}'));
     } else {
       return Right(WebRouteSuccess());
