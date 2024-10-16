@@ -32,6 +32,8 @@ class HelperUtil {
     );
 
     if (response.statusCode == 302) {
+      print("URI REDIRECT");
+      print(response.headers.toString());
       final redirectUrl = response.headers['location'];
       if (redirectUrl != null) {
         final Uri uri = Uri.parse(redirectUrl);
@@ -47,6 +49,8 @@ class HelperUtil {
         throw 'Redirect URL not found';
       }
     } else if (response.statusCode == 200) {
+      print("status code 200");
+      print(response.body.toString());
       final Uri uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
         await launchUrl(
