@@ -162,7 +162,7 @@ SharedPreferences _getSharedPref() {
   return _sharedPref!;
 }
 
-Dio _getDio() {
+Dio getDio() {
   return getNetworkUtil().getDio(isDebug: true);
 }
 
@@ -183,7 +183,7 @@ _setupUserDetailsServices() {
   serviceLocator?.registerLazySingleton(
       () => UserDetailsLocalDatasource(_getSharedPref()));
   serviceLocator
-      ?.registerLazySingleton(() => UserDetailsRemoteDatasource(_getDio()));
+      ?.registerLazySingleton(() => UserDetailsRemoteDatasource(getDio()));
   serviceLocator?.registerLazySingleton(() =>
       UserDetailsRepository(_getUserDetailsLocal(), _getUserDetailsRemote()));
 }
@@ -201,14 +201,14 @@ IUserDetailsRepository getUserDetailsRepo() {
 }
 
 _setupScanServices() {
-  serviceLocator?.registerLazySingleton(() => AuthRemoteDatasource(_getDio()));
+  serviceLocator?.registerLazySingleton(() => AuthRemoteDatasource(getDio()));
   serviceLocator
       ?.registerLazySingleton(() => AuthLocalDatasource(_getSharedPref()));
   serviceLocator?.registerLazySingleton(
       () => AuthRepository(_getAuthLocalDS(), _getAuthRemoteDS()));
 
   serviceLocator?.registerLazySingleton(
-      () => ScanRemoteDatasource(_getDio(), getHelperUtil(), getSentryUtil()));
+      () => ScanRemoteDatasource(getDio(), getHelperUtil(), getSentryUtil()));
   serviceLocator
       ?.registerLazySingleton(() => ScanLocalDatasource(_getSharedPref()));
   serviceLocator?.registerLazySingleton(() => ScanRepository(

@@ -1,19 +1,21 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'package:dartz/dartz.dart';
+import 'package:helixworlds_snatcher_sdk/core/const.dart';
+import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
+import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
 import '../core/failure.dart';
-import 'package:http/http.dart' as http;
 
 class HelperUtil {
-  Future<Either<Failure, Success>> redirectUrl(Uri url,
+  Future<Either<Failure, Success>> redirectUrl(InventoryItemModel model,
       {String accessToken = ""}) async {
     try {
-      launchUrlWithHeaders(url.toString(), accessToken);
+      launchUrlWithHeaders(model, accessToken);
       return Right(WebRouteSuccess());
     } catch (e) {
-      return Left(WebRouteFailure(url.toString()));
+      return Left(WebRouteFailure(model.url.toString()));
     }
     // if (!await launchUrl(url,
     //     mode: LaunchMode.externalApplication,
@@ -25,43 +27,20 @@ class HelperUtil {
     // }
   }
 
-  Future<void> launchUrlWithHeaders(String url, String accessToken) async {
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {"Authorization": "Bearer $accessToken"},
-    );
+  Future<void> launchUrlWithHeaders(
+      InventoryItemModel item, String accessToken) async {
+    var result = await getDio().get(
+        (baseUrl ?? "") + "/v2/redirect" + (item.id ?? ""),
+        options: Options(headers: {"Authorization": "Bearer $accessToken"}));
+    var myUri = Uri.parse(result.data["url"]);
 
-    if (response.statusCode == 302) {
-      print("URI REDIRECT");
-      print(response.headers.toString());
-      final redirectUrl = response.headers['location'];
-      if (redirectUrl != null) {
-        final Uri uri = Uri.parse(redirectUrl);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(
-            uri,
-            mode: LaunchMode.externalApplication,
-          );
-        } else {
-          throw 'Could not launch $redirectUrl';
-        }
-      } else {
-        throw 'Redirect URL not found';
-      }
-    } else if (response.statusCode == 200) {
-      print("status code 200");
-      print(response.body.toString());
-      final Uri uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(
-          uri,
-          mode: LaunchMode.externalApplication,
-        );
-      } else {
-        throw 'Could not launch $url';
-      }
+    if (await canLaunchUrl(myUri)) {
+      await launchUrl(
+        myUri,
+        mode: LaunchMode.externalApplication,
+      );
     } else {
-      throw 'Request failed with status: ${response.statusCode}';
+      throw 'Could not launch $redirectUrl';
     }
   }
 
