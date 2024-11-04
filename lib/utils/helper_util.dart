@@ -31,7 +31,9 @@ class HelperUtil {
       InventoryItemModel item, String accessToken) async {
     var result = await getDio().get("/v2/redirect/" + (item.id ?? ""),
         options: Options(headers: {"Authorization": "Bearer $accessToken"}));
+
     var myUri = Uri.parse(result.data["url"]);
+    print(myUri.toString());
 
     if (await canLaunchUrl(myUri)) {
       await launchUrl(
