@@ -29,11 +29,11 @@ class HelperUtil {
 
   Future<void> launchUrlWithHeaders(
       InventoryItemModel item, String accessToken) async {
-    var result = await getDio().get("/v2/redirect/" + (item.id ?? ""),
+    var uri = (baseUrl ?? "") + "/v2/redirect/" + (item.id ?? "");
+    print(uri);
+    var result = await getDio().get(uri,
         options: Options(headers: {"Authorization": "Bearer $accessToken"}));
-
     var myUri = Uri.parse(result.data["url"]);
-    print(myUri.toString());
 
     if (await canLaunchUrl(myUri)) {
       await launchUrl(
@@ -41,7 +41,7 @@ class HelperUtil {
         mode: LaunchMode.externalApplication,
       );
     } else {
-      throw 'Could not launch $redirectUrl';
+      throw 'Could not launch $myUri';
     }
   }
 
