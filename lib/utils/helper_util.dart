@@ -29,8 +29,7 @@ class HelperUtil {
 
   Future<void> launchUrlWithHeaders(
       InventoryItemModel item, String accessToken) async {
-    var result = await getDio().get(
-        (baseUrl ?? "") + "/v2/redirect" + (item.id ?? ""),
+    var result = await getDio().get("/v2/redirect/" + (item.id ?? ""),
         options: Options(headers: {"Authorization": "Bearer $accessToken"}));
     var myUri = Uri.parse(result.data["url"]);
 
