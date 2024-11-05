@@ -38,10 +38,7 @@ class HelperUtil {
     var myUri = Uri.parse(result.data["url"]);
 
     if (await canLaunchUrl(myUri)) {
-      await launchUrl(
-        myUri,
-        mode: LaunchMode.externalApplication,
-      );
+      await launchUrl(myUri);
     } else {
       throw 'Could not launch $myUri';
     }
