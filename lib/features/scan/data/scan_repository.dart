@@ -88,7 +88,7 @@ class ScanRepository extends IScanRepository {
       var tokenResult = await _authLocalDS.getGathererAccessToken();
       var token = tokenResult.fold((l) => null, (r) => r);
       Either<Failure, ScanResponseModel> result =
-          await _remoteDS.objectScannedV5(photo, token ?? "", email: email);
+          await _remoteDS.objectScannedV6(photo, token ?? "", email: email);
       // if (Platform.isAndroid) {
       //   result =
       //       await _remoteDS.objectScannedV5(photo, token ?? "", email: email);
