@@ -48,3 +48,4 @@
 
 ## 1.0.18 + 28
 * Redirect Uri Handler External Application
+* v6 Scanning Service
