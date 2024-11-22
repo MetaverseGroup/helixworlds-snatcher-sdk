@@ -99,11 +99,11 @@ class ScanRepository extends IScanRepository {
       if (result.isRight()) {
         var rightResult = result.fold((l) => null, (r) => r);
 
-        List<ImageInfo> images = [];
+        List<HelixImageInfo> images = [];
         if (rightResult?.inventory?.images?.isNotEmpty ?? false) {
           for (var item in rightResult!.inventory!.images!) {
-            images.add(
-                ImageInfo(file: item.file ?? const FileInfo(downloadUrl: "")));
+            images.add(HelixImageInfo(
+                file: item.file ?? const FileInfo(downloadUrl: "")));
           }
         }
 

@@ -13,7 +13,7 @@ _$InventoryItemModelImpl _$$InventoryItemModelImplFromJson(
       url: json['redirectUrl'] as String?,
       title: json['name'] as String?,
       images: (json['images'] as List<dynamic>?)
-          ?.map((e) => ImageInfo.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => HelixImageInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       description: json['description'] as String?,
       isCoupon: json['isCoupon'] as bool?,
@@ -117,12 +117,13 @@ Map<String, dynamic> _$$ScanResponseModelImplToJson(
       'code': instance.code,
     };
 
-_$ImageInfoImpl _$$ImageInfoImplFromJson(Map<String, dynamic> json) =>
-    _$ImageInfoImpl(
+_$HelixImageInfoImpl _$$HelixImageInfoImplFromJson(Map<String, dynamic> json) =>
+    _$HelixImageInfoImpl(
       file: FileInfo.fromJson(json['file'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ImageInfoImplToJson(_$ImageInfoImpl instance) =>
+Map<String, dynamic> _$$HelixImageInfoImplToJson(
+        _$HelixImageInfoImpl instance) =>
     <String, dynamic>{
       'file': instance.file,
     };

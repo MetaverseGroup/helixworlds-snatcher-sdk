@@ -27,7 +27,7 @@ mixin _$InventoryItemModel {
   @JsonKey(name: "name")
   String? get title => throw _privateConstructorUsedError;
   @JsonKey(name: 'images')
-  List<ImageInfo>? get images => throw _privateConstructorUsedError;
+  List<HelixImageInfo>? get images => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   bool? get isCoupon => throw _privateConstructorUsedError;
   String? get creator => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $InventoryItemModelCopyWith<$Res> {
       {@JsonKey(name: "inventoryId") String? id,
       @JsonKey(name: "redirectUrl") String? url,
       @JsonKey(name: "name") String? title,
-      @JsonKey(name: 'images') List<ImageInfo>? images,
+      @JsonKey(name: 'images') List<HelixImageInfo>? images,
       String? description,
       bool? isCoupon,
       String? creator,
@@ -103,7 +103,7 @@ class _$InventoryItemModelCopyWithImpl<$Res, $Val extends InventoryItemModel>
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<ImageInfo>?,
+              as List<HelixImageInfo>?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -148,7 +148,7 @@ abstract class _$$InventoryItemModelImplCopyWith<$Res>
       {@JsonKey(name: "inventoryId") String? id,
       @JsonKey(name: "redirectUrl") String? url,
       @JsonKey(name: "name") String? title,
-      @JsonKey(name: 'images') List<ImageInfo>? images,
+      @JsonKey(name: 'images') List<HelixImageInfo>? images,
       String? description,
       bool? isCoupon,
       String? creator,
@@ -197,7 +197,7 @@ class __$$InventoryItemModelImplCopyWithImpl<$Res>
       images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<ImageInfo>?,
+              as List<HelixImageInfo>?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -237,7 +237,7 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
       {@JsonKey(name: "inventoryId") this.id,
       @JsonKey(name: "redirectUrl") this.url,
       @JsonKey(name: "name") this.title,
-      @JsonKey(name: 'images') final List<ImageInfo>? images,
+      @JsonKey(name: 'images') final List<HelixImageInfo>? images,
       this.description,
       this.isCoupon,
       this.creator,
@@ -259,10 +259,10 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
   @override
   @JsonKey(name: "name")
   final String? title;
-  final List<ImageInfo>? _images;
+  final List<HelixImageInfo>? _images;
   @override
   @JsonKey(name: 'images')
-  List<ImageInfo>? get images {
+  List<HelixImageInfo>? get images {
     final value = _images;
     if (value == null) return null;
     if (_images is EqualUnmodifiableListView) return _images;
@@ -349,7 +349,7 @@ abstract class _InventoryItemModel implements InventoryItemModel {
       {@JsonKey(name: "inventoryId") final String? id,
       @JsonKey(name: "redirectUrl") final String? url,
       @JsonKey(name: "name") final String? title,
-      @JsonKey(name: 'images') final List<ImageInfo>? images,
+      @JsonKey(name: 'images') final List<HelixImageInfo>? images,
       final String? description,
       final bool? isCoupon,
       final String? creator,
@@ -372,7 +372,7 @@ abstract class _InventoryItemModel implements InventoryItemModel {
   String? get title;
   @override
   @JsonKey(name: 'images')
-  List<ImageInfo>? get images;
+  List<HelixImageInfo>? get images;
   @override
   String? get description;
   @override
@@ -1197,25 +1197,26 @@ abstract class _ScanResponseModel implements ScanResponseModel {
       throw _privateConstructorUsedError;
 }
 
-ImageInfo _$ImageInfoFromJson(Map<String, dynamic> json) {
-  return _ImageInfo.fromJson(json);
+HelixImageInfo _$HelixImageInfoFromJson(Map<String, dynamic> json) {
+  return _HelixImageInfo.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ImageInfo {
+mixin _$HelixImageInfo {
   @JsonKey(name: 'file')
   FileInfo get file => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ImageInfoCopyWith<ImageInfo> get copyWith =>
+  $HelixImageInfoCopyWith<HelixImageInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ImageInfoCopyWith<$Res> {
-  factory $ImageInfoCopyWith(ImageInfo value, $Res Function(ImageInfo) then) =
-      _$ImageInfoCopyWithImpl<$Res, ImageInfo>;
+abstract class $HelixImageInfoCopyWith<$Res> {
+  factory $HelixImageInfoCopyWith(
+          HelixImageInfo value, $Res Function(HelixImageInfo) then) =
+      _$HelixImageInfoCopyWithImpl<$Res, HelixImageInfo>;
   @useResult
   $Res call({@JsonKey(name: 'file') FileInfo file});
 
@@ -1223,9 +1224,9 @@ abstract class $ImageInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ImageInfoCopyWithImpl<$Res, $Val extends ImageInfo>
-    implements $ImageInfoCopyWith<$Res> {
-  _$ImageInfoCopyWithImpl(this._value, this._then);
+class _$HelixImageInfoCopyWithImpl<$Res, $Val extends HelixImageInfo>
+    implements $HelixImageInfoCopyWith<$Res> {
+  _$HelixImageInfoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -1255,11 +1256,11 @@ class _$ImageInfoCopyWithImpl<$Res, $Val extends ImageInfo>
 }
 
 /// @nodoc
-abstract class _$$ImageInfoImplCopyWith<$Res>
-    implements $ImageInfoCopyWith<$Res> {
-  factory _$$ImageInfoImplCopyWith(
-          _$ImageInfoImpl value, $Res Function(_$ImageInfoImpl) then) =
-      __$$ImageInfoImplCopyWithImpl<$Res>;
+abstract class _$$HelixImageInfoImplCopyWith<$Res>
+    implements $HelixImageInfoCopyWith<$Res> {
+  factory _$$HelixImageInfoImplCopyWith(_$HelixImageInfoImpl value,
+          $Res Function(_$HelixImageInfoImpl) then) =
+      __$$HelixImageInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({@JsonKey(name: 'file') FileInfo file});
@@ -1269,11 +1270,11 @@ abstract class _$$ImageInfoImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ImageInfoImplCopyWithImpl<$Res>
-    extends _$ImageInfoCopyWithImpl<$Res, _$ImageInfoImpl>
-    implements _$$ImageInfoImplCopyWith<$Res> {
-  __$$ImageInfoImplCopyWithImpl(
-      _$ImageInfoImpl _value, $Res Function(_$ImageInfoImpl) _then)
+class __$$HelixImageInfoImplCopyWithImpl<$Res>
+    extends _$HelixImageInfoCopyWithImpl<$Res, _$HelixImageInfoImpl>
+    implements _$$HelixImageInfoImplCopyWith<$Res> {
+  __$$HelixImageInfoImplCopyWithImpl(
+      _$HelixImageInfoImpl _value, $Res Function(_$HelixImageInfoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1281,7 +1282,7 @@ class __$$ImageInfoImplCopyWithImpl<$Res>
   $Res call({
     Object? file = null,
   }) {
-    return _then(_$ImageInfoImpl(
+    return _then(_$HelixImageInfoImpl(
       file: null == file
           ? _value.file
           : file // ignore: cast_nullable_to_non_nullable
@@ -1292,11 +1293,11 @@ class __$$ImageInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ImageInfoImpl implements _ImageInfo {
-  const _$ImageInfoImpl({@JsonKey(name: 'file') required this.file});
+class _$HelixImageInfoImpl implements _HelixImageInfo {
+  const _$HelixImageInfoImpl({@JsonKey(name: 'file') required this.file});
 
-  factory _$ImageInfoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ImageInfoImplFromJson(json);
+  factory _$HelixImageInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$HelixImageInfoImplFromJson(json);
 
   @override
   @JsonKey(name: 'file')
@@ -1304,14 +1305,14 @@ class _$ImageInfoImpl implements _ImageInfo {
 
   @override
   String toString() {
-    return 'ImageInfo(file: $file)';
+    return 'HelixImageInfo(file: $file)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ImageInfoImpl &&
+            other is _$HelixImageInfoImpl &&
             (identical(other.file, file) || other.file == file));
   }
 
@@ -1322,30 +1323,32 @@ class _$ImageInfoImpl implements _ImageInfo {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ImageInfoImplCopyWith<_$ImageInfoImpl> get copyWith =>
-      __$$ImageInfoImplCopyWithImpl<_$ImageInfoImpl>(this, _$identity);
+  _$$HelixImageInfoImplCopyWith<_$HelixImageInfoImpl> get copyWith =>
+      __$$HelixImageInfoImplCopyWithImpl<_$HelixImageInfoImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ImageInfoImplToJson(
+    return _$$HelixImageInfoImplToJson(
       this,
     );
   }
 }
 
-abstract class _ImageInfo implements ImageInfo {
-  const factory _ImageInfo(
-      {@JsonKey(name: 'file') required final FileInfo file}) = _$ImageInfoImpl;
+abstract class _HelixImageInfo implements HelixImageInfo {
+  const factory _HelixImageInfo(
+          {@JsonKey(name: 'file') required final FileInfo file}) =
+      _$HelixImageInfoImpl;
 
-  factory _ImageInfo.fromJson(Map<String, dynamic> json) =
-      _$ImageInfoImpl.fromJson;
+  factory _HelixImageInfo.fromJson(Map<String, dynamic> json) =
+      _$HelixImageInfoImpl.fromJson;
 
   @override
   @JsonKey(name: 'file')
   FileInfo get file;
   @override
   @JsonKey(ignore: true)
-  _$$ImageInfoImplCopyWith<_$ImageInfoImpl> get copyWith =>
+  _$$HelixImageInfoImplCopyWith<_$HelixImageInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

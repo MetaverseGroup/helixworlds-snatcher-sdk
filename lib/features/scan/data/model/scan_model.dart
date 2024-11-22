@@ -11,7 +11,7 @@ class InventoryItemModel with _$InventoryItemModel {
     @JsonKey(name: "inventoryId") String? id,
     @JsonKey(name: "redirectUrl") String? url,
     @JsonKey(name: "name") String? title,
-    @JsonKey(name: 'images') List<ImageInfo>? images,
+    @JsonKey(name: 'images') List<HelixImageInfo>? images,
     String? description,
     bool? isCoupon,
     String? creator,
@@ -74,13 +74,13 @@ class ScanResponseModel with _$ScanResponseModel {
 }
 
 @freezed
-abstract class ImageInfo with _$ImageInfo {
-  const factory ImageInfo({
+abstract class HelixImageInfo with _$HelixImageInfo {
+  const factory HelixImageInfo({
     @JsonKey(name: 'file') required FileInfo file,
-  }) = _ImageInfo;
+  }) = _HelixImageInfo;
 
-  factory ImageInfo.fromJson(Map<String, dynamic> json) =>
-      _$ImageInfoFromJson(json);
+  factory HelixImageInfo.fromJson(Map<String, dynamic> json) =>
+      _$HelixImageInfoFromJson(json);
 }
 
 @freezed
