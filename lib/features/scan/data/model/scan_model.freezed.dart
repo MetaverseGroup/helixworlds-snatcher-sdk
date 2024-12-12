@@ -35,6 +35,7 @@ mixin _$InventoryItemModel {
   String? get code => throw _privateConstructorUsedError;
   int? get quantityRemaining => throw _privateConstructorUsedError;
   int? get maximumRedemptions => throw _privateConstructorUsedError;
+  double? get confidence => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -59,7 +60,8 @@ abstract class $InventoryItemModelCopyWith<$Res> {
       int? numberOfScans,
       String? code,
       int? quantityRemaining,
-      int? maximumRedemptions});
+      int? maximumRedemptions,
+      double? confidence});
 }
 
 /// @nodoc
@@ -86,6 +88,7 @@ class _$InventoryItemModelCopyWithImpl<$Res, $Val extends InventoryItemModel>
     Object? code = freezed,
     Object? quantityRemaining = freezed,
     Object? maximumRedemptions = freezed,
+    Object? confidence = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -132,6 +135,10 @@ class _$InventoryItemModelCopyWithImpl<$Res, $Val extends InventoryItemModel>
           ? _value.maximumRedemptions
           : maximumRedemptions // ignore: cast_nullable_to_non_nullable
               as int?,
+      confidence: freezed == confidence
+          ? _value.confidence
+          : confidence // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 }
@@ -155,7 +162,8 @@ abstract class _$$InventoryItemModelImplCopyWith<$Res>
       int? numberOfScans,
       String? code,
       int? quantityRemaining,
-      int? maximumRedemptions});
+      int? maximumRedemptions,
+      double? confidence});
 }
 
 /// @nodoc
@@ -180,6 +188,7 @@ class __$$InventoryItemModelImplCopyWithImpl<$Res>
     Object? code = freezed,
     Object? quantityRemaining = freezed,
     Object? maximumRedemptions = freezed,
+    Object? confidence = freezed,
   }) {
     return _then(_$InventoryItemModelImpl(
       id: freezed == id
@@ -226,6 +235,10 @@ class __$$InventoryItemModelImplCopyWithImpl<$Res>
           ? _value.maximumRedemptions
           : maximumRedemptions // ignore: cast_nullable_to_non_nullable
               as int?,
+      confidence: freezed == confidence
+          ? _value.confidence
+          : confidence // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -244,7 +257,8 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
       this.numberOfScans,
       this.code,
       this.quantityRemaining,
-      this.maximumRedemptions})
+      this.maximumRedemptions,
+      this.confidence})
       : _images = images;
 
   factory _$InventoryItemModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -284,10 +298,12 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
   final int? quantityRemaining;
   @override
   final int? maximumRedemptions;
+  @override
+  final double? confidence;
 
   @override
   String toString() {
-    return 'InventoryItemModel(id: $id, url: $url, title: $title, images: $images, description: $description, isCoupon: $isCoupon, creator: $creator, numberOfScans: $numberOfScans, code: $code, quantityRemaining: $quantityRemaining, maximumRedemptions: $maximumRedemptions)';
+    return 'InventoryItemModel(id: $id, url: $url, title: $title, images: $images, description: $description, isCoupon: $isCoupon, creator: $creator, numberOfScans: $numberOfScans, code: $code, quantityRemaining: $quantityRemaining, maximumRedemptions: $maximumRedemptions, confidence: $confidence)';
   }
 
   @override
@@ -310,7 +326,9 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
             (identical(other.quantityRemaining, quantityRemaining) ||
                 other.quantityRemaining == quantityRemaining) &&
             (identical(other.maximumRedemptions, maximumRedemptions) ||
-                other.maximumRedemptions == maximumRedemptions));
+                other.maximumRedemptions == maximumRedemptions) &&
+            (identical(other.confidence, confidence) ||
+                other.confidence == confidence));
   }
 
   @JsonKey(ignore: true)
@@ -327,7 +345,8 @@ class _$InventoryItemModelImpl implements _InventoryItemModel {
       numberOfScans,
       code,
       quantityRemaining,
-      maximumRedemptions);
+      maximumRedemptions,
+      confidence);
 
   @JsonKey(ignore: true)
   @override
@@ -356,7 +375,8 @@ abstract class _InventoryItemModel implements InventoryItemModel {
       final int? numberOfScans,
       final String? code,
       final int? quantityRemaining,
-      final int? maximumRedemptions}) = _$InventoryItemModelImpl;
+      final int? maximumRedemptions,
+      final double? confidence}) = _$InventoryItemModelImpl;
 
   factory _InventoryItemModel.fromJson(Map<String, dynamic> json) =
       _$InventoryItemModelImpl.fromJson;
@@ -387,6 +407,8 @@ abstract class _InventoryItemModel implements InventoryItemModel {
   int? get quantityRemaining;
   @override
   int? get maximumRedemptions;
+  @override
+  double? get confidence;
   @override
   @JsonKey(ignore: true)
   _$$InventoryItemModelImplCopyWith<_$InventoryItemModelImpl> get copyWith =>
@@ -994,6 +1016,7 @@ mixin _$ScanResponseModel {
   ScanVirtualItemModel? get virtualItem => throw _privateConstructorUsedError;
   InventoryItemV4Model? get inventory => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
+  double? get confidence => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1010,7 +1033,8 @@ abstract class $ScanResponseModelCopyWith<$Res> {
   $Res call(
       {ScanVirtualItemModel? virtualItem,
       InventoryItemV4Model? inventory,
-      String? code});
+      String? code,
+      double? confidence});
 
   $ScanVirtualItemModelCopyWith<$Res>? get virtualItem;
   $InventoryItemV4ModelCopyWith<$Res>? get inventory;
@@ -1032,6 +1056,7 @@ class _$ScanResponseModelCopyWithImpl<$Res, $Val extends ScanResponseModel>
     Object? virtualItem = freezed,
     Object? inventory = freezed,
     Object? code = freezed,
+    Object? confidence = freezed,
   }) {
     return _then(_value.copyWith(
       virtualItem: freezed == virtualItem
@@ -1046,6 +1071,10 @@ class _$ScanResponseModelCopyWithImpl<$Res, $Val extends ScanResponseModel>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
+      confidence: freezed == confidence
+          ? _value.confidence
+          : confidence // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 
@@ -1085,7 +1114,8 @@ abstract class _$$ScanResponseModelImplCopyWith<$Res>
   $Res call(
       {ScanVirtualItemModel? virtualItem,
       InventoryItemV4Model? inventory,
-      String? code});
+      String? code,
+      double? confidence});
 
   @override
   $ScanVirtualItemModelCopyWith<$Res>? get virtualItem;
@@ -1107,6 +1137,7 @@ class __$$ScanResponseModelImplCopyWithImpl<$Res>
     Object? virtualItem = freezed,
     Object? inventory = freezed,
     Object? code = freezed,
+    Object? confidence = freezed,
   }) {
     return _then(_$ScanResponseModelImpl(
       virtualItem: freezed == virtualItem
@@ -1121,6 +1152,10 @@ class __$$ScanResponseModelImplCopyWithImpl<$Res>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
+      confidence: freezed == confidence
+          ? _value.confidence
+          : confidence // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -1128,7 +1163,8 @@ class __$$ScanResponseModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ScanResponseModelImpl implements _ScanResponseModel {
-  const _$ScanResponseModelImpl({this.virtualItem, this.inventory, this.code});
+  const _$ScanResponseModelImpl(
+      {this.virtualItem, this.inventory, this.code, this.confidence});
 
   factory _$ScanResponseModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ScanResponseModelImplFromJson(json);
@@ -1139,10 +1175,12 @@ class _$ScanResponseModelImpl implements _ScanResponseModel {
   final InventoryItemV4Model? inventory;
   @override
   final String? code;
+  @override
+  final double? confidence;
 
   @override
   String toString() {
-    return 'ScanResponseModel(virtualItem: $virtualItem, inventory: $inventory, code: $code)';
+    return 'ScanResponseModel(virtualItem: $virtualItem, inventory: $inventory, code: $code, confidence: $confidence)';
   }
 
   @override
@@ -1154,12 +1192,15 @@ class _$ScanResponseModelImpl implements _ScanResponseModel {
                 other.virtualItem == virtualItem) &&
             (identical(other.inventory, inventory) ||
                 other.inventory == inventory) &&
-            (identical(other.code, code) || other.code == code));
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.confidence, confidence) ||
+                other.confidence == confidence));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, virtualItem, inventory, code);
+  int get hashCode =>
+      Object.hash(runtimeType, virtualItem, inventory, code, confidence);
 
   @JsonKey(ignore: true)
   @override
@@ -1180,7 +1221,8 @@ abstract class _ScanResponseModel implements ScanResponseModel {
   const factory _ScanResponseModel(
       {final ScanVirtualItemModel? virtualItem,
       final InventoryItemV4Model? inventory,
-      final String? code}) = _$ScanResponseModelImpl;
+      final String? code,
+      final double? confidence}) = _$ScanResponseModelImpl;
 
   factory _ScanResponseModel.fromJson(Map<String, dynamic> json) =
       _$ScanResponseModelImpl.fromJson;
@@ -1191,6 +1233,8 @@ abstract class _ScanResponseModel implements ScanResponseModel {
   InventoryItemV4Model? get inventory;
   @override
   String? get code;
+  @override
+  double? get confidence;
   @override
   @JsonKey(ignore: true)
   _$$ScanResponseModelImplCopyWith<_$ScanResponseModelImpl> get copyWith =>
