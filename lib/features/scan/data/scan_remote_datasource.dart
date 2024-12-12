@@ -26,6 +26,9 @@ abstract class IScanRemoteDatasource {
   Future<Either<Failure, ScanResponseModel>> objectScannedV5(
       XFile photo, String accessToken,
       {String? email});
+  Future<Either<Failure, ScanResponseModel>> objectScannedV6(
+      XFile photo, String accessToken,
+      {String? email});
 
   Future<Either<Failure, List<MyLogModel>>> getMySavedScans(String accessToken);
   Future<Either<Failure, MyLogModel>> newSavedScans(
@@ -235,6 +238,35 @@ class ScanRemoteDatasource extends IScanRemoteDatasource {
       });
       final response = await dio.post(
         '$baseUrl/v5/scanner/scan_image',
+        options: options,
+        data: formData,
+      );
+      if (response.statusCode == 201) {
+        return Right(ScanResponseModel.fromJson(response.data));
+      } else if (response.statusCode == 200) {
+        return Right(ScanResponseModel.fromJson(jsonDecode(response.data)));
+      } else {
+        return Left(GetItemByIDRemoteFailure());
+      }
+    } catch (e) {
+      return Left(GetItemByIDRemoteFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ScanResponseModel>> objectScannedV6(
+      XFile photo, String accessToken,
+      {String? email}) async {
+    try {
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(photo.path, filename: photo.name),
+      });
+      final options = Options(headers: {
+        "Authorization": "Bearer $accessToken",
+        "X-GATHERER-USER-EMAIL": email ?? ""
+      });
+      final response = await dio.post(
+        '$baseUrl/v6/scanner/scan_image',
         options: options,
         data: formData,
       );

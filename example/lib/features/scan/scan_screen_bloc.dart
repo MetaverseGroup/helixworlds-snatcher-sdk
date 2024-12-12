@@ -183,12 +183,12 @@ class ScanScreenPageBloc extends Bloc<ScanScreenEvent, ScanScreenState> {
   }
 
   _redirectUrl(String murl) async {
-    var result = await _helixworldSDK.redirectToUrl(murl);
-    result.fold((l) {
-      emit(ScanScreenFailure(l.getErrorMessage()));
-    }, (r) {
-      emit(ScanScreenSuccessRedirectState(""));
-    });
+    // var result = await _helixworldSDK.redirectToUrl(murl);
+    // result.fold((l) {
+    //   emit(ScanScreenFailure(l.getErrorMessage()));
+    // }, (r) {
+    //   emit(ScanScreenSuccessRedirectState(""));
+    // });
   }
 
   _redirectUrlObjectFromLogs(String url) {

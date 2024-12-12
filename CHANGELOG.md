@@ -44,3 +44,8 @@
 
 ## 1.0.17 + 27
 * bugfix scan history
+
+
+## 1.0.18 + 28
+* Redirect Uri Handler External Application
+* v6 Scanning Service

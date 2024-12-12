@@ -1292,6 +1292,49 @@ class MockIScanRemoteDatasource extends _i1.Mock
       ) as _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>>);
 
   @override
+  _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>> objectScannedV6(
+    _i14.XFile? photo,
+    String? accessToken, {
+    String? email,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #objectScannedV6,
+          [
+            photo,
+            accessToken,
+          ],
+          {#email: email},
+        ),
+        returnValue:
+            _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>>.value(
+                _FakeEither_5<_i12.Failure, _i13.ScanResponseModel>(
+          this,
+          Invocation.method(
+            #objectScannedV6,
+            [
+              photo,
+              accessToken,
+            ],
+            {#email: email},
+          ),
+        )),
+        returnValueForMissingStub:
+            _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>>.value(
+                _FakeEither_5<_i12.Failure, _i13.ScanResponseModel>(
+          this,
+          Invocation.method(
+            #objectScannedV6,
+            [
+              photo,
+              accessToken,
+            ],
+            {#email: email},
+          ),
+        )),
+      ) as _i9.Future<_i7.Either<_i12.Failure, _i13.ScanResponseModel>>);
+
+  @override
   _i9.Future<_i7.Either<_i12.Failure, List<_i15.MyLogModel>>> getMySavedScans(
           String? accessToken) =>
       (super.noSuchMethod(
@@ -1402,18 +1445,23 @@ class MockIScanRemoteDatasource extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockHelperUtil extends _i1.Mock implements _i17.HelperUtil {
   @override
-  _i9.Future<_i7.Either<_i12.Failure, _i16.Success>> redirectUrl(Uri? url) =>
+  _i9.Future<_i7.Either<_i12.Failure, _i16.Success>> redirectUrl(
+    _i13.InventoryItemModel? model, {
+    String? accessToken = r'',
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #redirectUrl,
-          [url],
+          [model],
+          {#accessToken: accessToken},
         ),
         returnValue: _i9.Future<_i7.Either<_i12.Failure, _i16.Success>>.value(
             _FakeEither_5<_i12.Failure, _i16.Success>(
           this,
           Invocation.method(
             #redirectUrl,
-            [url],
+            [model],
+            {#accessToken: accessToken},
           ),
         )),
         returnValueForMissingStub:
@@ -1422,10 +1470,28 @@ class MockHelperUtil extends _i1.Mock implements _i17.HelperUtil {
           this,
           Invocation.method(
             #redirectUrl,
-            [url],
+            [model],
+            {#accessToken: accessToken},
           ),
         )),
       ) as _i9.Future<_i7.Either<_i12.Failure, _i16.Success>>);
+
+  @override
+  _i9.Future<void> launchUrlWithHeaders(
+    _i13.InventoryItemModel? item,
+    String? accessToken,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #launchUrlWithHeaders,
+          [
+            item,
+            accessToken,
+          ],
+        ),
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
 
   @override
   String formatDate(String? dateString) => (super.noSuchMethod(

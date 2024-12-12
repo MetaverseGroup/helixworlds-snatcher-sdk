@@ -1,16 +1,46 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'package:dartz/dartz.dart';
+import 'package:helixworlds_snatcher_sdk/core/const.dart';
+import 'package:helixworlds_snatcher_sdk/core/service_di.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
+import 'package:helixworlds_snatcher_sdk/features/scan/data/model/scan_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
 import '../core/failure.dart';
 
 class HelperUtil {
-  Future<Either<Failure, Success>> redirectUrl(Uri url) async {
-    if (!await launchUrl(url)) {
-      return Left(WebRouteFailure('Could not launch ${url.path}'));
-    } else {
+  Future<Either<Failure, Success>> redirectUrl(InventoryItemModel model,
+      {String accessToken = ""}) async {
+    try {
+      launchUrlWithHeaders(model, accessToken);
       return Right(WebRouteSuccess());
+    } catch (e) {
+      return Left(WebRouteFailure(model.url.toString()));
+    }
+    // if (!await launchUrl(url,
+    //     mode: LaunchMode.externalApplication,
+    //     webViewConfiguration: WebViewConfiguration(
+    //         headers: {"Authorization": "Bearer " + accessToken}))) {
+    //   return Left(WebRouteFailure('Could not launch ${url.path}'));
+    // } else {
+    //   return Right(WebRouteSuccess());
+    // }
+  }
+
+  Future<void> launchUrlWithHeaders(
+      InventoryItemModel item, String accessToken) async {
+    var uri = (item.url ?? "")
+        .replaceFirst("/redirect/", "/v2/redirect/")
+        .replaceFirst("http:", "https:");
+    print(uri);
+    var result = await getDio().get(uri,
+        options: Options(headers: {"Authorization": "Bearer $accessToken"}));
+    var myUri = Uri.parse(result.data["url"]);
+
+    if (await canLaunchUrl(myUri)) {
+      await launchUrl(myUri);
+    } else {
+      throw 'Could not launch $myUri';
     }
   }
 

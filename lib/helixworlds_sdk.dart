@@ -27,7 +27,7 @@ abstract class IHelixworldsSDKService {
   Future<Either<Failure, Success>> deleteFavoriteItem(MyLogModel model);
   Future<Either<Failure, List<MyLogModel>>> fetchFavoritesItems();
   Future<Either<Failure, List<MyLogModel>>> fetchScannedItems();
-  Future<Either<Failure, Success>> redirectToUrl(String murl);
+  Future<Either<Failure, Success>> redirectToUrl(InventoryItemModel model);
   bool isLocalFetch();
   String getDefaultUserId();
 
@@ -121,10 +121,11 @@ class HelixworldsSDKService extends IHelixworldsSDKService {
   }
 
   @override
-  Future<Either<Failure, Success>> redirectToUrl(String murl) async {
-    final userParam = (userId?.isNotEmpty ?? false) ? '?userId=$userId' : '';
-    final Uri url = Uri.parse(murl + userParam);
-    var result = await _helperUtil.redirectUrl(url);
+  Future<Either<Failure, Success>> redirectToUrl(
+      InventoryItemModel model) async {
+    var accessTokenResult = await getAccessToken();
+    var accessToken = accessTokenResult.fold((l) => null, (r) => r) ?? "";
+    var result = await _helperUtil.redirectUrl(model, accessToken: accessToken);
     if (result.isRight()) {
       return Right(RedirectWebSuccess());
     } else {

@@ -1,7 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages, avoid_renaming_method_parameters
 
-import 'dart:io';
-
+// import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:helixworlds_snatcher_sdk/core/success.dart';
 import 'package:helixworlds_snatcher_sdk/features/auth/auth_local_datasource.dart';
@@ -88,22 +87,23 @@ class ScanRepository extends IScanRepository {
     try {
       var tokenResult = await _authLocalDS.getGathererAccessToken();
       var token = tokenResult.fold((l) => null, (r) => r);
-      Either<Failure, ScanResponseModel> result;
-      if (Platform.isAndroid) {
-        result =
-            await _remoteDS.objectScannedV5(photo, token ?? "", email: email);
-      } else {
-        result =
-            await _remoteDS.objectScannedV4(photo, token ?? "", email: email);
-      }
+      Either<Failure, ScanResponseModel> result =
+          await _remoteDS.objectScannedV6(photo, token ?? "", email: email);
+      // if (Platform.isAndroid) {
+      //   result =
+      //       await _remoteDS.objectScannedV5(photo, token ?? "", email: email);
+      // } else {
+      //   result =
+      //       await _remoteDS.objectScannedV4(photo, token ?? "", email: email);
+      // }
       if (result.isRight()) {
         var rightResult = result.fold((l) => null, (r) => r);
 
-        List<ImageInfo> images = [];
+        List<HelixImageInfo> images = [];
         if (rightResult?.inventory?.images?.isNotEmpty ?? false) {
           for (var item in rightResult!.inventory!.images!) {
-            images.add(
-                ImageInfo(file: item.file ?? const FileInfo(downloadUrl: "")));
+            images.add(HelixImageInfo(
+                file: item.file ?? const FileInfo(downloadUrl: "")));
           }
         }
 
