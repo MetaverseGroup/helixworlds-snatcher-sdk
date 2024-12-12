@@ -19,6 +19,7 @@ class InventoryItemModel with _$InventoryItemModel {
     String? code,
     int? quantityRemaining,
     int? maximumRedemptions,
+    double? confidence,
   }) = _InventoryItemModel;
 
   factory InventoryItemModel.fromJson(Map<String, dynamic> json) =>
@@ -67,6 +68,7 @@ class ScanResponseModel with _$ScanResponseModel {
     ScanVirtualItemModel? virtualItem,
     InventoryItemV4Model? inventory,
     String? code,
+    double? confidence,
   }) = _ScanResponseModel;
 
   factory ScanResponseModel.fromJson(Map<String, dynamic> json) =>

@@ -108,16 +108,16 @@ class ScanRepository extends IScanRepository {
         }
 
         var rightValue = InventoryItemModel(
-          id: rightResult?.virtualItem?.id ?? "",
-          title: rightResult?.virtualItem?.title ?? "",
-          images: images,
-          url: rightResult?.inventory?.productUrl ?? "",
-          description: rightResult?.virtualItem?.description ?? "",
-          isCoupon: rightResult?.code?.isEmpty ?? true ? false : true,
-          code: rightResult?.code ?? "",
-          quantityRemaining: 0,
-          maximumRedemptions: 0,
-        );
+            id: rightResult?.virtualItem?.id ?? "",
+            title: rightResult?.virtualItem?.title ?? "",
+            images: images,
+            url: rightResult?.inventory?.productUrl ?? "",
+            description: rightResult?.virtualItem?.description ?? "",
+            isCoupon: rightResult?.code?.isEmpty ?? true ? false : true,
+            code: rightResult?.code ?? "",
+            quantityRemaining: 0,
+            maximumRedemptions: 0,
+            confidence: rightResult?.confidence ?? 0);
 
         await logModel(rightValue);
 

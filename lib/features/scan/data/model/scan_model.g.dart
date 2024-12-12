@@ -22,6 +22,7 @@ _$InventoryItemModelImpl _$$InventoryItemModelImplFromJson(
       code: json['code'] as String?,
       quantityRemaining: (json['quantityRemaining'] as num?)?.toInt(),
       maximumRedemptions: (json['maximumRedemptions'] as num?)?.toInt(),
+      confidence: (json['confidence'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$InventoryItemModelImplToJson(
@@ -38,6 +39,7 @@ Map<String, dynamic> _$$InventoryItemModelImplToJson(
       'code': instance.code,
       'quantityRemaining': instance.quantityRemaining,
       'maximumRedemptions': instance.maximumRedemptions,
+      'confidence': instance.confidence,
     };
 
 _$InventoryItemV4ModelImpl _$$InventoryItemV4ModelImplFromJson(
@@ -107,6 +109,7 @@ _$ScanResponseModelImpl _$$ScanResponseModelImplFromJson(
           : InventoryItemV4Model.fromJson(
               json['inventory'] as Map<String, dynamic>),
       code: json['code'] as String?,
+      confidence: (json['confidence'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$ScanResponseModelImplToJson(
@@ -115,6 +118,7 @@ Map<String, dynamic> _$$ScanResponseModelImplToJson(
       'virtualItem': instance.virtualItem,
       'inventory': instance.inventory,
       'code': instance.code,
+      'confidence': instance.confidence,
     };
 
 _$HelixImageInfoImpl _$$HelixImageInfoImplFromJson(Map<String, dynamic> json) =>
